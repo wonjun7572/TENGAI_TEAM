@@ -1,0 +1,61 @@
+#include "pch.h"
+#include "Monster.h"
+
+CMonster::CMonster()
+	:iReverse(1)
+{
+}
+
+CMonster::~CMonster()
+{
+}
+
+void CMonster::Initialize(void)
+{
+	m_tInfo = { 100.f,100.f,75.f,75.f };
+	m_fSpeed = 5.f;
+}
+
+int CMonster::Update(void)
+{
+	if (m_dead == true)
+		return OBJ_DEAD;
+
+	m_tInfo.fX += 10 * iReverse;
+
+	Update_Rect();
+
+	return OBJ_NOEVENT;
+}
+
+void CMonster::LateUpdate(void)
+{
+	if (m_tInfo.fX < 100 || m_tInfo.fX > WINCX - 100)
+	{
+		iReverse *= -1;
+	}
+
+	for (list<CObj*>::iterator iter = m_pBullet->begin();
+		iter != m_pBullet->end();)
+	{
+		if (CollisionCheck(m_tRect, (*iter)->GetRect()) == true)
+		{
+			m_dead = true;
+			(*iter)->SetDead(OBJ_DEAD);
+			break;
+		}
+		else
+		{
+			++iter;
+		}
+	}
+}
+
+void CMonster::Render(HDC hDC)
+{
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+}
+
+void CMonster::Release(void)
+{
+}
