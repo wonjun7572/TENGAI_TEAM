@@ -31,6 +31,9 @@
 *.out
 *.app
 
+*.sdf
+
 Output/
+x64/
 TENGAI/Debug
 .vs/
