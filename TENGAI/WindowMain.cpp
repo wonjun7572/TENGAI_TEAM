@@ -12,6 +12,7 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND	g_hWnd;
+RECT	g_WindowRect = { 0,0,WINCX,WINCY };
 
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);		// 창 스타일을 제어하기 위한 함수
@@ -52,6 +53,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,			// 메모리에 할당되는 실체. 즉 
 	//		1000
 	DWORD	dwOldTime = GetTickCount();
 
+	
 	CMainGame		MainGame;
 	MainGame.Initialize();
 
@@ -155,7 +157,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	g_hWnd = hWnd;
-
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 

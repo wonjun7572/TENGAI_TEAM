@@ -53,8 +53,8 @@ int CBullet::Update(void)
 
 void CBullet::LateUpdate(void)
 {
-	if (m_tInfo.fX < 70 || m_tInfo.fX > WINCX - 70
-		|| m_tInfo.fY < 70 || m_tInfo.fY > WINCY - 70)
+	// 원래부터 충돌되고 있으니 충돌이 되지 않을 때 죽음으로 처리
+	if (!CollisionCheck(m_tRect,g_WindowRect))
 	{
 		m_dead = true;
 	}

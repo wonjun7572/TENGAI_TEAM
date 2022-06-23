@@ -30,6 +30,17 @@ int CPlayer::Update(void)
 
 void CPlayer::LateUpdate(void)
 {
+	if(m_tInfo.fX < 50)
+		m_tInfo.fX += m_fSpeed;
+	
+	if (m_tInfo.fX > WINCX - 50)
+		m_tInfo.fX -= m_fSpeed;
+
+	if (m_tInfo.fY < 50)
+		m_tInfo.fY += m_fSpeed;
+
+	if (m_tInfo.fY > WINCY - 50)
+		m_tInfo.fY -= m_fSpeed;
 }
 
 void CPlayer::Render(HDC hDC)
@@ -58,23 +69,30 @@ void CPlayer::Key_Input(void)
 	if (GetAsyncKeyState(VK_DOWN))
 		m_tInfo.fY += m_fSpeed;
 
-	if (GetAsyncKeyState(W))
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
+	//if (GetAsyncKeyState(W))
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
 
-	if (GetAsyncKeyState(A))
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
+	//if (GetAsyncKeyState(A))
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
 
-	if (GetAsyncKeyState(S))
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN));
+	//if (GetAsyncKeyState(S))
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN));
 
-	if (GetAsyncKeyState(D))
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
+	//if (GetAsyncKeyState(D))
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
 
-	if (GetAsyncKeyState(VK_SPACE))
+	//if (GetAsyncKeyState(VK_SPACE))
+	//{
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
+	//	m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP));
+	//}
+
+	// GetKeyState로 활성화 할수 있고 비활성화 할 수 있는 것도 아이디어 추가하면 좋을듯.
+
+	if (GetAsyncKeyState(VK_SPACE)& 0x0001)
 	{
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP));
+		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
 	}
 }
 

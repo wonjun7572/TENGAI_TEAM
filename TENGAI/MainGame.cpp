@@ -61,9 +61,7 @@ void CMainGame::LateUpdate(void)
 
 void CMainGame::Render(void)
 {
-	Rectangle(m_hDC, 0, 0, WINCX, WINCY);
-
-	Rectangle(m_hDC, 50, 50, WINCX - 50, WINCY - 50);
+	Rectangle(m_hDC,g_WindowRect.left , g_WindowRect.top, g_WindowRect.right , g_WindowRect.bottom);
 
 	for (int i = 0; i < OBJ_END; i++)
 	{
