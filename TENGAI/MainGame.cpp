@@ -24,6 +24,8 @@ void CMainGame::Initialize(void)
 
 	m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster>::Create());
 	dynamic_cast<CMonster*>(m_ObjList[OBJ_MONSTER].front())->Set_Bullet(&m_ObjList[OBJ_BULLET]);
+
+	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Monster(m_ObjList[OBJ_MONSTER].front());
 }
 
 void CMainGame::Update(void)

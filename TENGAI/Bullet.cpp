@@ -19,7 +19,7 @@ void CBullet::Initialize(void)
 
 int CBullet::Update(void)
 {
-	if (m_dead == true)
+	if (m_dead)
 		return OBJ_DEAD;
 
 	switch (m_eDir)
@@ -56,7 +56,7 @@ void CBullet::LateUpdate(void)
 	// 원래부터 충돌되고 있으니 충돌이 되지 않을 때 죽음으로 처리
 	if (!CollisionCheck(m_tRect,g_WindowRect))
 	{
-		m_dead = true;
+		m_dead = OBJ_DEAD;
 	}
 }
 
