@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Monster.h"
+#include "Item.h"
 
 CMonster::CMonster()
-	:iReverse(1)
+	:iReverse(1) , m_pBullet(nullptr),m_pItem(nullptr)
 {
 }
 
@@ -21,7 +22,7 @@ int CMonster::Update(void)
 	if (m_dead == true)
 		return OBJ_DEAD;
 
-	m_tInfo.fY += 10 * iReverse;
+	m_tInfo.fX += 10 * iReverse;
 
 	Update_Rect();
 
@@ -30,7 +31,7 @@ int CMonster::Update(void)
 
 void CMonster::LateUpdate(void)
 {
-	if (m_tInfo.fY < 0 || m_tInfo.fY > WINCY)
+	if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
 	{
 		iReverse *= -1;
 	}
@@ -42,6 +43,7 @@ void CMonster::LateUpdate(void)
 		{
 			m_dead = true;
 			(*iter)->SetDead(OBJ_DEAD);
+       		CreateItem();
 			break;
 		}
 		else
@@ -59,3 +61,11 @@ void CMonster::Render(HDC hDC)
 void CMonster::Release(void)
 {
 }
+
+void CMonster::CreateItem()
+{
+	// 아이템 생성
+	m_pItem->push_back(CAbstractFactory<CItem>::Create(m_tInfo.fX, m_tInfo.fY,DIR_END));
+}
+
+

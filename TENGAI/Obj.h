@@ -27,6 +27,10 @@ public:
 	RECT		GetRect() { return m_tRect; }
 	void		SetDead(bool _dead) { m_dead = _dead; }
 
+
+public:
+
+
 protected:
 	void		Update_Rect(void);
 
@@ -37,5 +41,10 @@ protected:
 
 	float		m_fSpeed = 0.f;
 	bool		m_dead;
+
+protected:
+	
+	// 메인게임의 오브제인덱스중 하나를 가지기 위한 list의 포인터를 가져옴
+	
 };
 

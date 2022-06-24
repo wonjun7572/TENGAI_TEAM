@@ -29,6 +29,9 @@
     <Filter Include="99. Utils\Pch">
       <UniqueIdentifier>{e34f89d0-d060-4711-8794-10ac95635085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\03.Item">
+      <UniqueIdentifier>{05df5427-20a2-4407-8bc8-6e549c7b194a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -73,6 +76,9 @@
     <ClInclude Include="targetver.h">
       <Filter>99. Utils\Pch</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>01. Object\03.Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -95,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>99. Utils\Pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>01. Object\03.Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

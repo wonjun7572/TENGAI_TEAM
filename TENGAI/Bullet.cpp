@@ -2,6 +2,7 @@
 #include "Bullet.h"
 
 CBullet::CBullet()
+	:m_pMonster(nullptr)
 {
 }
 
@@ -57,6 +58,15 @@ void CBullet::LateUpdate(void)
 	if (!CollisionCheck(m_tRect,g_WindowRect))
 	{
 		m_dead = true;
+	}
+
+	for (auto &iter : *m_pMonster)
+	{
+		if (IntersectRect(&RECT(), &m_tRect, &iter->GetRect()) && m_pMonster!=nullptr)
+		{
+			iter->SetDead(true);
+		}
+
 	}
 }
 
