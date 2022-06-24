@@ -15,11 +15,12 @@ public:
 		return pObj;
 	}
 
-	static CObj* Create(float _fX, float _fY, DIR _dir)
+	static CObj* Create(float _fX, float _fY, DIR _dir=DIR_END ,OBJID _ID =OBJ_END)
 	{
 		CObj* pObj = new T;
 		pObj->Initialize();
 		pObj->Set_Pos(_fX, _fY, _dir);
+		pObj->SetObjID(_ID);
 		return pObj;
 	}
 

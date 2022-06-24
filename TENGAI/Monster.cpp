@@ -14,7 +14,7 @@ CMonster::~CMonster()
 void CMonster::Initialize(void)
 {
 	m_tInfo = { 700.f,500.f,40.f,30.f };
-	m_fSpeed = 5.f;
+	m_fSpeed = 3.f;
 }
 
 int CMonster::Update(void)
@@ -22,7 +22,7 @@ int CMonster::Update(void)
 	if (m_dead)
 		return OBJ_DEAD;
 
-	m_tInfo.fX += 10 * iReverse;
+	m_tInfo.fX += m_fSpeed * iReverse;
 
 	Update_Rect();
 
@@ -34,22 +34,6 @@ void CMonster::LateUpdate(void)
 	if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
 	{
 		iReverse *= -1;
-	}
-
-	for (list<CObj*>::iterator iter = m_pBullet->begin();
-		iter != m_pBullet->end();)
-	{
-		if (CollisionCheck(m_tRect, (*iter)->GetRect()))
-		{
-			m_dead = OBJ_DEAD;
-			(*iter)->SetDead(OBJ_DEAD);
-       		CreateItem();
-			break;
-		}
-		else
-		{
-			++iter;
-		}
 	}
 }
 

@@ -8,12 +8,7 @@ public:
 	CObj();
 	virtual ~CObj();
 
-	void Set_Pos(float _fX, float _fY, DIR _dir = DIR_END)
-	{
-		m_tInfo.fX = _fX;
-		m_tInfo.fY = _fY;
-		m_eDir = _dir;
-	}
+	
 
 public:
 	virtual void	Initialize(void)	PURE;
@@ -23,13 +18,22 @@ public:
 	virtual void	Release(void)		PURE;
 
 public:
-	bool		CollisionCheck(RECT rc1, RECT rc2);
-	RECT		GetRect() { return m_tRect; }
-	void		SetDead(bool _dead) { m_dead = _dead; }
-
+	const RECT		GetRect() const  { return m_tRect; }
+	const INFO		GetInfo() const { return m_tInfo; }
+	const OBJID		GetOBJID() const { return m_eObjID;}
+	void Set_Pos(float _fX, float _fY, DIR _dir = DIR_END)
+	{
+		m_tInfo.fX = _fX;
+		m_tInfo.fY = _fY;
+		m_eDir = _dir;
+	}
+	
+	
+	void			SetDead(bool _dead) { m_dead = _dead; }
+	void			SetObjID(OBJID _eObjID) { m_eObjID = _eObjID; }
 
 public:
-
+	
 
 protected:
 	void		Update_Rect(void);
@@ -39,6 +43,7 @@ protected:
 	STAT		m_tStat;
 	RECT		m_tRect;
 	DIR			m_eDir;
+	OBJID		m_eObjID;
 
 	float		m_fSpeed = 0.f;
 	bool		m_dead;

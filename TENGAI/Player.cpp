@@ -4,7 +4,7 @@
 #include "AbstractFactory.h"
 
 CPlayer::CPlayer()
-	:m_pBullet(nullptr),m_pMonster(nullptr)
+	:m_pBullet(nullptr)
 {
 }
 
@@ -16,7 +16,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 400.f, 300.f, 100.f, 100.f };
+	m_tInfo = { 400.f, 300.f, 50.f, 50.f };
 	m_fSpeed = 10.f;
 	dwTimer = GetTickCount() + 200;
 	m_tStat = { 3 };
@@ -35,6 +35,7 @@ int CPlayer::Update(void)
 
 void CPlayer::LateUpdate(void)
 {
+	// 범위 밖으로 못벗아나게 해주는 함수
 	if(m_tInfo.fX < 50)
 		m_tInfo.fX += m_fSpeed;
 	
@@ -48,7 +49,9 @@ void CPlayer::LateUpdate(void)
 		m_tInfo.fY -= m_fSpeed;
 
 
-	for (auto &iter : *m_pMonster)
+
+
+	/*for (auto &iter : *m_pMonster)
 	{
 		if (CollisionCheck(m_tRect,iter->GetRect()))
 		{
@@ -58,7 +61,7 @@ void CPlayer::LateUpdate(void)
 				dwTimer = GetTickCount();
 			}
 		}
-	}
+	}*/
 	// 에러 부분
 	
 }
@@ -84,9 +87,66 @@ void CPlayer::Release(void)
 
 }
 
+
+
 void CPlayer::Key_Input(void)
 {
+	// 대각선 구하는 공식 1:루트2 : 10: x => 10*루트 2 = x 그래서 스피드는 스피드/루트 2
 	if (GetAsyncKeyState(VK_RIGHT))
+	{
+		if (GetAsyncKeyState(VK_UP)) // 오른쪽 윗대각선 
+		{
+			m_tInfo.fY -= m_fSpeed / sqrtf(2.f);
+			m_tInfo.fX += m_fSpeed / sqrtf(2.f);
+		}
+		else if (GetAsyncKeyState(VK_DOWN)) // 오른쪽 아랫 대각선
+		{
+			m_tInfo.fY += m_fSpeed / sqrtf(2.f);
+			m_tInfo.fX += m_fSpeed / sqrtf(2.f);
+		}
+		else // 그냥 오른쪽만 눌렀을떄 
+		{
+			m_tInfo.fX += m_fSpeed;
+		}
+
+	}
+	else if (GetAsyncKeyState(VK_LEFT))
+	{
+		if (GetAsyncKeyState(VK_UP)) // 왼쪽 윗대각선 
+		{
+			m_tInfo.fY -= m_fSpeed / sqrtf(2.f);
+			m_tInfo.fX -= m_fSpeed / sqrtf(2.f);
+		}
+		else if (GetAsyncKeyState(VK_DOWN)) // 왼쪽 아랫 대각선
+		{
+			m_tInfo.fY += m_fSpeed / sqrtf(2.f);
+			m_tInfo.fX -= m_fSpeed / sqrtf(2.f);
+		}
+		else // 그냥 오른쪽만 눌렀을떄 
+		{
+			m_tInfo.fX -= m_fSpeed;
+		}
+
+	}
+	else if (GetAsyncKeyState(VK_UP))
+	{
+		m_tInfo.fY -= m_fSpeed;
+	}
+
+	else if (GetAsyncKeyState(VK_DOWN))
+	{
+		m_tInfo.fY += m_fSpeed;
+	}
+
+
+
+
+
+
+
+
+
+	/*if (GetAsyncKeyState(VK_RIGHT))
 		m_tInfo.fX += m_fSpeed;
 
 	if (GetAsyncKeyState(VK_LEFT))
@@ -96,7 +156,7 @@ void CPlayer::Key_Input(void)
 		m_tInfo.fY -= m_fSpeed;
 
 	if (GetAsyncKeyState(VK_DOWN))
-		m_tInfo.fY += m_fSpeed;
+		m_tInfo.fY += m_fSpeed;*/
 
 	// GetKeyState로 활성화 할수 있고 비활성화 할 수 있는 것도 아이디어 추가하면 좋을듯.
 

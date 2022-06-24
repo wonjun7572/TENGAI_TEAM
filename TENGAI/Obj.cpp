@@ -2,7 +2,7 @@
 #include "Obj.h"
 
 
-CObj::CObj() : m_eDir(DIR_END), m_dead(false)
+CObj::CObj() : m_eDir(DIR_END), m_dead(false), m_eObjID(OBJ_END)
 {
 	ZeroMemory(&m_tInfo, sizeof(m_tInfo));
 	ZeroMemory(&m_tRect, sizeof(m_tRect));
@@ -21,13 +21,3 @@ void CObj::Update_Rect(void)
 	m_tRect.bottom = LONG(m_tInfo.fY + (m_tInfo.fCY * 0.5f));
 }
 
-// 좀 더 편리하게 사용하기 위해 bool check를 만들었습니다.
-bool CObj::CollisionCheck(RECT rc1, RECT rc2)
-{
-	if (IntersectRect(&RECT(), &rc1, &rc2))
-	{
-		return true;
-	}
-
-	return false;
-}

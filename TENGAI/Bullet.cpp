@@ -54,20 +54,7 @@ int CBullet::Update(void)
 
 void CBullet::LateUpdate(void)
 {
-	// 원래부터 충돌되고 있으니 충돌이 되지 않을 때 죽음으로 처리
-	if (!CollisionCheck(m_tRect,g_WindowRect))
-	{
-		m_dead = OBJ_DEAD;
-	}
-
-	for (auto &iter : *m_pMonster)
-	{
-		if (IntersectRect(&RECT(), &m_tRect, &iter->GetRect()) && m_pMonster!=nullptr)
-		{
-			iter->SetDead(true);
-		}
-
-	}
+	
 }
 
 void CBullet::Render(HDC hDC)

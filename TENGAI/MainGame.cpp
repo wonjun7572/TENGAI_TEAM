@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Bullet.h"
+#include "CollisionMgr.h"
 
 CMainGame::CMainGame()
 {
@@ -23,35 +24,18 @@ void CMainGame::Initialize(void)
 	m_hDC = GetDC(g_hWnd);
 
 	m_ObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create());
+	// 플레이어 충돌 시 하트 제거를 위해 아이디 값을 COBJ에 만듦
+	m_ObjList[OBJ_PLAYER].front()->SetObjID(OBJ_PLAYER);
+	
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet(&m_ObjList[OBJ_BULLET]);
 
 
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
 	for (int i = 0; i < 20; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster>::Create(rand()%500+100,rand()%500 +50, DIR_END));
+		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster>::Create(rand()%500+100,rand()%500 +50));
 	
 	}
-	for (auto &iter : m_ObjList[OBJ_MONSTER])
-	{
-		static_cast<CMonster*>(iter)->Set_Bullet(&m_ObjList[OBJ_BULLET]);
-	}
-	for (auto &iter : m_ObjList[OBJ_PLAYER])
-	{
-		static_cast<CPlayer*>(iter)->Set_Monster(&m_ObjList[OBJ_MONSTER]);
-	}
-
-	
-	// 이 주석은 나중에 이넘값줘서 어떤 패턴으로 날아가는지 초기에 설ㅇ정하는 코드 나중에 업데이트 문에서 쓰일듯
-	/*	if (i % 2 == 1)
-		{
-			createObj<CMonster>(OBJ_MONSTER, (rand() % 600 + 100), (rand() % 500 + 100), MONSTER_STYLE_LEFTRIGHT);
-		}
-		else
-		{
-			createObj<CMonster>(OBJ_MONSTER, (rand() % 600 + 100), (rand() % 500 + 100), MONSTER_STYLE_UPDOWN);
-		}*/
-
 }
 
 void CMainGame::Update(void)
@@ -62,18 +46,6 @@ void CMainGame::Update(void)
 		for (list<CObj*>::iterator iter = m_ObjList[i].begin();
 			iter != m_ObjList[i].end();)
 		{
-			if (OBJ_MONSTER == i )
-			{
-				static_cast<CMonster*>((*iter))->Set_ObjList(&m_ObjList[OBJ_ITEM]);
-			}
-			
-			if (OBJ_BULLET == i)
-			{
-				static_cast<CBullet*>(*iter)->getMonsterList(&m_ObjList[OBJ_MONSTER]);
-			}
-		
-		
-
 			int iEvent = (*iter)->Update();
 
 			if (iEvent == OBJ_DEAD)
@@ -96,14 +68,17 @@ void CMainGame::LateUpdate(void)
 {
 	for (int i = 0; i < OBJ_END; i++)
 	{
-		
-
 		for (auto& obj : m_ObjList[i])
 		{
 		
 			obj->LateUpdate();
 		}
 	}
+
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
+
+//	CCollisionMgr::CollisionRect(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET]);
 }
 
 void CMainGame::Render(void)
