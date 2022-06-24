@@ -13,8 +13,8 @@ CBullet::~CBullet()
 
 void CBullet::Initialize(void)
 {
-	m_tInfo.fCX = 30.f;
-	m_tInfo.fCY = 30.f;
+	m_tInfo.fCX = 10.f;
+	m_tInfo.fCY = 10.f;
 	m_fSpeed = 5.f;
 }
 
@@ -38,12 +38,20 @@ int CBullet::Update(void)
 		m_tInfo.fX += m_fSpeed;
 		break;
 	case DIR_LEFTUP:
-		m_tInfo.fX -= m_fSpeed;
-		m_tInfo.fY -= m_fSpeed;
+		m_tInfo.fX -= m_fSpeed / sqrtf(2.f);
+		m_tInfo.fY -= m_fSpeed / sqrtf(2.f);
+		break;
+	case DIR_LEFTDOWN:
+		m_tInfo.fX -= m_fSpeed / sqrtf(2.f);
+		m_tInfo.fY += m_fSpeed / sqrtf(2.f);
 		break;
 	case DIR_RIGHTUP:
-		m_tInfo.fX += m_fSpeed;
-		m_tInfo.fY -= m_fSpeed;
+		m_tInfo.fX += m_fSpeed / sqrtf(2.f);
+		m_tInfo.fY -= m_fSpeed / sqrtf(2.f);
+		break;
+	case DIR_RIGHTDOWN:
+		m_tInfo.fX += m_fSpeed / sqrtf(2.f);
+		m_tInfo.fY += m_fSpeed / sqrtf(2.f);
 		break;
 	}
 
@@ -54,7 +62,7 @@ int CBullet::Update(void)
 
 void CBullet::LateUpdate(void)
 {
-	
+
 }
 
 void CBullet::Render(HDC hDC)

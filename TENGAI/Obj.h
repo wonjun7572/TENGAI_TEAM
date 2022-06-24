@@ -44,6 +44,7 @@ protected:
 	RECT		m_tRect;
 	DIR			m_eDir;
 	OBJID		m_eObjID;
+	DWORD		m_dwTimer;
 
 	float		m_fSpeed = 0.f;
 	bool		m_dead;

@@ -5,7 +5,7 @@
 
 CCollisionMgr::CCollisionMgr()
 {
-	
+
 }
 
 
@@ -16,15 +16,15 @@ CCollisionMgr::~CCollisionMgr()
 
 void CCollisionMgr::CollisionRect(list<CObj*> _Dest, list<CObj*> _Sour)
 {
-	
-	
+
+
 
 	for (auto &Dest : _Dest)
 	{
 		for (auto &Sour : _Sour)
 		{
-				Dest->SetDead(true);
-				Sour->SetDead(true);
+			Dest->SetDead(true);
+			Sour->SetDead(true);
 		}
 	}
 
@@ -35,36 +35,31 @@ void CCollisionMgr::CollisionRect(list<CObj*> _Dest, list<CObj*> _Sour)
 
 void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 {
-	
-	
+
+
 	for (auto &Dest : _Dest)
 	{
 		for (auto &Sour : _Sour)
 		{
-			if (CheckSphere(Dest,Sour))
+			if (CheckSphere(Dest, Sour))
 			{
-					if (Dest->GetOBJID() == OBJ_PLAYER)
-					{
-						static_cast<CPlayer*>(Dest)->setHp(1);
-					}
-					else
-					{
-						Dest->SetDead(true);
-					
-						
-					}
-					Sour->SetDead(true);
+				if (Dest->GetOBJID() == OBJ_PLAYER || Sour->GetOBJID() == OBJ_PLAYER)
+				{
+					static_cast<CPlayer*>(Dest)->setHp(1);
 				}
-				
-				
+				else
+				{
+					Dest->SetDead(true);
+				}
+				Sour->SetDead(true);
 			}
 		}
 
 	}
 
-	
 
 
+}
 
 bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 {
@@ -77,7 +72,7 @@ bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 
 	// 거리 = 빗변의 길이 구하는 법  // c^2 = x^2 + y^2
 	float fDiagonal = sqrtf(fWidth*fWidth) + sqrtf(fHeight*fHeight);
-	
+
 	// 반지름 구하는 법 float 는 비트연산자가 안된다.
 	//		r1 + r2 
 	// 애초에 지금 
@@ -88,7 +83,7 @@ bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 	//  ex) fx 50 이 중점이면 left 0 , right 100 이렇게 되는 코딩이다.
 	//		그래서 fcx* 0.5 가 반지름이 되는 것이다.
 
-	float fRadius = static_cast<float>(_pTemp->GetInfo().fCX + _pSour->GetInfo().fCX)*0.5f ;
+	float fRadius = static_cast<float>(_pTemp->GetInfo().fCX + _pSour->GetInfo().fCX)*0.5f;
 
-	return fDiagonal <=	fRadius;
+	return fDiagonal <= fRadius;
 }

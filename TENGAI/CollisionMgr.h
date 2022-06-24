@@ -11,9 +11,9 @@ public:
 	static void CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour);
 
 public:
-	
+
 private:
-	
+
 
 public:
 	CCollisionMgr();
