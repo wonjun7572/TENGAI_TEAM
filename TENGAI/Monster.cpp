@@ -13,7 +13,7 @@ CMonster::~CMonster()
 
 void CMonster::Initialize(void)
 {
-	m_tInfo = { 700.f,500.f,75.f,75.f };
+	m_tInfo = { 700.f,500.f,40.f,30.f };
 	m_fSpeed = 5.f;
 }
 

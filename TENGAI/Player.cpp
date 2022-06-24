@@ -4,7 +4,7 @@
 #include "AbstractFactory.h"
 
 CPlayer::CPlayer()
-	:m_pBullet(nullptr)
+	:m_pBullet(nullptr),m_pMonster(nullptr)
 {
 }
 
@@ -47,14 +47,20 @@ void CPlayer::LateUpdate(void)
 	if (m_tInfo.fY > WINCY - 50)
 		m_tInfo.fY -= m_fSpeed;
 
-	if (CollisionCheck(m_tRect, m_pMonster->GetRect()))
+
+	for (auto &iter : *m_pMonster)
 	{
-		if (dwTimer + 500 < GetTickCount())
+		if (CollisionCheck(m_tRect,iter->GetRect()))
 		{
-			m_tStat.Hp -= 1;
-			dwTimer = GetTickCount();
+			if (dwTimer + 700 < GetTickCount())
+			{
+				m_tStat.Hp -= 1;
+				dwTimer = GetTickCount();
+			}
 		}
 	}
+	// 에러 부분
+	
 }
 
 void CPlayer::Render(HDC hDC)

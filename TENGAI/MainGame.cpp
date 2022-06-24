@@ -34,9 +34,13 @@ void CMainGame::Initialize(void)
 	}
 	for (auto &iter : m_ObjList[OBJ_MONSTER])
 	{
-
 		static_cast<CMonster*>(iter)->Set_Bullet(&m_ObjList[OBJ_BULLET]);
 	}
+	for (auto &iter : m_ObjList[OBJ_PLAYER])
+	{
+		static_cast<CPlayer*>(iter)->Set_Monster(&m_ObjList[OBJ_MONSTER]);
+	}
+
 	
 	// 이 주석은 나중에 이넘값줘서 어떤 패턴으로 날아가는지 초기에 설ㅇ정하는 코드 나중에 업데이트 문에서 쓰일듯
 	/*	if (i % 2 == 1)
@@ -60,13 +64,15 @@ void CMainGame::Update(void)
 		{
 			if (OBJ_MONSTER == i )
 			{
-				dynamic_cast<CMonster*>((*iter))->Set_ObjList(&m_ObjList[OBJ_ITEM]);
+				static_cast<CMonster*>((*iter))->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 			}
 			
 			if (OBJ_BULLET == i)
 			{
-				dynamic_cast<CBullet*>(*iter)->getMonsterList(&m_ObjList[OBJ_MONSTER]);
+				static_cast<CBullet*>(*iter)->getMonsterList(&m_ObjList[OBJ_MONSTER]);
 			}
+		
+		
 
 			int iEvent = (*iter)->Update();
 
@@ -90,8 +96,11 @@ void CMainGame::LateUpdate(void)
 {
 	for (int i = 0; i < OBJ_END; i++)
 	{
+		
+
 		for (auto& obj : m_ObjList[i])
 		{
+		
 			obj->LateUpdate();
 		}
 	}
