@@ -36,6 +36,11 @@ void CMainGame::Initialize(void)
 		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster>::Create(rand()%500+100,rand()%500 +50));
 	
 	}
+
+	for (auto & iter : m_ObjList[OBJ_MONSTER])
+	{
+		dynamic_cast<CMonster*>(iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
+	}
 }
 
 void CMainGame::Update(void)
@@ -66,6 +71,9 @@ void CMainGame::Update(void)
 
 void CMainGame::LateUpdate(void)
 {
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
+
 	for (int i = 0; i < OBJ_END; i++)
 	{
 		for (auto& obj : m_ObjList[i])
@@ -75,8 +83,7 @@ void CMainGame::LateUpdate(void)
 		}
 	}
 
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
+	
 
 //	CCollisionMgr::CollisionRect(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET]);
 }

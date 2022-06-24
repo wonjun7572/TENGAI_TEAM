@@ -8,8 +8,8 @@ public:
 	CMonster();
 	virtual ~CMonster();
 
-	void Set_Bullet(list<CObj*>* pBullet) { m_pBullet = pBullet; }
 	void Set_ObjList(list<CObj*>* _ObjIDList) { m_pItem = _ObjIDList; }
+
 public:
 	virtual void Initialize(void) override;
 	virtual int  Update(void) override;
@@ -23,10 +23,8 @@ private:
 
 private:
 	int iReverse;
-	list<CObj*>*	m_pBullet;
 	list<CObj*>*	m_pItem;
 
-//	(list<CObj*>*)*	m_objList;
 
 };
 

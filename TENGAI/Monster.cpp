@@ -3,7 +3,7 @@
 #include "Item.h"
 
 CMonster::CMonster()
-	:iReverse(1) , m_pBullet(nullptr),m_pItem(nullptr)
+	:iReverse(1) ,m_pItem(nullptr)
 {
 }
 
@@ -20,7 +20,11 @@ void CMonster::Initialize(void)
 int CMonster::Update(void)
 {
 	if (m_dead)
+	{
 		return OBJ_DEAD;
+		
+	}
+		
 
 	m_tInfo.fX += m_fSpeed * iReverse;
 
@@ -31,10 +35,18 @@ int CMonster::Update(void)
 
 void CMonster::LateUpdate(void)
 {
+
 	if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
 	{
 		iReverse *= -1;
 	}
+
+	if (m_dead)
+	{
+		
+		CreateItem();
+	}
+
 }
 
 void CMonster::Render(HDC hDC)

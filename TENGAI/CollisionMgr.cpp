@@ -43,8 +43,6 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 		{
 			if (CheckSphere(Dest,Sour))
 			{
-				if (IntersectRect(&RECT(), &Dest->GetRect(), &Sour->GetRect()))
-				{
 					if (Dest->GetOBJID() == OBJ_PLAYER)
 					{
 						static_cast<CPlayer*>(Dest)->setHp(1);
@@ -52,9 +50,13 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 					else
 					{
 						Dest->SetDead(true);
+					
+						
 					}
+					Sour->SetDead(true);
 				}
-				Sour->SetDead(true);
+				
+				
 			}
 		}
 
@@ -62,7 +64,7 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 
 	
 
-}
+
 
 bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 {
