@@ -19,5 +19,6 @@ public:
 private:
 	void			Key_Input(void);
 	list<CObj*>*	m_pBullet;
+	DWORD dwTimer;
 };
 

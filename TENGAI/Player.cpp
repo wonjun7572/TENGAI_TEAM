@@ -18,6 +18,7 @@ void CPlayer::Initialize(void)
 {
 	m_tInfo = { 400.f, 300.f, 100.f, 100.f };
 	m_fSpeed = 10.f;
+	dwTimer = GetTickCount() + 200;
 }
 
 int CPlayer::Update(void)
@@ -90,9 +91,14 @@ void CPlayer::Key_Input(void)
 
 	// GetKeyState로 활성화 할수 있고 비활성화 할 수 있는 것도 아이디어 추가하면 좋을듯.
 
-	if (GetAsyncKeyState(VK_SPACE)& 0x0001)
+	if (GetAsyncKeyState(VK_SPACE))
 	{
-		m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
+
+		if (dwTimer + 200 < GetTickCount())
+		{
+			m_pBullet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
+			dwTimer = GetTickCount();
+		}
 	}
 }
 

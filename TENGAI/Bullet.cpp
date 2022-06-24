@@ -25,24 +25,24 @@ int CBullet::Update(void)
 	switch (m_eDir)
 	{
 	case DIR_UP:
-		m_tInfo.fY -= 10;
+		m_tInfo.fY -= m_fSpeed;
 		break;
 	case DIR_DOWN:
-		m_tInfo.fY += 10;
+		m_tInfo.fY += m_fSpeed;
 		break;
 	case DIR_LEFT:
-		m_tInfo.fX -= 10;
+		m_tInfo.fX -= m_fSpeed;
 		break;
 	case DIR_RIGHT:
-		m_tInfo.fX += 10;
+		m_tInfo.fX += m_fSpeed;
 		break;
 	case DIR_LEFTUP:
-		m_tInfo.fX -= 10;
-		m_tInfo.fY -= 10;
+		m_tInfo.fX -= m_fSpeed;
+		m_tInfo.fY -= m_fSpeed;
 		break;
 	case DIR_RIGHTUP:
-		m_tInfo.fX += 10;
-		m_tInfo.fY -= 10;
+		m_tInfo.fX += m_fSpeed;
+		m_tInfo.fY -= m_fSpeed;
 		break;
 	}
 

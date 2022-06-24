@@ -23,9 +23,7 @@ void CObj::Update_Rect(void)
 // 좀 더 편리하게 사용하기 위해 bool check를 만들었습니다.
 bool CObj::CollisionCheck(RECT rc1, RECT rc2)
 {
-	RECT Temp = { LONG(0.f), LONG(0.f), LONG(0.f), LONG(0.f) };
-
-	if (IntersectRect(&Temp, &rc1, &rc2))
+	if (IntersectRect(&RECT(), &rc1, &rc2))
 	{
 		return true;
 	}
