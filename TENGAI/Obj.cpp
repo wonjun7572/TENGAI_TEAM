@@ -6,6 +6,7 @@ CObj::CObj() : m_eDir(DIR_END), m_dead(false)
 {
 	ZeroMemory(&m_tInfo, sizeof(m_tInfo));
 	ZeroMemory(&m_tRect, sizeof(m_tRect));
+	ZeroMemory(&m_tStat, sizeof(m_tStat));
 }
 
 CObj::~CObj()

@@ -7,3 +7,8 @@ typedef struct tagInfo
 	float	fCX;
 	float	fCY;
 }INFO;
+
+typedef struct tagStat
+{
+	int Hp;
+}STAT;

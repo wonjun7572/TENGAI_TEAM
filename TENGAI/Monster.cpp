@@ -19,7 +19,7 @@ void CMonster::Initialize(void)
 
 int CMonster::Update(void)
 {
-	if (m_dead == true)
+	if (m_dead)
 		return OBJ_DEAD;
 
 	m_tInfo.fX += 10 * iReverse;
@@ -41,7 +41,7 @@ void CMonster::LateUpdate(void)
 	{
 		if (CollisionCheck(m_tRect, (*iter)->GetRect()))
 		{
-			m_dead = true;
+			m_dead = OBJ_DEAD;
 			(*iter)->SetDead(OBJ_DEAD);
        		CreateItem();
 			break;

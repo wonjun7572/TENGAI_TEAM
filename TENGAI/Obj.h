@@ -36,6 +36,7 @@ protected:
 
 protected:
 	INFO		m_tInfo;
+	STAT		m_tStat;
 	RECT		m_tRect;
 	DIR			m_eDir;
 
