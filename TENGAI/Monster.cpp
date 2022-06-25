@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include "Item.h"
 #include "Bullet.h"
+#include "AddHpItem.h"
 
 CMonster::CMonster()
 	:iReverse(1), m_pBullet_Player(nullptr), m_pBullet_Monster(nullptr), m_pItem(nullptr),
@@ -60,7 +61,12 @@ void CMonster::Release(void)
 void CMonster::CreateItem()
 {
 	// 아이템 생성
-	m_pItem->push_back(CAbstractFactory<CItem>::Create(m_tInfo.fX, m_tInfo.fY, DIR_END));
+	// 무조건 아이템 생성은 아니고 랜덤으로 설정
+	m_pItem->push_back(CAbstractFactory<CAddHpItem>::Create(m_tInfo.fX, m_tInfo.fY));
+	for (auto& iter = m_pItem->begin(); iter != m_pItem->end(); ++iter)
+	{
+		dynamic_cast<CAddHpItem*>(*iter)->SetPlayer(m_pPlayer->front());
+	}
 }
 
 void CMonster::Attack()		// 몬스터 미사일 발사 코드, GetTickCount() + 원하는 시간값 입력

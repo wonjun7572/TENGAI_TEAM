@@ -27,14 +27,8 @@ public:
 		m_tInfo.fY = _fY;
 		m_eDir = _dir;
 	}
-	
-	
 	void			SetDead(bool _dead) { m_dead = _dead; }
 	void			SetObjID(OBJID _eObjID) { m_eObjID = _eObjID; }
-
-public:
-	
-
 protected:
 	void		Update_Rect(void);
 

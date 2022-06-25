@@ -25,7 +25,6 @@ public:
 		return pObj;
 	}
 
-
 	static CScene* Create_Scene()
 	{
 		CScene* pScene = new T;

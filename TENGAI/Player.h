@@ -24,6 +24,8 @@ public:
 	void	setHp(int i) { m_tStat.Hp -= i; }
 
 private:
+	bool	bShooting = false;
+
 	void			Key_Input(void);
 	list<CObj*>*	m_pBullet_Player;
 	list<CObj*>*	m_pBullet_Monster;

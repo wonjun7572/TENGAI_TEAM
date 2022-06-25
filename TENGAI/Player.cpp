@@ -16,7 +16,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 400.f, 300.f, 30.f, 20.f };
+	m_tInfo = { 400.f, 400.f, 30.f, 90.f };
 	m_fSpeed = 10.f;
 	m_dwTimer = GetTickCount();
 	m_tStat = { 3 };
@@ -27,6 +27,7 @@ int CPlayer::Update(void)
 	if (m_dead)
 		return OBJ_DEAD;
 
+	bShooting = false;
 	Key_Input();
 
  	Update_Rect();
@@ -47,10 +48,6 @@ void CPlayer::LateUpdate(void)
 
 	if (m_tInfo.fY > WINCY - 50)
 		m_tInfo.fY -= m_fSpeed;
-
-
-
-
 }
 
 void CPlayer::Render(HDC hDC)
@@ -61,7 +58,48 @@ void CPlayer::Render(HDC hDC)
 		m_dead = OBJ_DEAD;
 	}
 
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	if (bShooting == false)
+	{
+		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom - 60.f);
+
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 15.f, nullptr);
+		LineTo(hDC, m_tInfo.fX, m_tInfo.fY + 15.f);
+		LineTo(hDC, m_tInfo.fX - 15.f, m_tInfo.fY + 30.f);
+
+		// ¿À¸¥ÂÊ ´Ù¸®
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY + 15.f, nullptr);
+		LineTo(hDC, m_tInfo.fX + 15.f, m_tInfo.fY + 30.f);
+
+		// ¿ÞÂÊ ÆÈ
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 5.f, nullptr);
+		LineTo(hDC, m_tInfo.fX - 17.f, m_tInfo.fY - 2.f);
+
+		//¿À¸¥ÂÊ ÆÈ
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 5.f, nullptr);
+		LineTo(hDC, m_tInfo.fX + 17.f, m_tInfo.fY - 2.f);
+	}
+	else if (bShooting == true)
+	{
+		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom - 60.f);
+
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 15.f, nullptr);
+		LineTo(hDC, m_tInfo.fX, m_tInfo.fY + 15.f);
+		LineTo(hDC, m_tInfo.fX - 15.f, m_tInfo.fY + 30.f);
+
+		// ¿À¸¥ÂÊ ´Ù¸®
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY + 15.f, nullptr);
+		LineTo(hDC, m_tInfo.fX + 15.f, m_tInfo.fY + 15.f);
+		LineTo(hDC, m_tInfo.fX, m_tInfo.fY + 30.f);
+
+		// ¿ÞÂÊ ÆÈ
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 5.f, nullptr);
+		LineTo(hDC, m_tInfo.fX + 5.f, m_tInfo.fY - 10.f);
+		LineTo(hDC, m_tInfo.fX + 17.f, m_tInfo.fY - 10.f);
+
+		////¿À¸¥ÂÊ ÆÈ
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 5.f, nullptr);
+		LineTo(hDC, m_tInfo.fX + 17.f, m_tInfo.fY - 2.f);
+	}
 
 	for (int i = 0; i < m_tStat.Hp; i++)
 	{
@@ -73,8 +111,6 @@ void CPlayer::Release(void)
 {
 
 }
-
-
 
 void CPlayer::Key_Input(void)
 {
@@ -125,7 +161,6 @@ void CPlayer::Key_Input(void)
 		m_tInfo.fY += m_fSpeed;
 	}
 
-
 	/*if (GetAsyncKeyState(VK_RIGHT))
 	m_tInfo.fX += m_fSpeed;
 
@@ -143,16 +178,12 @@ void CPlayer::Key_Input(void)
 	// ÃÑ¾Ë µô·¹ÀÌ½Ã°£ GetTickCount Á¶±Ý ÀÌ»óÇØ¼­ µô·¹ÀÌ ÁÖ´Â ¹æ½Ä »ìÂ¦ º¯°æÇÔ
 	if (GetAsyncKeyState(VK_SPACE))
 	{
-		
+		bShooting = true;
 		if (m_dwTimer < GetTickCount())
 		{
 			m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
 			m_dwTimer = GetTickCount() + 50;
 		}
 	}
-
-
-	
-
 }
 
