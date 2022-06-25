@@ -28,7 +28,6 @@ private:
 	list<CObj*>*	m_pBullet_Monster;
 	list<CObj*>*	m_pItem;
 
-	//	(list<CObj*>*)*	m_objList;
 
 private:	//	패턴 중복 방지용 bool변수
 	bool bPattern_A;

@@ -29,7 +29,7 @@ int CPlayer::Update(void)
 
 	Key_Input();
 
-	Update_Rect();
+ 	Update_Rect();
 	return OBJ_NOEVENT;
 }
 
@@ -50,19 +50,6 @@ void CPlayer::LateUpdate(void)
 
 
 
-
-	/*for (auto &iter : *m_pMonster)
-	{
-	if (CollisionCheck(m_tRect,iter->GetRect()))
-	{
-	if (dwTimer + 700 < GetTickCount())
-	{
-	m_tStat.Hp -= 1;
-	dwTimer = GetTickCount();
-	}
-	}
-	}*/
-	// 에러 부분
 
 }
 
@@ -139,13 +126,6 @@ void CPlayer::Key_Input(void)
 	}
 
 
-
-
-
-
-
-
-
 	/*if (GetAsyncKeyState(VK_RIGHT))
 	m_tInfo.fX += m_fSpeed;
 
@@ -163,12 +143,16 @@ void CPlayer::Key_Input(void)
 	// 총알 딜레이시간 GetTickCount 조금 이상해서 딜레이 주는 방식 살짝 변경함
 	if (GetAsyncKeyState(VK_SPACE))
 	{
-
+		
 		if (m_dwTimer < GetTickCount())
 		{
 			m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
-			m_dwTimer = GetTickCount() + 200;
+			m_dwTimer = GetTickCount() + 50;
 		}
 	}
+
+
+	
+
 }
 

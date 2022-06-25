@@ -38,6 +38,15 @@
     <Filter Include="99. Utils\Mgr\01.CollisionMgr">
       <UniqueIdentifier>{6f6fdc24-882a-4142-be3d-f99fea1dd7fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene">
+      <UniqueIdentifier>{30b416b8-6188-4317-8c7a-6457527f6f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\00.First_Scene">
+      <UniqueIdentifier>{cd03ed19-3ff7-4c20-a766-1e95e5532b06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Second_Scene">
+      <UniqueIdentifier>{4e8bc7fe-8af5-4d35-aa58-7fa3b9b0ef95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -85,7 +94,18 @@
     <ClInclude Include="Item.h">
       <Filter>01. Object\03.Item</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionMgr.h" />
+    <ClInclude Include="Scene.h">
+      <Filter>02.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>99. Utils\Mgr\01.CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstScene.h">
+      <Filter>02.Scene\00.First_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SecondScene.h">
+      <Filter>02.Scene\01.Second_Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -112,7 +132,18 @@
     <ClCompile Include="Item.cpp">
       <Filter>01. Object\03.Item</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionMgr.cpp" />
+    <ClCompile Include="Scene.cpp">
+      <Filter>02.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr.cpp">
+      <Filter>99. Utils\Mgr\01.CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstScene.cpp">
+      <Filter>02.Scene\00.First_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondScene.cpp">
+      <Filter>02.Scene\01.Second_Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TENGAI.rc">

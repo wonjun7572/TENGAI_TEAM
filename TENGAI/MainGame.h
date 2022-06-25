@@ -4,6 +4,7 @@
 //#include "../Header/Include.h"
 
 class CObj;
+class CScene;
 
 class CMainGame
 {
@@ -20,5 +21,11 @@ public:
 
 private:
 	HDC			m_hDC;
-	list<CObj*> m_ObjList[OBJ_END];
+	list<CObj*> *	m_ObjList;
+	list<CScene*> m_SceneList[SCENE_NAME_END];
+	
+	SCENE_NAME    m_eScene;
+	int			 m_iFlow;
+	
+
 };

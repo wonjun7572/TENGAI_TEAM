@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Obj.h"
+#include "Scene.h"
 
 template<typename T>
 class CAbstractFactory
@@ -23,6 +24,16 @@ public:
 		pObj->SetObjID(_ID);
 		return pObj;
 	}
+
+
+	static CScene* Create_Scene()
+	{
+		CScene* pScene = new T;
+		pScene->Initialize();
+
+		return pScene;
+	}
+
 
 	CAbstractFactory() {}
 

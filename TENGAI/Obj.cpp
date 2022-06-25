@@ -4,9 +4,10 @@
 
 CObj::CObj() : m_eDir(DIR_END), m_dead(false), m_eObjID(OBJ_END)
 {
-	ZeroMemory(&m_tInfo, sizeof(m_tInfo));
-	ZeroMemory(&m_tRect, sizeof(m_tRect));
-	ZeroMemory(&m_tStat, sizeof(m_tStat));
+	m_dwTimer = 0;
+	ZeroMemory(&m_tInfo, sizeof(INFO));
+	ZeroMemory(&m_tRect, sizeof(RECT));
+	ZeroMemory(&m_tStat, sizeof(STAT));
 }
 
 CObj::~CObj()
