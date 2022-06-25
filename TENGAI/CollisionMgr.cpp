@@ -61,6 +61,17 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 
 }
 
+void CCollisionMgr::CollisionWall(list<CObj*> _Dest)
+{
+	for (auto& Dest : _Dest)
+	{
+		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect))
+		{
+			Dest->SetDead(true);
+		}
+	}
+}
+
 bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 {
 	// c^2 = x^2 + y^2

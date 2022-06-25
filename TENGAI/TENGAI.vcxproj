@@ -158,6 +158,11 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="Monster_Level_01.h" />
+    <ClInclude Include="Monster_Level_02.h" />
+    <ClInclude Include="Monster_Level_03.h" />
+    <ClInclude Include="Monster_Level_04.h" />
+    <ClInclude Include="Monster_Level_05.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -175,6 +180,11 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Monster_Level_01.cpp" />
+    <ClCompile Include="Monster_Level_02.cpp" />
+    <ClCompile Include="Monster_Level_03.cpp" />
+    <ClCompile Include="Monster_Level_04.cpp" />
+    <ClCompile Include="Monster_Level_05.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

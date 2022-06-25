@@ -14,26 +14,21 @@ public:
 	void Set_ObjList(list<CObj*>* _ObjIDList) { m_pItem = _ObjIDList; }
 
 public:
-	virtual void Initialize(void) override;
-	virtual int  Update(void) override;
-	virtual void LateUpdate(void) override;
-	virtual void Render(HDC hDC) override;
-	virtual void Release(void) override;
+	virtual void Initialize(void)PURE;
+	virtual int  Update(void)PURE;
+	virtual void LateUpdate(void)PURE;
+	virtual void Render(HDC hDC)PURE;
+	virtual void Release(void)PURE;
 
-private:
-	void CreateItem();
-	void Attack();
+protected:
+	virtual void CreateItem()PURE;
+	virtual void Attack()PURE;
 
-private:
+protected:
 	int iReverse;
 	list<CObj*>*    m_pPlayer;
 	list<CObj*>*	m_pBullet_Player;
 	list<CObj*>*	m_pBullet_Monster;
 	list<CObj*>*	m_pItem;
-
-private:	//	패턴 중복 방지용 bool변수
-	bool bPattern_A;
-	bool bPattern_B;
-	bool bPattern_C;
 };
 
