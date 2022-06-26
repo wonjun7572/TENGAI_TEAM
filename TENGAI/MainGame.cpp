@@ -13,6 +13,7 @@ CMainGame::CMainGame()
 {
 	// 변수 생성을 위한 srand 함수 생성
 	m_iFlow = 0;
+	m_count = 0;
 }
 
 CMainGame::~CMainGame()
@@ -33,70 +34,86 @@ void CMainGame::Initialize(void)
 
 void CMainGame::Update(void)
 {
-
-
+	if (m_count == 99)
+		return;
+	
 	switch (m_iFlow)
 	{
 	case SCENE_NAME_FIRST:
 		if (m_SceneList[SCENE_NAME_FIRST].empty())
 		{
-			m_SceneList[SCENE_NAME_FIRST].push_back(CAbstractFactory<CSecondScene>::Create_Scene(*m_ObjList));
+			m_SceneList[SCENE_NAME_FIRST].push_back(CAbstractFactory<CFirstScene>::Create_Scene(*m_ObjList));
 			m_ObjList = m_SceneList[m_iFlow].front()->Get_ObjList();
 		}
-	
+
 		break;
-	
+
 	case SCENE_NAME_SECOND:
 		if (m_SceneList[SCENE_NAME_SECOND].empty())
 		{
 			m_SceneList[SCENE_NAME_SECOND].push_back(CAbstractFactory<CSecondScene>::Create_Scene(*m_ObjList));
 			m_ObjList = m_SceneList[m_iFlow].front()->Get_ObjList();
 		}
-		
+
 		break;
 	default:
 		break;
 	}
 
-	m_SceneList[m_iFlow].front()->Update();
-
-	//m_iFlow = m_SceneList[SCENE_NAME_SECOND].front()->Update();
-
-	if (m_count > 5)
-	{
-		m_count++;
-	}
-
+	m_count = m_SceneList[m_iFlow].front()->Update();
 }
+
+
 
 void CMainGame::LateUpdate(void)
 {
+	if (m_count == 99)
+	{
+		return;
+	}
+
 	m_SceneList[m_iFlow].front()->LateUpdate();
 	
 }
 
 void CMainGame::Render(void)
 {
-	int			 m_iTemp	= m_iFlow;
-	m_iFlow = m_SceneList[m_iTemp].front()->Render(m_hDC);
 
-	if (m_iFlow != m_iTemp)
+	if (m_count == 99)
 	{
-		for (auto iter= m_SceneList->begin(); iter!= m_SceneList->end(); )
-		{
-			//Safe_Delete<CScene*>(*iter);
-			iter = m_SceneList->erase(iter);
-			m_count++;
-		}
-	
-		m_SceneList[m_iTemp].clear();
-			
+		TCHAR		szBuff[32] = L"끝났습니다.";
+		RECT	rc{ 400, 300, 800, 200 };
+		TextOut(m_hDC, 50, 50, szBuff, lstrlen(szBuff));
+		return;
+
 	}
 
-	// 
+	int			 m_iTemp	= m_iFlow;
+	
+	
+	m_iFlow = m_SceneList[m_iTemp].front()->Render(m_hDC);
 
+	
 
+	 if (m_iFlow != m_iTemp)
+	{
+		for (auto iter = m_SceneList->begin(); iter != m_SceneList->end(); )
+		{
+			iter = m_SceneList->erase(iter);
+			
+		}
+
+		m_SceneList[m_iTemp].clear();
+
+	}
 }
+	
+
+
+	
+
+
+
 
 void CMainGame::Release(void)
 {

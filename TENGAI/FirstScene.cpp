@@ -38,7 +38,7 @@ void CFirstScene::Initialize(void)
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(rand() % 500 + 100, rand() % 500 + 50));
 	}
@@ -50,8 +50,11 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 	}
+	for (int i = 0; i < 5; ++i)
+	{
+		m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster>::Create());
+	}
 
-	m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster>::Create());
 	for (auto& iter = m_ObjList[OBJ_BOSSMONSTER].begin(); iter != m_ObjList[OBJ_BOSSMONSTER].end(); ++iter)
 	{
 		dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
@@ -62,25 +65,33 @@ void CFirstScene::Initialize(void)
 
 int CFirstScene::Update(void)
 {
-	/*if (m_bStageClear)
-		return SCENE_NAME_SECOND;*/
 
-	for (int i = 0; i < OBJ_END; i++)
+	if (!m_ObjList[OBJ_PLAYER].empty())
 	{
-		for (list<CObj*>::iterator iter = m_ObjList[i].begin();
-			iter != m_ObjList[i].end();)
-		{	
-			
-			int iEvent = (*iter)->Update();
+		for (int i = 0; i < OBJ_END; i++)
+		{
+			for (list<CObj*>::iterator iter = m_ObjList[i].begin();
+				iter != m_ObjList[i].end();)
+			{
 
-			if (iEvent == OBJ_DEAD)
-			{
-				Safe_Delete<CObj*>(*iter);
-				iter = m_ObjList[i].erase(iter);
-			}
-			else
-			{
-				iter++;
+				int iEvent = (*iter)->Update();
+
+				if (iEvent == OBJ_DEAD && i != OBJ_PLAYER)
+				{
+					Safe_Delete<CObj*>(*iter);
+					iter = m_ObjList[i].erase(iter);
+				}
+				// 플레이어가 죽었을떄
+				else if (i == OBJ_PLAYER && iEvent == OBJ_DEAD)
+				{
+					Safe_Delete<CObj*>(*iter);
+					iter = m_ObjList[i].erase(iter);
+					return 99;
+				}
+				else
+				{
+					iter++;
+				}
 			}
 		}
 	}
@@ -90,66 +101,78 @@ int CFirstScene::Update(void)
 
 void CFirstScene::LateUpdate(void)
 {
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+
 	
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
 
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
-	for (int i = 0; i < OBJ_END; i++)
-	{
-		for (auto& obj : m_ObjList[i])
+		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
+		CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
+		CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
+		CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+
+		for (int i = 0; i < OBJ_END; i++)
 		{
-			obj->LateUpdate();
+			for (auto& obj : m_ObjList[i])
+			{
+				obj->LateUpdate();
+			}
 		}
 	}
-}
+
+
 
 int CFirstScene::Render(HDC hDC)
 {
-	Rectangle(hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
+	
+		Rectangle(hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
 
-	for (int i = 0; i < OBJ_END; i++)
-	{
-		for (auto& obj : m_ObjList[i])
+		for (int i = 0; i < OBJ_END; i++)
 		{
-			obj->Render(hDC);
-		}
-	}
-
-	// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
-	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size())
-	{
-		if (m_dwTimer + 3000 < GetTickCount())
-		{
-			m_bStageClear = true;	
-
+			for (auto& obj : m_ObjList[i])
+			{
+				obj->Render(hDC);
+			}
 		}
 
-	}
+		// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
+		if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
+		{
+			if (m_dwTimer + 3000 < GetTickCount())
+			{
+				m_bStageClear = true;
 
-	if (m_bStageClear)
-	{
-		return SCENE_NAME_SECOND;
-	}
-		
-	else
-	{
-		return SCENE_NAME_FIRST;
-	}
+			}
+
+		}
+
+		if (m_bStageClear)
+		{
+			return SCENE_NAME_SECOND;
+		}
+
+		else
+		{
+			return SCENE_NAME_FIRST;
+		}
+	
+	
+
+
+	
 }
 void CFirstScene::Release(void)
 {
-	for (int i = 0; i < OBJ_END; ++i)
-	{
-		for_each(m_ObjList[i].begin(), m_ObjList[i].end(), Safe_Delete<CObj*>);
-		m_ObjList[i].clear();
-	}
+	
+		for (int i = 0; i < OBJ_END; ++i)
+		{
+			for_each(m_ObjList[i].begin(), m_ObjList[i].end(), Safe_Delete<CObj*>);
+			m_ObjList[i].clear();
+		}
+	
 }

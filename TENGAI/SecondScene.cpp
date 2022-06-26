@@ -80,7 +80,7 @@ int CSecondScene::Render(HDC hDC)
 {
 	Rectangle(hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
 
-	//Ellipse(hDC, 200, 100, g_WindowRect.right, g_WindowRect.bottom);
+	Ellipse(hDC, 200, 100, g_WindowRect.right, g_WindowRect.bottom);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
