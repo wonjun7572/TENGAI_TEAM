@@ -47,6 +47,21 @@
     <Filter Include="02.Scene\01.Second_Scene">
       <UniqueIdentifier>{4e8bc7fe-8af5-4d35-aa58-7fa3b9b0ef95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\01. Monster\01. Level_01">
+      <UniqueIdentifier>{e835e858-5b2d-4db0-b7c2-c3fd1e6e9b54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Monster\02. Level_02">
+      <UniqueIdentifier>{7cb8c744-7617-414b-a2b7-bb8099f85fb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Monster\03. Level_03">
+      <UniqueIdentifier>{40bdf99c-43c0-4e83-9f15-2634f5d3d196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Monster\04. Level_04">
+      <UniqueIdentifier>{9954df3f-a054-4f55-99f7-3ea0b9446afd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Monster\05. Level_05">
+      <UniqueIdentifier>{be4a04ed-fabd-4cb4-a436-3439790b6325}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -109,6 +124,21 @@
     <ClInclude Include="AddHpItem.h">
       <Filter>01. Object\03.Item</Filter>
     </ClInclude>
+    <ClInclude Include="Monster_Level_01.h">
+      <Filter>01. Object\01. Monster\01. Level_01</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Level_02.h">
+      <Filter>01. Object\01. Monster\02. Level_02</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Level_03.h">
+      <Filter>01. Object\01. Monster\03. Level_03</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Level_04.h">
+      <Filter>01. Object\01. Monster\04. Level_04</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Level_05.h">
+      <Filter>01. Object\01. Monster\05. Level_05</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -149,6 +179,21 @@
     </ClCompile>
     <ClCompile Include="AddHpItem.cpp">
       <Filter>01. Object\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Level_01.cpp">
+      <Filter>01. Object\01. Monster\01. Level_01</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Level_02.cpp">
+      <Filter>01. Object\01. Monster\02. Level_02</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Level_03.cpp">
+      <Filter>01. Object\01. Monster\03. Level_03</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Level_04.cpp">
+      <Filter>01. Object\01. Monster\04. Level_04</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Level_05.cpp">
+      <Filter>01. Object\01. Monster\05. Level_05</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

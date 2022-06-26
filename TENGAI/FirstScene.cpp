@@ -5,13 +5,18 @@
 #include "Obj.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Monster_Level_01.h"
+#include "Monster_Level_02.h"
+#include "Monster_Level_03.h"
+#include "Monster_Level_04.h"
+#include "Monster_Level_05.h"
 #include "Bullet.h"
 #include "Item.h"
 #include "CollisionMgr.h"
 
 CFirstScene::CFirstScene()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 }
 
 CFirstScene::~CFirstScene()
@@ -31,7 +36,7 @@ void CFirstScene::Initialize(void)
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
 	for (int i = 0; i < 1; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster>::Create(rand() % 500 + 100, rand() % 500 + 50));
+		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(rand() % 500 + 100, rand() % 500 + 50));
 	}
 	// 몬스터 한마리마다 iterator 돌려서 Set_Bullet_Monster 해주므로써 몬스터도 총알 가지게 함
 	for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
@@ -79,6 +84,8 @@ void CFirstScene::LateUpdate(void)
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
 
 	for (int i = 0; i < OBJ_END; i++)
 	{

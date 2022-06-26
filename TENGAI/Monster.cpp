@@ -5,15 +5,14 @@
 #include "AddHpItem.h"
 
 CMonster::CMonster()
-	:iReverse(1), m_pBullet_Player(nullptr), m_pBullet_Monster(nullptr), m_pItem(nullptr),
-	bPattern_A(false), bPattern_B(false), bPattern_C(false)
+	:iReverse(1), m_pBullet_Player(nullptr), m_pBullet_Monster(nullptr), m_pItem(nullptr)
 {
 }
 
 CMonster::~CMonster()
 {
 }
-
+/*
 void CMonster::Initialize(void)
 {
 	m_tInfo = { 700.f,500.f,30.f,20.f };
@@ -65,7 +64,7 @@ void CMonster::CreateItem()
 	m_pItem->push_back(CAbstractFactory<CAddHpItem>::Create(m_tInfo.fX, m_tInfo.fY));
 	for (auto& iter = m_pItem->begin(); iter != m_pItem->end(); ++iter)
 	{
-		dynamic_cast<CAddHpItem*>(*iter)->SetPlayer(m_pPlayer->front());
+		dynamic_cast<CItem*>(*iter)->SetPlayer(m_pPlayer->front());
 	}
 }
 
@@ -139,7 +138,7 @@ void CMonster::Attack()		// 몬스터 미사일 발사 코드, GetTickCount() + 원하는 시�
 	bPattern_C = true;
 	}
 	*/
-
+/*
 	// 평타
 	if (m_dwTimer < GetTickCount())
 	{
@@ -151,5 +150,6 @@ void CMonster::Attack()		// 몬스터 미사일 발사 코드, GetTickCount() + 원하는 시�
 		bPattern_C = false;
 	}
 }
+*/
 
 
