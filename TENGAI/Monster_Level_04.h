@@ -18,5 +18,12 @@ private:
 	virtual void CreateItem();
 	virtual void Attack();
 
+private:
+	float fCos;
+	float fSin;
+	float fAtan;
+	float fACos;
+	float fASin;
+
 };
 
