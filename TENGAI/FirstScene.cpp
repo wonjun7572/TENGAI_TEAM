@@ -130,7 +130,7 @@ void CFirstScene::LateUpdate(void)
 int CFirstScene::Render(HDC hDC)
 {
 	
-		Rectangle(hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
+		
 
 		for (int i = 0; i < OBJ_END; i++)
 		{

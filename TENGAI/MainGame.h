@@ -27,5 +27,5 @@ private:
 	SCENE_NAME    m_eScene;
 	int			 m_iFlow;
 	
-	int			m_count = 0;
+	int			m_IEXIT = 0;
 };

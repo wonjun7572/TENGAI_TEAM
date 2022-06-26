@@ -13,7 +13,7 @@ CMainGame::CMainGame()
 {
 	// 변수 생성을 위한 srand 함수 생성
 	m_iFlow = 0;
-	m_count = 0;
+	m_IEXIT = 0;
 }
 
 CMainGame::~CMainGame()
@@ -34,7 +34,7 @@ void CMainGame::Initialize(void)
 
 void CMainGame::Update(void)
 {
-	if (m_count == 99)
+	if (m_IEXIT == 99)
 		return;
 	
 	switch (m_iFlow)
@@ -60,14 +60,14 @@ void CMainGame::Update(void)
 		break;
 	}
 
-	m_count = m_SceneList[m_iFlow].front()->Update();
+	m_IEXIT = m_SceneList[m_iFlow].front()->Update();
 }
 
 
 
 void CMainGame::LateUpdate(void)
 {
-	if (m_count == 99)
+	if (m_IEXIT == 99)
 	{
 		return;
 	}
@@ -78,8 +78,9 @@ void CMainGame::LateUpdate(void)
 
 void CMainGame::Render(void)
 {
+	Rectangle(m_hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
 
-	if (m_count == 99)
+	if (m_IEXIT == 99)
 	{
 		TCHAR		szBuff[32] = L"끝났습니다.";
 		RECT	rc{ 400, 300, 800, 200 };

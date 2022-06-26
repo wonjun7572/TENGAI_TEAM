@@ -78,8 +78,7 @@ void CSecondScene::LateUpdate(void)
 
 int CSecondScene::Render(HDC hDC)
 {
-	Rectangle(hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
-
+	// 맵 2라는걸 알게하기위해서
 	Ellipse(hDC, 200, 100, g_WindowRect.right, g_WindowRect.bottom);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
