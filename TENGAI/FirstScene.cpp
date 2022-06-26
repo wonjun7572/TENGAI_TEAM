@@ -50,7 +50,7 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 	}
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster>::Create());
 	}
@@ -80,13 +80,18 @@ int CFirstScene::Update(void)
 				{
 					Safe_Delete<CObj*>(*iter);
 					iter = m_ObjList[i].erase(iter);
+					if (i != OBJ_BULLET_PLAYER && i !=OBJ_BULLET_MONSTER && i!=OBJ_BULLET_BOSSMONSTER)
+					{
+						m_IScore += 1;
+					}
+					
 				}
 				// 플레이어가 죽었을떄
 				else if (i == OBJ_PLAYER && iEvent == OBJ_DEAD)
 				{
 					Safe_Delete<CObj*>(*iter);
 					iter = m_ObjList[i].erase(iter);
-					return 99;
+					return EXIT;
 				}
 				else
 				{
@@ -101,67 +106,69 @@ int CFirstScene::Update(void)
 
 void CFirstScene::LateUpdate(void)
 {
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
 
-	
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
-		CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
-		CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
-		CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
-		CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-
-		for (int i = 0; i < OBJ_END; i++)
+	for (int i = 0; i < OBJ_END; i++)
+	{
+		for (auto& obj : m_ObjList[i])
 		{
-			for (auto& obj : m_ObjList[i])
-			{
-				obj->LateUpdate();
-			}
+			obj->LateUpdate();
 		}
 	}
+
+}
 
 
 
 int CFirstScene::Render(HDC hDC)
 {
-	
+	TCHAR		szBuff2[32] = L"";
+	RECT	rc2{ 600, 100, 800, 200 };
+	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
+	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
 		
 
-		for (int i = 0; i < OBJ_END; i++)
+	for (int i = 0; i < OBJ_END; i++)
+	{
+		for (auto& obj : m_ObjList[i])
 		{
-			for (auto& obj : m_ObjList[i])
-			{
-				obj->Render(hDC);
-			}
+			obj->Render(hDC);
+		}
+	}
+
+	// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
+	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
+	{
+		if (m_dwTimer + 3000 < GetTickCount())
+		{
+			m_bStageClear = true;
+
 		}
 
-		// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
-		if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
-		{
-			if (m_dwTimer + 3000 < GetTickCount())
-			{
-				m_bStageClear = true;
+	}
 
-			}
+	if (m_bStageClear)
+	{
+		return SCENE_NAME_SECOND;
+	}
 
-		}
+	else
+	{
+		return SCENE_NAME_FIRST;
+	}
 
-		if (m_bStageClear)
-		{
-			return SCENE_NAME_SECOND;
-		}
 
-		else
-		{
-			return SCENE_NAME_FIRST;
-		}
-	
-	
 
 
 	
@@ -169,10 +176,5 @@ int CFirstScene::Render(HDC hDC)
 void CFirstScene::Release(void)
 {
 	
-		for (int i = 0; i < OBJ_END; ++i)
-		{
-			for_each(m_ObjList[i].begin(), m_ObjList[i].end(), Safe_Delete<CObj*>);
-			m_ObjList[i].clear();
-		}
 	
 }

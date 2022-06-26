@@ -10,7 +10,7 @@
 #define			OBJ_DEAD	1
 
 #define			DEGREE_TO_RADIAN PI/180
-
+#define			EXIT		99
 extern			HWND		g_hWnd;
 
 extern			RECT		g_WindowRect;

@@ -19,13 +19,17 @@ public:
 	void		Render(void);
 	void		Release(void);
 
+
+
 private:
-	HDC			m_hDC;
-	list<CObj*> *	m_ObjList;
-	list<CScene*> m_SceneList[SCENE_NAME_END];
+	HDC				m_hDC;
+	list<CObj*>*	m_ObjList;
+	list<CScene*>   m_SceneList[SCENE_NAME_END];
 	
 	SCENE_NAME    m_eScene;
+	int			 m_iPrevFlow;
 	int			 m_iFlow;
 	
-	int			m_IEXIT = 0;
+	int			m_IEXIT;
+	int			iScore ;
 };

@@ -17,45 +17,56 @@ public:
 
 public:
 	list<CObj*>*	Get_ObjList() { return m_ObjList; }
-	void			Set_ObjList(list<CObj*>& temp) 
-	{
+	void			Set_ObjList(list<CObj*>& temp) {
 		*m_ObjList = temp;
-		//memcpy(m_ObjList, &temp, sizeof(temp.size()));
-
-		
-		/*for (int i = 0; i < OBJ_END; ++i)
-		{
-			for (auto iter = temp.begin(); iter != temp.end();)
-			{
-				Safe_Delete<CObj*>(*iter);
-				iter = temp.erase(iter);
-			}
-		}
-*/
-
 	}	
 	const bool			GetStageClear() const { return m_bStageClear; }
 	void				SetStageClear(bool _bStageClear) { m_bStageClear = _bStageClear; }
 
 public:
+	const int		Get_Score() { return m_IScore; }
+	void			Set_Score(int _iScore) { m_IScore = _iScore; }
+public:
 	CScene();
-	//CScene(list<CObj*> _temp);
-	
-	//CScene(list<CObj*>	&rhs)
-	//{
-	////	memcpy(m_ObjList, &rhs, sizeof(rhs.size()));
-	//}
-
-	CScene(const CScene &rhs)
+	CScene(list<CObj*>* temp)
 	{
-		
+		list<CObj*>*  new_ObjList = new list<CObj*>;
 
+		memcpy(new_ObjList, &temp, sizeof(temp));
+
+		*m_ObjList = *new_ObjList;
 	}
 
+	CScene(int i)
+	{
 
+		i = 0;
+		/*list<CObj*>*  new_ObjList = new list<CObj*>;
+
+		memcpy(new_ObjList, &temp, sizeof(temp));
+
+		*m_ObjList = *new_ObjList;*/
+	}
+
+	/*CScene(list<CObj*> temp)
+	{
+		list<CObj*>*  new_ObjList = new list<CObj*>;
+
+		memcpy(new_ObjList, &temp, sizeof(temp));
+		
+		*m_ObjList = *new_ObjList;
+
+	}*/
+	//CScene(CScene & rhs)
+	//{
+	//	
+
+
+	//}
 	virtual ~CScene();
 
-
+protected:
+	int				m_IScore;
 
 
 protected:

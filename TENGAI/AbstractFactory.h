@@ -30,11 +30,10 @@ public:
 	{
 		CScene* pScene = new T;
 		pScene->Initialize();
-		
-		
-	
 		return pScene;
+
 	}
+
 	static CScene* Create_Scene(list<CObj*> temp )
 	{
 		CScene* pScene = new T;
@@ -43,6 +42,18 @@ public:
 
 		return pScene;
 	}
+
+
+
+	static CScene* Create_Scene_test(T cs)
+	{
+		CScene* pScene = new T(cs);
+		pScene->Set_ObjList(temp);
+		pScene->Initialize();
+
+		return pScene;
+	}
+
 
 	CAbstractFactory() {}
 

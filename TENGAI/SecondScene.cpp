@@ -12,6 +12,20 @@
 #include "Monster_Level_03.h"
 #include "Monster_Level_04.h"
 #include "Monster_Level_05.h"
+#include "BossMonster.h"
+
+
+CSecondScene::CSecondScene()
+{
+
+}
+
+
+CSecondScene::~CSecondScene()
+{
+	Release();
+}
+
 
 void CSecondScene::Initialize(void)
 {
@@ -35,6 +49,17 @@ void CSecondScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 	}
 
+	for (int i = 0; i < 1; ++i)
+	{
+		m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster>::Create());
+	}
+
+	for (auto& iter = m_ObjList[OBJ_BOSSMONSTER].begin(); iter != m_ObjList[OBJ_BOSSMONSTER].end(); ++iter)
+	{
+		dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+	}
+
+
 	m_dwTimer = GetTickCount();
 }
 
@@ -48,11 +73,24 @@ int CSecondScene::Update(void)
 
 			int iEvent = (*iter)->Update();
 
-			if (iEvent == OBJ_DEAD)
+			if (iEvent == OBJ_DEAD && i == OBJ_PLAYER)
 			{
 				Safe_Delete<CObj*>(*iter);
 				iter = m_ObjList[i].erase(iter);
+				return EXIT;
+			
 			}
+
+			else if (iEvent == OBJ_DEAD)
+			{
+				Safe_Delete<CObj*>(*iter);
+				iter = m_ObjList[i].erase(iter);
+				if (i != OBJ_BULLET_PLAYER && i != OBJ_BULLET_MONSTER && i != OBJ_BULLET_BOSSMONSTER)
+				{
+					m_IScore += 1;
+				}
+			}
+
 			else
 			{
 				iter++;
@@ -74,12 +112,6 @@ void CSecondScene::LateUpdate(void)
 		}
 	}
 
-}
-
-int CSecondScene::Render(HDC hDC)
-{
-	// 맵 2라는걸 알게하기위해서
-	Ellipse(hDC, 200, 100, g_WindowRect.right, g_WindowRect.bottom);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
@@ -93,6 +125,20 @@ int CSecondScene::Render(HDC hDC)
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
+
+}
+
+int CSecondScene::Render(HDC hDC)
+{
+	// 맵 2라는걸 알게하기위해서
+	Ellipse(hDC, 200, 100, g_WindowRect.right, g_WindowRect.bottom);
+
+
+
+	TCHAR		szBuff2[32] = L"";
+	RECT	rc2{ 600, 100, 800, 200 };
+	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
+	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
 
 	for (int i = 0; i < OBJ_END; i++)
 	{
@@ -125,20 +171,5 @@ int CSecondScene::Render(HDC hDC)
 
 void CSecondScene::Release(void)
 {
-	for (int i = 0; i < OBJ_END; ++i)
-	{
-		for_each(m_ObjList[i].begin(), m_ObjList[i].end(), Safe_Delete<CObj*>);
-		m_ObjList[i].clear();
-	}
 }
 
-CSecondScene::CSecondScene()
-{
-
-}
-
-
-CSecondScene::~CSecondScene()
-{
-	Release();
-}
