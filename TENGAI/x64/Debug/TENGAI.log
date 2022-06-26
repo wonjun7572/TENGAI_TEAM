@@ -1,4 +1,12 @@
-﻿  FirstScene.cpp
-c:\users\administrator\documents\github\tengai_team\tengai\firstscene.cpp(40): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  TENGAI.vcxproj -> C:\Users\Administrator\Documents\GitHub\TENGAI_TEAM\x64\Debug\TENGAI.exe
-  TENGAI.vcxproj -> C:\Users\Administrator\Documents\GitHub\TENGAI_TEAM\x64\Debug\TENGAI.pdb (Full PDB)
+﻿  Monster_Level_05.cpp
+c:\users\sam51\desktop\cpp\tengai_team\tengai\monster_level_05.cpp(74): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sam51\desktop\cpp\tengai_team\tengai\monster_level_05.cpp(75): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Monster_Level_04.cpp
+c:\users\sam51\desktop\cpp\tengai_team\tengai\monster_level_04.cpp(100): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sam51\desktop\cpp\tengai_team\tengai\monster_level_04.cpp(101): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Monster_Level_03.cpp
+  Monster_Level_02.cpp
+  Monster_Level_01.cpp
+  코드를 생성하고 있습니다...
+  TENGAI.vcxproj -> C:\Users\sam51\Desktop\CPP\TENGAI_TEAM\x64\Debug\TENGAI.exe
+  TENGAI.vcxproj -> C:\Users\sam51\Desktop\CPP\TENGAI_TEAM\x64\Debug\TENGAI.pdb (Full PDB)

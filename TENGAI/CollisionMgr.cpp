@@ -45,13 +45,13 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 				//  플레이어랑 몬스터가 충돌했을 땐 몬스터 사라지고 플레이어 체력 1 감소
 				if ((Dest->GetOBJID() == OBJ_PLAYER))
 				{
-					Dest->SetHp(1);
-					Sour->SetDead();
+					Dest->HpDown();
+					Sour->KillObj();
 				}
 				else
 				{
-					Dest->SetHp(1);
-					Sour->SetHp(1);
+					Dest->HpDown();
+					Sour->HpDown();
 				}
 				/*
 				if (Dest->GetOBJID() == OBJ_PLAYER)
@@ -94,7 +94,7 @@ void CCollisionMgr::CollisionWall(list<CObj*> _Dest)
 	{
 		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect_MonsterHouse))
 		{
-			Dest->SetDead();
+			Dest->HpDown();
 		}
 	}
 }

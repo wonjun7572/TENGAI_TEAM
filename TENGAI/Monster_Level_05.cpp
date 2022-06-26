@@ -79,14 +79,7 @@ void CMonster_Level_05::Release(void)
 {
 }
 
-void CMonster_Level_05::CreateItem()
-{
-	m_pItem->push_back(CAbstractFactory<CAddHpItem>::Create(m_tInfo.fX, m_tInfo.fY));
-	for (auto& iter = m_pItem->begin(); iter != m_pItem->end(); ++iter)
-	{
-		dynamic_cast<CItem*>(*iter)->SetPlayer(m_pPlayer->front());
-	}
-}
+
 
 void CMonster_Level_05::Attack()
 {

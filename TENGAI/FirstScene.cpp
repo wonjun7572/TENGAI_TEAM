@@ -3,6 +3,7 @@
 #include "AbstractFactory.h"
 
 #include "Obj.h"
+#include "Pet.h"
 #include "Player.h"
 #include "Monster.h"
 #include "Monster_Level_01.h"
@@ -14,6 +15,7 @@
 #include "Bullet.h"
 #include "Item.h"
 #include "CollisionMgr.h"
+
 
 CFirstScene::CFirstScene()
 {
@@ -34,9 +36,13 @@ void CFirstScene::Initialize(void)
 	
 	// 플레이어 충돌 시 하트 제거를 위해 아이디 값을 COBJ에 만듦
 	m_ObjList[OBJ_PLAYER].front()->SetObjID(OBJ_PLAYER);
+	m_ObjList[OBJ_PET].push_back(CAbstractFactory<CPet>::Create());
 
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
+	dynamic_cast<CPet*>(m_ObjList[OBJ_PET].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+	dynamic_cast<CPet*>(m_ObjList[OBJ_PET].front())->Set_Player(&m_ObjList[OBJ_PLAYER]);
+
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
 	for (int i = 0; i < 5; ++i)
 	{
@@ -50,6 +56,7 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 	}
 	
 
@@ -138,6 +145,7 @@ void CFirstScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
 
 			break;
@@ -153,6 +161,7 @@ void CFirstScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
 			break;
 		case LEVEL_04:
@@ -167,6 +176,7 @@ void CFirstScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
 			break;
 		case LEVEL_05:
@@ -182,6 +192,7 @@ void CFirstScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
 			m_dwTimer = GetTickCount();
 			break;

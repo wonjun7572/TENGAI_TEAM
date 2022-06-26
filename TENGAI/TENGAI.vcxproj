@@ -148,6 +148,9 @@
   <ItemGroup>
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="AddHpItem.h" />
+    <ClInclude Include="AddPetPowerUp.h" />
+    <ClInclude Include="AddPowerUpItem.h" />
+    <ClInclude Include="AddUltimateItem.h" />
     <ClInclude Include="BossMonster.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CollisionMgr.h" />
@@ -166,6 +169,7 @@
     <ClInclude Include="Monster_Level_05.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Pet.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -175,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddHpItem.cpp" />
+    <ClCompile Include="AddPetPowerUp.cpp" />
+    <ClCompile Include="AddPowerUpItem.cpp" />
+    <ClCompile Include="AddUltimateItem.cpp" />
     <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
@@ -195,6 +202,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Pet.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SecondScene.cpp" />

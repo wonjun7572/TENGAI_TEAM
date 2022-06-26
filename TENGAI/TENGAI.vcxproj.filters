@@ -65,6 +65,9 @@
     <Filter Include="01. Object\01. Monster\06. BossMonster">
       <UniqueIdentifier>{36b5a6e5-9024-4abe-81ad-cd0f9f2addc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\04. Pet">
+      <UniqueIdentifier>{0d870010-e116-4180-851a-05b833d0189c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -145,6 +148,18 @@
     <ClInclude Include="BossMonster.h">
       <Filter>01. Object\01. Monster\06. BossMonster</Filter>
     </ClInclude>
+    <ClInclude Include="AddPetPowerUp.h">
+      <Filter>01. Object\03.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="AddPowerUpItem.h">
+      <Filter>01. Object\03.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="AddUltimateItem.h">
+      <Filter>01. Object\03.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Pet.h">
+      <Filter>01. Object\04. Pet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -203,6 +218,18 @@
     </ClCompile>
     <ClCompile Include="BossMonster.cpp">
       <Filter>01. Object\01. Monster\06. BossMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="AddPetPowerUp.cpp">
+      <Filter>01. Object\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="AddPowerUpItem.cpp">
+      <Filter>01. Object\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="AddUltimateItem.cpp">
+      <Filter>01. Object\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Pet.cpp">
+      <Filter>01. Object\04. Pet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

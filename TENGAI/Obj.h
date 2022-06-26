@@ -16,8 +16,9 @@ public:
 	virtual void	LateUpdate(void)	PURE;
 	virtual void	Render(HDC hDC)		PURE;
 	virtual void	Release(void)		PURE;
-	virtual void	SetHp(int i)		PURE;
-	virtual void	SetDead()			PURE;
+
+	virtual void	HpDown() { m_tStat.Hp--; }
+	virtual void	KillObj() { m_dead = true; }
 
 public:
 	const RECT		GetRect() const  { return m_tRect; }

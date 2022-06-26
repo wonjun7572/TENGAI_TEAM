@@ -11,4 +11,6 @@ typedef struct tagInfo
 typedef struct tagStat
 {
 	int Hp;
+	int BulletCount;
+	int UltimateCount;
 }STAT;

@@ -19,7 +19,9 @@ void CPlayer::Initialize(void)
 	m_tInfo = { 400.f, 400.f, 30.f, 90.f };
 	m_fSpeed = 10.f;
 	m_dwTimer = GetTickCount();
-	m_tStat = { 3 };
+	m_tStat.Hp = 3;
+	m_tStat.UltimateCount = 1;
+	m_tStat.BulletCount = 1;
 }
 
 int CPlayer::Update(void)
@@ -37,7 +39,7 @@ int CPlayer::Update(void)
 	bShooting = false;
 	Key_Input();
 
- 	Update_Rect();
+	Update_Rect();
 	return OBJ_NOEVENT;
 }
 
@@ -111,6 +113,15 @@ void CPlayer::Render(HDC hDC)
 	for (int i = 0; i < m_tStat.Hp; i++)
 	{
 		Rectangle(hDC, (10 + (i * 50)), 10, (50 + (i * 50)), 50);
+		WCHAR szBuff[32] = L"HP";
+		TextOut(hDC, (10 + (i * 50)), 10, szBuff, lstrlen(szBuff));
+	}
+
+	for (int i = 0; i < m_tStat.UltimateCount; i++)
+	{
+		Rectangle(hDC, (10 + (i * 50)), 60, (50 + (i * 50)), 100);
+		WCHAR szBuff[32] = L"Ultimate";
+		TextOut(hDC, (10 + (i * 50)), 60, szBuff, lstrlen(szBuff));
 	}
 }
 
@@ -188,8 +199,34 @@ void CPlayer::Key_Input(void)
 		bShooting = true;
 		if (m_dwTimer < GetTickCount())
 		{
-			m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
-			m_dwTimer = GetTickCount() + 50;
+			for (int i = 1; i < m_tStat.BulletCount + 1; i++)
+			{
+				m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_RIGHT));
+			}
+			m_dwTimer = GetTickCount() + 200;
+		}
+	}
+
+	if (GetAsyncKeyState(VK_CONTROL))
+	{
+		if (m_tStat.UltimateCount != 0)
+		{
+			if (m_dwTimer < GetTickCount())
+			{
+				for (int i = 0; i < 10; ++i)
+				{
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN));
+					m_dwTimer = GetTickCount() + (50 * i);
+				}
+				m_tStat.UltimateCount--;
+			}
 		}
 	}
 }

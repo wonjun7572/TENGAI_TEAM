@@ -19,7 +19,10 @@ void CAddHpItem::Initialize(void)
 int CAddHpItem::Update(void)
 {
 	if (m_dead == true)
+	{
+		dynamic_cast<CPlayer*>(GetPlayer())->HpUP();
 		return OBJ_DEAD;
+	}
 
 	m_tInfo.fX -= m_fSpeed;
 
@@ -30,10 +33,8 @@ int CAddHpItem::Update(void)
 
 void CAddHpItem::LateUpdate(void)
 {
-	if (CollisionCheck(GetPlayer()->GetRect(), m_tRect) && GetCheck() == false)
+	if (CollisionCheck(GetPlayer()->GetRect(), m_tRect))
 	{
-		SetCheck();
-		dynamic_cast<CPlayer*>(GetPlayer())->SetHp(-1);
 		m_dead = OBJ_DEAD;
 	}
 }

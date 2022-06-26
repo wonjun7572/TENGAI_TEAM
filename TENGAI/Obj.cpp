@@ -8,6 +8,7 @@ CObj::CObj() : m_eDir(DIR_END), m_dead(false), m_eObjID(OBJ_END)
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
 	ZeroMemory(&m_tStat, sizeof(STAT));
+	srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 CObj::~CObj()

@@ -7,21 +7,18 @@ class CItem :
 {
 public:
 	virtual void SetPlayer(CObj* pPlayer) { m_pPlayer = pPlayer; }
+	virtual void SetPet(CObj* pPet) { m_pPet = pPet; }
 
 	virtual void Initialize(void)	 PURE;
 	virtual int  Update(void)	     PURE;
 	virtual void LateUpdate(void)	 PURE;
 	virtual void Render(HDC hDC)	 PURE;
 	virtual void Release(void)		 PURE;
-	virtual void SetHp(int i)		 { m_tStat.Hp -= i; }
-	virtual void SetDead()			 { m_dead = true; }
 
+	CObj* GetPet() { return m_pPet; }
 	CObj* GetPlayer() { return m_pPlayer; }
 
 	virtual bool CollisionCheck(RECT r1, RECT r2) PURE;
-
-	void SetCheck() { m_bCheck = true; }
-	bool GetCheck() { return m_bCheck; }
 
 public:
 	CItem();
@@ -29,6 +26,7 @@ public:
 
 private:
 	bool	m_bCheck;
+	CObj*	m_pPet;
 	CObj*	m_pPlayer;
 };
 
