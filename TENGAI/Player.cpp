@@ -24,8 +24,15 @@ void CPlayer::Initialize(void)
 
 int CPlayer::Update(void)
 {
+	if (m_tStat.Hp <= 0)
+	{
+		m_dead = OBJ_DEAD;
+	}
+
 	if (m_dead)
+	{
 		return OBJ_DEAD;
+	}
 
 	bShooting = false;
 	Key_Input();

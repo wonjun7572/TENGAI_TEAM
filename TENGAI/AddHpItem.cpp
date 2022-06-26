@@ -33,7 +33,7 @@ void CAddHpItem::LateUpdate(void)
 	if (CollisionCheck(GetPlayer()->GetRect(), m_tRect) && GetCheck() == false)
 	{
 		SetCheck();
-		dynamic_cast<CPlayer*>(GetPlayer())->setHp(-1);
+		dynamic_cast<CPlayer*>(GetPlayer())->SetHp(-1);
 		m_dead = OBJ_DEAD;
 	}
 }

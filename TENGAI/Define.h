@@ -14,3 +14,5 @@
 extern			HWND		g_hWnd;
 
 extern			RECT		g_WindowRect;
+
+extern			RECT		g_WindowRect_MonsterHouse;

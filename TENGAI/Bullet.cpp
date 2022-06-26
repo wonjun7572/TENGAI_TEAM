@@ -16,12 +16,20 @@ void CBullet::Initialize(void)
 	m_tInfo.fCX = 10.f;
 	m_tInfo.fCY = 10.f;
 	m_fSpeed = 5.f;
+	m_tStat = { 1 };
 }
 
 int CBullet::Update(void)
 {
+	if (m_tStat.Hp <= 0)
+	{
+		m_dead = OBJ_DEAD;
+	}
+
 	if (m_dead)
+	{
 		return OBJ_DEAD;
+	}
 
 	switch (m_eDir)
 	{
@@ -52,6 +60,10 @@ int CBullet::Update(void)
 	case DIR_RIGHTDOWN:
 		m_tInfo.fX += m_fSpeed / sqrtf(2.f);
 		m_tInfo.fY += m_fSpeed / sqrtf(2.f);
+		break;
+	case DIR_CHASE:
+		m_tInfo.fX += (m_fSpeed * m_fCos) / sqrtf(2.f);
+		m_tInfo.fY += (m_fSpeed * m_fSin) / sqrtf(2.f);
 		break;
 	}
 

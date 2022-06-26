@@ -13,6 +13,8 @@ public:
 	virtual void LateUpdate(void)	 PURE;
 	virtual void Render(HDC hDC)	 PURE;
 	virtual void Release(void)		 PURE;
+	virtual void SetHp(int i)		 { m_tStat.Hp -= i; }
+	virtual void SetDead()			 { m_dead = true; }
 
 	CObj* GetPlayer() { return m_pPlayer; }
 

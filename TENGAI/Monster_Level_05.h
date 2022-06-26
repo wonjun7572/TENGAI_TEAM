@@ -17,6 +17,8 @@ public:
 private:
 	virtual void CreateItem();
 	virtual void Attack();
+	virtual void SetHp(int i) { m_tStat.Hp -= i; }
+	virtual void SetDead() { m_dead = true; }
 
 };
 

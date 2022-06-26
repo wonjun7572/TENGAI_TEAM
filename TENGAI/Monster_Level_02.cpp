@@ -17,7 +17,8 @@ void CMonster_Level_02::Initialize(void)
 {
 	m_tInfo = { 700.f,500.f,50.f,30.f };
 	m_fSpeed = 2.f;
-	m_dwTimer = GetTickCount();
+	m_dwTimer2 = GetTickCount();
+	m_tStat = { 3 };
 }
 
 int CMonster_Level_02::Update(void)
@@ -27,7 +28,12 @@ int CMonster_Level_02::Update(void)
 		return OBJ_DEAD;
 	}
 
-	m_tInfo.fX += m_fSpeed * iReverse;
+	if (m_tStat.Hp <= 0)
+	{
+		m_dead = OBJ_DEAD;
+	}
+
+	m_tInfo.fX -= m_fSpeed;
 
 	Attack();
 
@@ -38,10 +44,10 @@ int CMonster_Level_02::Update(void)
 
 void CMonster_Level_02::LateUpdate(void)
 {
-	if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
-	{
-		iReverse *= -1;
-	}
+	//if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
+	//{
+	//	iReverse *= -1;
+	//}
 	if (m_dead)
 	{
 		CreateItem();
@@ -68,11 +74,9 @@ void CMonster_Level_02::CreateItem()
 
 void CMonster_Level_02::Attack()
 {
-	if (m_dwTimer < GetTickCount())
+	if (m_dwTimer2 < GetTickCount())
 	{
 		m_pBullet_Monster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
-		m_pBullet_Monster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
-		m_pBullet_Monster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN));
-		m_dwTimer = (GetTickCount() + 2000);
+		m_dwTimer2 = (GetTickCount() + 1000);
 	}
 }

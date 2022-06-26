@@ -13,7 +13,8 @@ public:
 	virtual void LateUpdate(void) override;
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
-
+	virtual void SetHp(int i) { m_tStat.Hp -= i; }
+	virtual void SetDead() { m_dead = true; }
 
 public:
 	void getMonsterList(list<CObj*>* _pMonster) {
