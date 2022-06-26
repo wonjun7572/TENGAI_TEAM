@@ -38,10 +38,11 @@ void CFirstScene::Initialize(void)
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(rand() % 500 + 100, rand() % 500 + 50));
+		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_01>::Create(850, 100 + (i * 100)));
 	}
+	m_iStage = LEVEL_02;
 	// 몬스터 한마리마다 iterator 돌려서 Set_Bullet_Monster 해주므로써 몬스터도 총알 가지게 함
 	for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
 	{
@@ -50,15 +51,7 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 	}
-	for (int i = 0; i < 3; ++i)
-	{
-		m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster>::Create());
-	}
-
-	for (auto& iter = m_ObjList[OBJ_BOSSMONSTER].begin(); iter != m_ObjList[OBJ_BOSSMONSTER].end(); ++iter)
-	{
-		dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-	}
+	
 
 	m_dwTimer = GetTickCount();
 }
@@ -114,9 +107,10 @@ void CFirstScene::LateUpdate(void)
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
 	for (int i = 0; i < OBJ_END; i++)
@@ -127,6 +121,81 @@ void CFirstScene::LateUpdate(void)
 		}
 	}
 
+	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
+	{
+		switch (m_iStage)
+		{
+		case LEVEL_02:
+			//m_iStage = LEVEL_03;
+			m_iStage = LEVEL_END;
+			for (int i = 0; i < 5; ++i)
+			{
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
+			}
+			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
+			{
+				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+			}
+
+			break;
+		case LEVEL_03:
+			m_iStage = LEVEL_04;
+			for (int i = 0; i < 5; ++i)
+			{
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(850, 100 + (i * 100)));
+			}
+			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
+			{
+				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+			}
+			break;
+		case LEVEL_04:
+			m_iStage = LEVEL_05;
+			for (int i = 0; i < 5; ++i)
+			{
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_04>::Create(850, 100 + (i * 100)));
+			}
+			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
+			{
+				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+			}
+			break;
+		case LEVEL_05:
+			m_iStage = LEVEL_END;
+
+			for (int i = 0; i < 5; ++i)
+			{
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_05>::Create(850, 100 + (i * 100)));
+			}
+			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
+			{
+				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+			}
+			m_dwTimer = GetTickCount();
+			break;
+		case LEVEL_END:
+			if (m_dwTimer + 15000 < GetTickCount())
+			{
+				m_bStageClear = true;
+			}
+			break;
+		}
+
+	}
+
+	// 보스 잡은 후 겟틱을 수정해야된다.
 }
 
 
@@ -147,16 +216,9 @@ int CFirstScene::Render(HDC hDC)
 		}
 	}
 
-	// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
-	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
-	{
-		if (m_dwTimer + 3000 < GetTickCount())
-		{
-			m_bStageClear = true;
 
-		}
 
-	}
+
 
 	if (m_bStageClear)
 	{
@@ -167,6 +229,45 @@ int CFirstScene::Render(HDC hDC)
 	{
 		return SCENE_NAME_FIRST;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
+	//if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
+	//{
+	//	if (m_dwTimer + 1000 < GetTickCount())
+	//	{
+	//		m_bStageClear = true;
+
+	//	}
+
+	//}
+
+	//if (m_bStageClear)
+	//{
+	//	return SCENE_NAME_SECOND;
+	//}
+
+	//else
+	//{
+	//	return SCENE_NAME_FIRST;
+	//}
 
 
 
