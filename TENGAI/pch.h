@@ -16,5 +16,6 @@
 #include <list>
 #include <algorithm>
 #include <time.h>
+#include <math.h>
 
 using namespace std;

@@ -67,6 +67,7 @@ void CMonster_Level_01::CreateItem()
 	}
 }
 
+
 void CMonster_Level_01::Attack()
 {
 	if (m_dwTimer < GetTickCount())
