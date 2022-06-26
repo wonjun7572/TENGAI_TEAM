@@ -29,10 +29,23 @@ public:
 	{
 		CScene* pScene = new T;
 		pScene->Initialize();
+		
+		
+	
+		return pScene;
+	}
+	static CScene* Create_Scene(list<CObj*> temp )
+	{
+		CScene* pScene = new T;
+		pScene->Set_ObjList(temp);
+		pScene->Initialize();
+
+		
+
+		
 
 		return pScene;
 	}
-
 
 	CAbstractFactory() {}
 

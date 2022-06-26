@@ -29,7 +29,7 @@ void CFirstScene::Initialize(void)
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster>::Create(rand() % 500 + 100, rand() % 500 + 50));
 	}
@@ -108,10 +108,18 @@ int CFirstScene::Render(HDC hDC)
 	}
 
 	if (m_bStageClear)
+	{
+		/*for (int i = 1; i < OBJ_END; ++i)
+		{
+			m_ObjList[i].clear();
+		}*/
 		return SCENE_NAME_SECOND;
+	}
+		
 	else
+	{
 		return SCENE_NAME_FIRST;
-
+	}
 }
 void CFirstScene::Release(void)
 {

@@ -40,11 +40,9 @@ void CMainGame::Update(void)
 	
 	case SCENE_NAME_SECOND:
 		if(m_SceneList[SCENE_NAME_SECOND].empty())
-			m_SceneList[SCENE_NAME_SECOND].push_back(CAbstractFactory<CSecondScene>::Create_Scene());
+			m_SceneList[SCENE_NAME_SECOND].push_back(CAbstractFactory<CSecondScene>::Create_Scene(*m_ObjList));
 		
-		m_SceneList[SCENE_NAME_SECOND].front()->Set_ObjList(*m_ObjList);
-		//m_SceneList[SCENE_NAME_SECOND].front()->Update();
-
+		//m_SceneList[SCENE_NAME_SECOND].front()->Set_ObjList(*m_ObjList);
 		break;
 	default:
 		break;
@@ -69,6 +67,7 @@ void CMainGame::Render(void)
 	m_iFlow = m_SceneList[m_iTemp].front()->Render(m_hDC);
 
 	
+
 
 }
 
