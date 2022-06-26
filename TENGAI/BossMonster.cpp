@@ -18,7 +18,8 @@ void CBossMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f,50.f,50.f };
 	m_fSpeed = 1.5f;
-	iBoss_Hp = 50;
+	m_tStat = { 50 };
+	//iBoss_Hp = 50;
 
 	m_dwTimer = GetTickCount();
 }
@@ -28,10 +29,14 @@ int CBossMonster::Update(void)
 	fCos = (fAngle * DEGREE_TO_RADIAN);
 	fSin = (fAngle * DEGREE_TO_RADIAN);
 
-
 	if (m_dead)
 	{
 		return OBJ_DEAD;
+	}
+
+	if (m_tStat.Hp <= 0)
+	{
+		m_dead = OBJ_DEAD;
 	}
 
 	/*m_tInfo.fX += m_fSpeed * iReverse;
@@ -42,9 +47,6 @@ int CBossMonster::Update(void)
 	fAngle += 1;
 	if (fAngle >= 360)
 		fAngle = 0;
-
-
-
 
 	Attack();
 

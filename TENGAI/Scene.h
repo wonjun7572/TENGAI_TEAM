@@ -62,6 +62,7 @@ protected:
 	list<CObj*>		m_ObjList[OBJ_END];
 	DWORD			m_dwTimer;
 	bool			m_bStageClear;
+	int				m_iStage;
 
 };
 

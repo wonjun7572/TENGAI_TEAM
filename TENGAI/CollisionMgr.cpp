@@ -2,6 +2,8 @@
 #include "CollisionMgr.h"
 #include "Obj.h"
 #include "Player.h"
+#include "Monster.h"
+#include "Monster_Level_01.h"
 
 CCollisionMgr::CCollisionMgr()
 {
@@ -23,15 +25,12 @@ void CCollisionMgr::CollisionRect(list<CObj*> _Dest, list<CObj*> _Sour)
 	{
 		for (auto &Sour : _Sour)
 		{
-			Dest->SetDead(true);
-			Sour->SetDead(true);
+			//Dest->SetDead(true);
+			//Sour->SetDead(true);
 		}
 	}
 
 }
-
-
-
 
 void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 {
@@ -43,15 +42,43 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 		{
 			if (CheckSphere(Dest, Sour))
 			{
-				if (Dest->GetOBJID() == OBJ_PLAYER || Sour->GetOBJID() == OBJ_PLAYER)
+				//  플레이어랑 몬스터가 충돌했을 땐 몬스터 사라지고 플레이어 체력 1 감소
+				if ((Dest->GetOBJID() == OBJ_PLAYER))
 				{
-					static_cast<CPlayer*>(Dest)->setHp(1);
+					Dest->SetHp(1);
+					Sour->SetDead();
 				}
 				else
 				{
-					Dest->SetDead(true);
+					Dest->SetHp(1);
+					Sour->SetHp(1);
 				}
+				/*
+				if (Dest->GetOBJID() == OBJ_PLAYER)
+				{
+				static_cast<CPlayer*>(Dest)->setHp(1);
+				}
+				if (Sour->GetOBJID() == OBJ_PLAYER)
+				{
+				static_cast<CPlayer*>(Sour)->setHp(1);
+				}
+				if (Dest->GetOBJID() == OBJ_MONSTER)
+				{
+				static_cast<CMonster_Level_01*>(Dest)->setHp(1);
+				}
+				if (Sour->GetOBJID() == OBJ_MONSTER)
+				{
+				static_cast<CMonster_Level_01*>(Sour)->setHp(1);
+				}
+				if(Dest->GetOBJID() != OBJ_PLAYER
+				|| Sour->GetOBJID() != OBJ_PLAYER
+				|| Dest->GetOBJID() != OBJ_MONSTER
+				|| Sour->GetOBJID() != OBJ_MONSTER)
+				{
+				Dest->SetDead(true);
 				Sour->SetDead(true);
+				}
+				*/
 			}
 		}
 
@@ -65,9 +92,9 @@ void CCollisionMgr::CollisionWall(list<CObj*> _Dest)
 {
 	for (auto& Dest : _Dest)
 	{
-		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect))
+		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect_MonsterHouse))
 		{
-			Dest->SetDead(true);
+			Dest->SetDead();
 		}
 	}
 }

@@ -19,6 +19,8 @@ public:
 	virtual void LateUpdate(void)PURE;
 	virtual void Render(HDC hDC)PURE;
 	virtual void Release(void)PURE;
+	virtual void SetHp(int i)PURE;
+	virtual void SetDead()PURE;
 
 protected:
 	virtual void CreateItem()PURE;
