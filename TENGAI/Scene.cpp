@@ -3,6 +3,7 @@
 
 
 CScene::CScene()
+	:m_bStageClear(false) , m_dwTimer(0)
 {
 }
 

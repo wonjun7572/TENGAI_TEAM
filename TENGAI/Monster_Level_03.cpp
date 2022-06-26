@@ -27,6 +27,7 @@ int CMonster_Level_03::Update(void)
 {
 	if (m_dead)
 	{
+		CreateItem();
 		return OBJ_DEAD;
 	}
 
@@ -76,7 +77,7 @@ void CMonster_Level_03::LateUpdate(void)
 	//if(CCollisionMgr::CollisionWall(m_tRect))
 	if (m_dead)
 	{
-		CreateItem();
+		//CreateItem();
 	}
 }
 

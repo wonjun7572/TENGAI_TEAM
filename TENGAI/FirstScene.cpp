@@ -28,14 +28,17 @@ CFirstScene::~CFirstScene()
 void CFirstScene::Initialize(void)
 {
 	// 플레이어 비어있을떄만 생성
-	m_ObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create());
+	if(m_ObjList[OBJ_PLAYER].empty())
+		m_ObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create());
+	
+	
 	// 플레이어 충돌 시 하트 제거를 위해 아이디 값을 COBJ에 만듦
 	m_ObjList[OBJ_PLAYER].front()->SetObjID(OBJ_PLAYER);
 
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(rand() % 500 + 100, rand() % 500 + 50));
 	}
@@ -53,6 +56,8 @@ void CFirstScene::Initialize(void)
 	{
 		dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 	}
+
+	m_dwTimer = GetTickCount();
 }
 
 int CFirstScene::Update(void)
@@ -120,17 +125,18 @@ int CFirstScene::Render(HDC hDC)
 	}
 
 	// 여기서 몬스터레벨 5가 사이즈가 0이면 다음 스테이지로 가는것 지금은 몬스터숫자 0이면 클리어
-	if (0 == m_ObjList[OBJ_MONSTER].size())
+	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size())
 	{
-		m_bStageClear = true;
+		if (m_dwTimer + 3000 < GetTickCount())
+		{
+			m_bStageClear = true;	
+
+		}
+
 	}
 
 	if (m_bStageClear)
 	{
-		/*for (int i = 1; i < OBJ_END; ++i)
-		{
-			m_ObjList[i].clear();
-		}*/
 		return SCENE_NAME_SECOND;
 	}
 		
