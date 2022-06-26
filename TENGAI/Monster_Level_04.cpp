@@ -2,6 +2,7 @@
 #include "Monster_Level_04.h"
 #include "Item.h"
 #include "AddHpItem.h"
+#include "Bullet.h"
 
 CMonster_Level_04::CMonster_Level_04()
 {
@@ -26,8 +27,6 @@ int CMonster_Level_04::Update(void)
 		return OBJ_DEAD;
 	}
 
-	m_tInfo.fX += m_fSpeed * iReverse;
-
 	Attack();
 
 	Update_Rect();
@@ -50,6 +49,8 @@ void CMonster_Level_04::LateUpdate(void)
 void CMonster_Level_04::Render(HDC hDC)
 {
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
+	LineTo(hDC, m_tInfo.fX + (100 * fCos), m_tInfo.fY + (100 * fSin));
 }
 
 void CMonster_Level_04::Release(void)
@@ -67,4 +68,9 @@ void CMonster_Level_04::CreateItem()
 
 void CMonster_Level_04::Attack()
 {
+	float X = (m_pPlayer->front()->GetInfo().fX) - m_tInfo.fX;
+	float Y = (m_pPlayer->front()->GetInfo().fY) - m_tInfo.fY;
+	fAtan = atan2f(Y, X);
+	fCos = cos(fAtan);
+	fSin = sin(fAtan);
 }

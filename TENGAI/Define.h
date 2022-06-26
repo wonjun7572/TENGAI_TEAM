@@ -9,6 +9,8 @@
 #define			OBJ_NOEVENT 0
 #define			OBJ_DEAD	1
 
+#define			RADIAN		PI/180
+
 extern			HWND		g_hWnd;
 
 extern			RECT		g_WindowRect;

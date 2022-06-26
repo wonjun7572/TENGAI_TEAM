@@ -17,9 +17,6 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
-
-
-
 public:
 	void	setHp(int i) { m_tStat.Hp -= i; }
 
