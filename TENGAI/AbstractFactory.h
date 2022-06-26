@@ -2,6 +2,7 @@
 
 #include "Obj.h"
 #include "Scene.h"
+#include "Monster.h"
 
 template<typename T>
 class CAbstractFactory
@@ -39,10 +40,6 @@ public:
 		CScene* pScene = new T;
 		pScene->Set_ObjList(temp);
 		pScene->Initialize();
-
-		
-
-		
 
 		return pScene;
 	}

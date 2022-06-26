@@ -9,7 +9,7 @@
 #define			OBJ_NOEVENT 0
 #define			OBJ_DEAD	1
 
-#define			RADIAN		PI/180
+#define			DEGREE_TO_RADIAN PI/180
 
 extern			HWND		g_hWnd;
 

@@ -62,6 +62,9 @@
     <Filter Include="01. Object\01. Monster\05. Level_05">
       <UniqueIdentifier>{be4a04ed-fabd-4cb4-a436-3439790b6325}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\01. Monster\06. BossMonster">
+      <UniqueIdentifier>{36b5a6e5-9024-4abe-81ad-cd0f9f2addc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -139,6 +142,9 @@
     <ClInclude Include="Monster_Level_05.h">
       <Filter>01. Object\01. Monster\05. Level_05</Filter>
     </ClInclude>
+    <ClInclude Include="BossMonster.h">
+      <Filter>01. Object\01. Monster\06. BossMonster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -194,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="Monster_Level_05.cpp">
       <Filter>01. Object\01. Monster\05. Level_05</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>01. Object\01. Monster\06. BossMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

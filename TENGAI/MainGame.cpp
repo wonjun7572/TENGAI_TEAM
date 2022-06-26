@@ -23,7 +23,8 @@ CMainGame::~CMainGame()
 void CMainGame::Initialize(void)
 {
 	m_hDC = GetDC(g_hWnd);
-
+	
+	// 비어있을때만 생성하고 아니면 생성안하게 하고
 	m_SceneList[SCENE_NAME_FIRST].push_back(CAbstractFactory<CFirstScene>::Create_Scene());
 
 	
@@ -66,7 +67,7 @@ void CMainGame::Render(void)
 	int			 m_iTemp	= m_iFlow;
 	m_iFlow = m_SceneList[m_iTemp].front()->Render(m_hDC);
 
-	
+	// 
 
 
 }

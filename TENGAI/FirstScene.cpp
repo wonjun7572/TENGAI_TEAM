@@ -10,6 +10,7 @@
 #include "Monster_Level_03.h"
 #include "Monster_Level_04.h"
 #include "Monster_Level_05.h"
+#include "BossMonster.h"
 #include "Bullet.h"
 #include "Item.h"
 #include "CollisionMgr.h"
@@ -26,7 +27,7 @@ CFirstScene::~CFirstScene()
 
 void CFirstScene::Initialize(void)
 {
-
+	// 플레이어 비어있을떄만 생성
 	m_ObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create());
 	// 플레이어 충돌 시 하트 제거를 위해 아이디 값을 COBJ에 만듦
 	m_ObjList[OBJ_PLAYER].front()->SetObjID(OBJ_PLAYER);
@@ -36,7 +37,7 @@ void CFirstScene::Initialize(void)
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
 	for (int i = 0; i < 1; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_04>::Create(rand() % 500 + 100, rand() % 500 + 50));
+		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(rand() % 500 + 100, rand() % 500 + 50));
 	}
 	// 몬스터 한마리마다 iterator 돌려서 Set_Bullet_Monster 해주므로써 몬스터도 총알 가지게 함
 	for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
@@ -45,6 +46,12 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
+	}
+
+	m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster>::Create());
+	for (auto& iter = m_ObjList[OBJ_BOSSMONSTER].begin(); iter != m_ObjList[OBJ_BOSSMONSTER].end(); ++iter)
+	{
+		dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 	}
 }
 
@@ -80,12 +87,16 @@ void CFirstScene::LateUpdate(void)
 {
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
 	
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
 	for (int i = 0; i < OBJ_END; i++)
 	{
