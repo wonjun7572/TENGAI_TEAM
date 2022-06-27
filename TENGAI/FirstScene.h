@@ -16,7 +16,7 @@ public:
 public:
 	CFirstScene();
 	CFirstScene(list<CObj*>* temp);
-	//CFirstScene(list<CObj*> temp);
+
 	virtual ~CFirstScene();
 };
 

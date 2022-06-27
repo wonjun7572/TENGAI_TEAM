@@ -28,12 +28,6 @@ CSecondScene::CSecondScene(list<CObj*>* temp)
 	m_bStageClear =false;
 }
 
-//CSecondScene::CSecondScene(list<CObj*> temp)
-//	: CScene(temp)
-//{
-//}
-//
-
 CSecondScene::~CSecondScene()
 {
 	Release();
@@ -42,10 +36,6 @@ CSecondScene::~CSecondScene()
 
 void CSecondScene::Initialize(void)
 {
-
-
-
-//	m_ObjList[OBJ_PET].push_back(CAbstractFactory<CPet>::Create());
 
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
 	for (int i = 0; i < 5; ++i)
@@ -62,7 +52,7 @@ void CSecondScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 		
 	}
-	m_iStage = LEVEL_END;
+	m_iStage = LEVEL_02;
 	
 
 	m_dwTimer = GetTickCount();
@@ -124,6 +114,9 @@ void CSecondScene::LateUpdate(void)
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PET], m_ObjList[OBJ_MONSTER]);
+
+
 
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
@@ -134,7 +127,7 @@ void CSecondScene::LateUpdate(void)
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PET]);
 
 	if(0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size())
 	{

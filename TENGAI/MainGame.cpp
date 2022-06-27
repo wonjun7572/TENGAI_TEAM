@@ -181,15 +181,14 @@ void CMainGame::Release(void)
 	
 	for (int i = 0; i < OBJ_END; ++i)
 	{
-		for (list<CObj*>::iterator iter = m_ObjList[i].begin();
-			iter != m_ObjList[i].end();)
+		for (auto iter = m_ObjList[i].begin(); iter != m_ObjList[i].end(); )
 		{
-			Safe_Delete<CObj*>(*iter);
 			iter = m_ObjList[i].erase(iter);
-
 		}
+		m_ObjList[i].clear();
 	}
 
+	m_ObjList->clear();
 	
 	Safe_Delete<CScene*>(m_SceneList);
 

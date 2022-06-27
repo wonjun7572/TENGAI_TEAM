@@ -66,8 +66,8 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 	}
-	m_iStage = LEVEL_END;
-
+	m_iStage = LEVEL_02;
+	//m_iStage = LEVEL_END;
 	m_dwTimer = GetTickCount();
 }
 
@@ -118,6 +118,8 @@ void CFirstScene::LateUpdate(void)
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PET], m_ObjList[OBJ_MONSTER]);
+
 
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
@@ -127,7 +129,7 @@ void CFirstScene::LateUpdate(void)
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PET]);
 	for (int i = 0; i < OBJ_END; i++)
 	{
 		for (auto& obj : m_ObjList[i])
@@ -142,7 +144,7 @@ void CFirstScene::LateUpdate(void)
 		{
 		case LEVEL_02:
 			//m_iStage = LEVEL_03;
-			m_iStage = LEVEL_END;
+			m_iStage = LEVEL_03;
 			for (int i = 0; i < 5; ++i)
 			{
 				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
