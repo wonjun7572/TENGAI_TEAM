@@ -41,10 +41,6 @@ void CMainGame::Initialize(void)
 	m_SceneList = CAbstractFactory<CFirstScene>::Create_Scene();
 }
 
-	
-	
-
-
 void CMainGame::Update(void)
 {
 	if (m_IEXIT == EXIT)
@@ -178,12 +174,9 @@ void CMainGame::Render(void)
 	m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
 	PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
 
-
 	m_iPrevFlow = m_iFlow;
 	m_iFlow = m_SceneList->Render(m_hDC);
 	
-	
-
 	if (m_iFlow != m_iPrevFlow)
 	{
 		for (int i = 0; i < OBJ_END; ++i)
@@ -191,7 +184,7 @@ void CMainGame::Render(void)
 			m_ObjList[i].assign(m_SceneList->Get_ObjList()[i].begin(), (m_SceneList->Get_ObjList()[i].end()));
 		}
 
-		for (int i = 1; i < OBJ_END; ++i)
+		for (int i = 1; i <= OBJ_BOSSMONSTER2; ++i)
 		{
 			if (m_ObjList[i].size() == 0)
 				for (auto& iter : m_ObjList[i])
@@ -233,7 +226,6 @@ void CMainGame::Release(void)
 	
 	Safe_Delete<CScene*>(m_SceneList);
 
-
-
 	ReleaseDC(g_hWnd, m_hDC);
+	ReleaseDC(g_hWnd, m_hMemDC);
 }

@@ -88,12 +88,12 @@ void CBossMonster::LateUpdate(void)
 
 void CBossMonster::Render(HDC hDC)
 {
-	//m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
-	//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	//SelectObject(hDC, m_tStat.hOldBrush);
-	//DeleteObject(m_tStat.hNewBrush);
+	SelectObject(hDC, m_tStat.hOldBrush);
+	DeleteObject(m_tStat.hNewBrush);
 }
 
 void CBossMonster::Release(void)

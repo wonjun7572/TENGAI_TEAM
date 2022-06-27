@@ -19,9 +19,9 @@ void CPlayer::Initialize(void)
 	m_tInfo = { 400.f, 400.f, 30.f, 90.f };
 	m_fSpeed = 10.f;
 	m_dwTimer = GetTickCount();
-	m_tStat.Hp = 3;
+	m_tStat.Hp = 1;
 	m_tStat.UltimateCount = 1;
-	m_tStat.BulletCount = 1;
+	m_tStat.BulletCount = 10;
 }
 
 int CPlayer::Update(void)
@@ -69,12 +69,11 @@ void CPlayer::Render(HDC hDC)
 
 	if (bShooting == false)
 	{
-		//m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
-		//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom - 60.f);
-		//SelectObject(hDC, m_tStat.hOldBrush);
-		//DeleteObject(m_tStat.hNewBrush);
-		//DeleteObject(m_tStat.hOldBrush);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
 
 		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 15.f, nullptr);
 		LineTo(hDC, m_tInfo.fX, m_tInfo.fY + 15.f);
@@ -122,11 +121,11 @@ void CPlayer::Render(HDC hDC)
 
 	for (int i = 0; i < m_tStat.Hp; i++)
 	{
-		//m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
-		//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Rectangle(hDC, (10 + (i * 50)), 10, (50 + (i * 50)), 50);
-		//SelectObject(hDC, m_tStat.hOldBrush);
-		//DeleteObject(m_tStat.hNewBrush);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
 
 
 		WCHAR szBuff[32] = L"HP";
@@ -135,11 +134,11 @@ void CPlayer::Render(HDC hDC)
 
 	for (int i = 0; i < m_tStat.UltimateCount; i++)
 	{
-		//m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
-		//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Rectangle(hDC, (10 + (i * 50)), 60, (50 + (i * 50)), 100);
-		//SelectObject(hDC, m_tStat.hOldBrush);
-		//DeleteObject(m_tStat.hNewBrush);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
 
 		WCHAR szBuff[32] = L"Ultimate";
 		TextOut(hDC, (10 + (i * 50)), 60, szBuff, lstrlen(szBuff));

@@ -17,21 +17,21 @@ public:
 		return pObj;
 	}
 
-	static CObj* Create(float _fX, float _fY, DIR _dir=DIR_END ,OBJID _ID =OBJ_END)
+	static CObj* Create(float _fX, float _fY, DIR _dir=DIR_END ,OBJID _ID = OBJ_END)
 	{
 		CObj* pObj = new T;
+		pObj->SetObjID(_ID);
 		pObj->Initialize();
 		pObj->Set_Pos(_fX, _fY, _dir);
-		pObj->SetObjID(_ID);
 		return pObj;
 	}
 
 	static CObj* Create_ChaseBullet(float _fX, float _fY, float _fCos, float _fSin, DIR _dir = DIR_END, OBJID _ID = OBJ_END)
 	{
 		CObj* pObj = new T;
+		pObj->SetObjID(_ID);
 		pObj->Initialize();
 		pObj->Set_Pos(_fX, _fY, _dir, _fCos, _fSin);
-		pObj->SetObjID(_ID);
 		return pObj;
 	}
 

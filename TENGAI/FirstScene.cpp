@@ -140,10 +140,6 @@ void CFirstScene::LateUpdate(void)
 
 	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
 	{
-		m_ObjList[OBJ_MONSTER].clear();
-		m_ObjList[OBJ_BULLET_PLAYER].clear();
-		m_ObjList[OBJ_BULLET_MONSTER].clear();
-
 		switch (m_iStage)
 		{
 		case LEVEL_02:
@@ -227,8 +223,6 @@ void CFirstScene::LateUpdate(void)
 
 	// 보스 잡은 후 겟틱을 수정해야된다.
 }
-
-
 
 int CFirstScene::Render(HDC hDC)
 {
