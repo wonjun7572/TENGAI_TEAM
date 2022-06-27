@@ -135,7 +135,7 @@ void CFirstScene::LateUpdate(void)
 		{
 		case LEVEL_02:
 			//m_iStage = LEVEL_03;
-			m_iStage = LEVEL_BOSS;
+			m_iStage = LEVEL_END;
 			for (int i = 0; i < 5; ++i)
 			{
 				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
@@ -198,7 +198,7 @@ void CFirstScene::LateUpdate(void)
 			m_dwTimer = GetTickCount();
 			break;
 
-		case LEVEL_BOSS:
+	/*	case LEVEL_BOSS:
 			m_iStage = LEVEL_END;
 
 			m_ObjList[OBJ_BOSSMONSTER2].push_back(CAbstractFactory<CBossMonster2>::Create(750, 300));
@@ -211,7 +211,7 @@ void CFirstScene::LateUpdate(void)
 			}
 
 			m_dwTimer = GetTickCount();
-			break;
+			break;*/
 
 		case LEVEL_END:
 			if (m_dwTimer + 15000 < GetTickCount())
@@ -234,7 +234,6 @@ int CFirstScene::Render(HDC hDC)
 	RECT	rc2{ 600, 100, 800, 200 };
 	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
 	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
-		
 
 	for (int i = 0; i < OBJ_END; i++)
 	{
@@ -243,10 +242,6 @@ int CFirstScene::Render(HDC hDC)
 			obj->Render(hDC);
 		}
 	}
-
-
-
-
 
 	if (m_bStageClear)
 	{
@@ -257,22 +252,6 @@ int CFirstScene::Render(HDC hDC)
 	{
 		return SCENE_NAME_FIRST;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

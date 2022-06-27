@@ -25,19 +25,17 @@ CMainGame::~CMainGame()
 void CMainGame::Initialize(void)
 {
 	m_hDC = GetDC(g_hWnd);
-	
+	m_hMemDC = GetDC(g_hWnd);
+
 	// 비어있을때만 생성하고 아니면 생성안하게 하고
 	m_SceneList[SCENE_NAME_FIRST].push_back(CAbstractFactory<CFirstScene>::Create_Scene());
 	m_ObjList = m_SceneList[m_iFlow].front()->Get_ObjList();
-	
-	
 }
 
 void CMainGame::Update(void)
 {
 	if (m_IEXIT == EXIT)
 		return;
-	
 
 	switch (m_iFlow)
 	{
@@ -89,8 +87,6 @@ void CMainGame::Update(void)
 	m_IEXIT = m_SceneList[m_iFlow].front()->Update();
 }
 
-
-
 void CMainGame::LateUpdate(void)
 {
 	if (m_IEXIT == EXIT)
@@ -104,8 +100,14 @@ void CMainGame::LateUpdate(void)
 
 void CMainGame::Render(void)
 {
-	Rectangle(m_hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
+	m_hDC = CreateCompatibleDC(m_hMemDC);
+	m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
+	m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
+	PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
 
+	Rectangle(m_hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
+	
+	// 지금 이 부분 Ending Scene 만들어서 넣어줘야함.
 	if (m_IEXIT == EXIT)
 	{
 		TCHAR		szBuff[32] = L"끝났습니다.";
@@ -123,14 +125,14 @@ void CMainGame::Render(void)
 		return;
 
 	}
-
+	
 	m_iPrevFlow = m_iFlow;
 	m_iFlow = m_SceneList[m_iPrevFlow].front()->Render(m_hDC);
 	m_ObjList = m_SceneList[m_iPrevFlow].front()->Get_ObjList();
-	
+	BitBlt(m_hMemDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, m_hDC, 0, 0, SRCCOPY);
+	SelectObject(m_hDC, m_bitOldBack);
+	DeleteObject(m_bitBack);
 }
-	
-
 
 void CMainGame::Release(void)
 {
@@ -145,10 +147,6 @@ void CMainGame::Release(void)
 		for_each(m_SceneList[i].begin(), m_SceneList[i].end(), Safe_Delete<CScene*>);
 		m_SceneList[i].clear();
 	}
-
-	
-
-
 
 	ReleaseDC(g_hWnd, m_hDC);
 }

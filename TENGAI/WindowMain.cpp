@@ -11,7 +11,9 @@
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+
 HWND	g_hWnd;
+
 RECT	g_WindowRect = { 0,0,WINCX,WINCY };
 RECT	g_WindowRect_MonsterHouse = { 0,0,WINCX + 100,WINCY};
 

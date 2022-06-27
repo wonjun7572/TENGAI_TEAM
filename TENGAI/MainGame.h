@@ -19,10 +19,13 @@ public:
 	void		Render(void);
 	void		Release(void);
 
-
-
 private:
 	HDC				m_hDC;
+	HDC				m_hMemDC;
+
+	HBITMAP			m_bitBack;
+	HBITMAP			m_bitOldBack;
+
 	list<CObj*>*	m_ObjList;
 	list<CScene*>   m_SceneList[SCENE_NAME_END];
 	
