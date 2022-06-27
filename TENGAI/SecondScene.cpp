@@ -12,6 +12,7 @@
 #include "Monster_Level_03.h"
 #include "Monster_Level_04.h"
 #include "Monster_Level_05.h"
+#include "BossMonster2.h"
 #include "Pet.h"
 #include "BossMonster.h"
 
@@ -130,7 +131,7 @@ void CSecondScene::LateUpdate(void)
 		switch (m_iStage)
 		{
 		case LEVEL_02:
-			m_iStage = LEVEL_03;
+			m_iStage = LEVEL_BOSS;
 			for (int i = 0; i < 5; ++i)
 			{
 				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
@@ -191,9 +192,26 @@ void CSecondScene::LateUpdate(void)
 			m_dwTimer = GetTickCount();
 			break;
 
-		case LEVEL_END:
+		case LEVEL_BOSS:
+			m_iStage = LEVEL_END;
 
-	
+			m_ObjList[OBJ_BOSSMONSTER2].push_back(CAbstractFactory<CBossMonster>::Create(750, 300));
+
+			for (auto& iter = m_ObjList[OBJ_BOSSMONSTER2].begin(); iter != m_ObjList[OBJ_BOSSMONSTER2].end(); ++iter)
+			{
+				dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER2]);
+				dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+
+			}
+
+			m_dwTimer = GetTickCount();
+			break;
+
+		case LEVEL_END:
+			if (m_dwTimer + 15000 < GetTickCount())
+			{
+				m_bStageClear = false;
+			}
 			break;
 		}
 	}

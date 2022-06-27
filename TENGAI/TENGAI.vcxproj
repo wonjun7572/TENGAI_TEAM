@@ -152,6 +152,7 @@
     <ClInclude Include="AddPowerUpItem.h" />
     <ClInclude Include="AddUltimateItem.h" />
     <ClInclude Include="BossMonster.h" />
+    <ClInclude Include="BossMonster2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Define.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="AddPowerUpItem.cpp" />
     <ClCompile Include="AddUltimateItem.cpp" />
     <ClCompile Include="BossMonster.cpp" />
+    <ClCompile Include="BossMonster2.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="FirstScene.cpp" />

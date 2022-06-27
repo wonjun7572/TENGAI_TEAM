@@ -25,19 +25,10 @@ private:
 	void Attack();
 
 private:
-	int	iBoss_Hp;
 	int iReverse;
 	int iReverse2;
 	list<CObj*>*	m_pBullet_Player;
 	list<CObj*>*	m_pBullet_BossMonster;
-
-
-
-
-private:	//	패턴 중복 방지용 bool변수
-	bool bPattern_A;
-	bool bPattern_B;
-	bool bPattern_C;
 
 private:	// 앵글, cos, sin 필요한 변수.
 	float	fAngle;

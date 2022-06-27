@@ -12,6 +12,7 @@
 #include "Monster_Level_04.h"
 #include "Monster_Level_05.h"
 #include "BossMonster.h"
+#include "BossMonster2.h"
 #include "Bullet.h"
 #include "Item.h"
 #include "CollisionMgr.h"
@@ -134,7 +135,7 @@ void CFirstScene::LateUpdate(void)
 		{
 		case LEVEL_02:
 			//m_iStage = LEVEL_03;
-			m_iStage = LEVEL_END;
+			m_iStage = LEVEL_BOSS;
 			for (int i = 0; i < 5; ++i)
 			{
 				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
@@ -180,7 +181,7 @@ void CFirstScene::LateUpdate(void)
 			}
 			break;
 		case LEVEL_05:
-			m_iStage = LEVEL_END;
+			m_iStage = LEVEL_BOSS;
 
 			for (int i = 0; i < 5; ++i)
 			{
@@ -196,6 +197,22 @@ void CFirstScene::LateUpdate(void)
 			}
 			m_dwTimer = GetTickCount();
 			break;
+
+		case LEVEL_BOSS:
+			m_iStage = LEVEL_END;
+
+			m_ObjList[OBJ_BOSSMONSTER2].push_back(CAbstractFactory<CBossMonster2>::Create(750, 300));
+
+			for (auto& iter = m_ObjList[OBJ_BOSSMONSTER2].begin(); iter != m_ObjList[OBJ_BOSSMONSTER2].end(); ++iter)
+			{
+				dynamic_cast<CBossMonster2*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER2]);
+				dynamic_cast<CBossMonster2*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+
+			}
+
+			m_dwTimer = GetTickCount();
+			break;
+
 		case LEVEL_END:
 			if (m_dwTimer + 15000 < GetTickCount())
 			{
