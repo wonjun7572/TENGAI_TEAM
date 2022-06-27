@@ -75,15 +75,18 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 				if ((Dest->GetOBJID() == OBJ_PLAYER))
 				{
 					Dest->HpDown();
-					Sour->KillObj();
+					if ((Sour->GetOBJID() == OBJ_BULLET_MONSTER))
+						Sour->HpDown();
+					else
+						Sour->KillObj();
 				}
 				else
 				{
-					if (Sour->GetStat().Hp == 0)
-					{
+					//if (Sour->GetStat().Hp == 0)
+					//{
 						//Sour->SetSpeed(Dest->GetSpeed() * -1.f);
-						break;
-					}
+					//	continue;
+					//}
 					Dest->HpDown();
 					Sour->HpDown();
 				}
@@ -127,6 +130,16 @@ void CCollisionMgr::CollisionWall(list<CObj*> _Dest)
 	for (auto& Dest : _Dest)
 	{
 		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect_MonsterHouse))
+		{
+			Dest->HpDown();
+		}
+	}
+}
+void CCollisionMgr::CollisionWall2(list<CObj*> _Dest)
+{
+	for (auto& Dest : _Dest)
+	{
+		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect))
 		{
 			Dest->HpDown();
 		}

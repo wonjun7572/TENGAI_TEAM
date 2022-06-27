@@ -97,11 +97,11 @@ void CMonster_Level_04::Render(HDC hDC)
 	// 아크탄젠트는 두 점 사이의 상대적인 거리를 측정하는 방식으로
 	// 마이너스 좌표계로 이동해도 연산이 가능하다!!
 	// https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=h2ohyukhyuk&logNo=140181926921
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+	//m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
+	//SelectObject(hDC, m_tStat.hOldBrush);
+	//DeleteObject(m_tStat.hNewBrush);
 
 	MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
 	LineTo(hDC, m_tInfo.fX + (100 * m_fCos), m_tInfo.fY + (100 * m_fSin));

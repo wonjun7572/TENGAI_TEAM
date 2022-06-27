@@ -88,10 +88,10 @@ int CFirstScene::Update(void)
 				{
 					Safe_Delete<CObj*>(*iter);
 					iter = m_ObjList[i].erase(iter);
-					if (i != OBJ_BULLET_PLAYER && i !=OBJ_BULLET_MONSTER && i!=OBJ_BULLET_BOSSMONSTER)
-					{
-						m_IScore += 1;
-					}
+					//if (i != OBJ_BULLET_PLAYER && i !=OBJ_BULLET_MONSTER && i!=OBJ_BULLET_BOSSMONSTER)
+					//{
+					//	m_IScore += 1;
+					//}
 					
 				}
 				// 플레이어가 죽었을떄
@@ -118,18 +118,18 @@ void CFirstScene::LateUpdate(void)
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PET], m_ObjList[OBJ_MONSTER]);
-
 
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PET]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PET]);
+	
 	for (int i = 0; i < OBJ_END; i++)
 	{
 		for (auto& obj : m_ObjList[i])
@@ -140,6 +140,10 @@ void CFirstScene::LateUpdate(void)
 
 	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size() && !m_ObjList[OBJ_PLAYER].empty())
 	{
+		m_ObjList[OBJ_MONSTER].clear();
+		m_ObjList[OBJ_BULLET_PLAYER].clear();
+		m_ObjList[OBJ_BULLET_MONSTER].clear();
+
 		switch (m_iStage)
 		{
 		case LEVEL_02:

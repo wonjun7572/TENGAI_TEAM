@@ -70,13 +70,13 @@ void CMonster_Level_05::LateUpdate(void)
 
 void CMonster_Level_05::Render(HDC hDC)
 {
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+	//m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
+	//SelectObject(hDC, m_tStat.hOldBrush);
+	//DeleteObject(m_tStat.hNewBrush);
 
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
 	LineTo(hDC, m_tInfo.fX + (100 * m_fCos), m_tInfo.fY + (100 * m_fSin));
 }

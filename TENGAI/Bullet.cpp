@@ -100,18 +100,20 @@ void CBullet::Render(HDC hDC)
 	if (m_bEffect)
 	{
 		m_fExplosion += 0.5;
-		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x77, 0x00));
-		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		//m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x77, 0x00));
+		//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Ellipse(hDC, m_tRect.left - m_fExplosion, m_tRect.top - m_fExplosion, m_tRect.right + m_fExplosion, m_tRect.bottom + m_fExplosion);
-		SelectObject(hDC, m_tStat.hOldBrush);
-		DeleteObject(m_tStat.hNewBrush);
+		//SelectObject(hDC, m_tStat.hOldBrush);
+		//DeleteObject(m_tStat.hNewBrush);
+
 	}
 	else
 	{
-		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		//m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-		SelectObject(hDC, m_tStat.hOldBrush);
-		DeleteObject(m_tStat.hNewBrush);
+		//SelectObject(hDC, m_tStat.hOldBrush);
+		//DeleteObject(m_tStat.hNewBrush);
+
 	}
 }
 

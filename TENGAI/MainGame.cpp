@@ -177,7 +177,7 @@ void CMainGame::Render(void)
 	m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
 	m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
 	PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
-	Rectangle(m_hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
+
 
 	m_iPrevFlow = m_iFlow;
 	m_iFlow = m_SceneList->Render(m_hDC);
@@ -194,6 +194,10 @@ void CMainGame::Render(void)
 		for (int i = 1; i < OBJ_END; ++i)
 		{
 			if (m_ObjList[i].size() == 0)
+				for (auto& iter : m_ObjList[i])
+				{
+					Safe_Delete<CObj*>(iter);
+				}
 				m_ObjList[i].clear();
 		}
 
