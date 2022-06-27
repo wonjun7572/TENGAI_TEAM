@@ -3,6 +3,7 @@
 #include "Obj.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Bullet.h"
 #include "Monster_Level_01.h"
 
 CCollisionMgr::CCollisionMgr()
@@ -20,11 +21,35 @@ void CCollisionMgr::CollisionRect(list<CObj*> _Dest, list<CObj*> _Sour)
 {
 
 
-
 	for (auto &Dest : _Dest)
 	{
 		for (auto &Sour : _Sour)
 		{
+			if (0 == Dest->GetStat().Hp)
+				continue;
+			if (0 == Sour->GetStat().Hp)
+				continue;
+
+
+			if (IntersectRect(&RECT(), &Dest->GetRect(), &Sour->GetRect()))
+			{
+				//  플레이어랑 몬스터가 충돌했을 땐 몬스터 사라지고 플레이어 체력 1 감소
+				if ((Dest->GetOBJID() == OBJ_PLAYER))
+				{
+					Dest->HpDown();
+					Sour->KillObj();
+				}
+				else
+				{
+					if (Sour->GetStat().Hp == 0)
+					{
+						//Sour->SetSpeed(Dest->GetSpeed() * -1.f);
+						break;
+					}
+					Dest->HpDown();
+					Sour->HpDown();
+				}
+			}
 			//Dest->SetDead(true);
 			//Sour->SetDead(true);
 		}
@@ -35,11 +60,15 @@ void CCollisionMgr::CollisionRect(list<CObj*> _Dest, list<CObj*> _Sour)
 void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 {
 
-
 	for (auto &Dest : _Dest)
 	{
 		for (auto &Sour : _Sour)
 		{
+			if (0 == Dest->GetStat().Hp)
+				continue;
+			if (0 == Sour->GetStat().Hp)
+				continue;
+
 			if (CheckSphere(Dest, Sour))
 			{
 				//  플레이어랑 몬스터가 충돌했을 땐 몬스터 사라지고 플레이어 체력 1 감소
@@ -50,6 +79,11 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 				}
 				else
 				{
+					if (Sour->GetStat().Hp == 0)
+					{
+						//Sour->SetSpeed(Dest->GetSpeed() * -1.f);
+						break;
+					}
 					Dest->HpDown();
 					Sour->HpDown();
 				}
@@ -99,6 +133,7 @@ void CCollisionMgr::CollisionWall(list<CObj*> _Dest)
 	}
 }
 
+
 bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 {
 	// c^2 = x^2 + y^2
@@ -124,4 +159,50 @@ bool CCollisionMgr::CheckSphere(CObj *_pTemp, CObj *_pSour)
 	float fRadius = static_cast<float>(_pTemp->GetInfo().fCX + _pSour->GetInfo().fCX)*0.5f;
 
 	return fDiagonal <= fRadius;
+}
+
+bool CCollisionMgr::CheckSphereAndRect(CObj * _pSphere, CObj * _pRect)
+{
+	if ((_pSphere->GetInfo().fX < _pRect->GetRect().left) &&
+		(fabs(_pSphere->GetInfo().fX - _pRect->GetRect().left) < fabs(_pSphere->GetInfo().fX + (_pSphere->GetInfo().fCX * 0.5f))))
+	{
+		return false;
+	}
+	else if ((_pSphere->GetInfo().fY < _pRect->GetRect().top) &&
+		(fabs(_pSphere->GetInfo().fY - _pRect->GetRect().top) < fabs(_pSphere->GetInfo().fY + (_pSphere->GetInfo().fCY * 0.5f))))
+	{
+		return false;
+	}
+	else if ((_pSphere->GetInfo().fX > _pRect->GetRect().right) &&
+		(fabs(_pSphere->GetInfo().fX - _pRect->GetRect().right) < fabs(_pSphere->GetInfo().fX + (_pSphere->GetInfo().fCX * 0.5f))))
+	{
+		return false;
+	}
+	else if ((_pSphere->GetInfo().fY > _pRect->GetRect().bottom) &&
+		(fabs(_pSphere->GetInfo().fY - _pRect->GetRect().bottom) < fabs(_pSphere->GetInfo().fY + (_pSphere->GetInfo().fCY * 0.5f))))
+	{
+		return false;
+	}
+
+	return false;
+}
+
+void CCollisionMgr::Collision_Sphere_Rect(list<CObj*> _pSphere, list<CObj*> _pRect)
+{
+	for (auto &Sphere : _pSphere)
+	{
+		for (auto &Rect : _pRect)
+		{
+			if (CheckSphereAndRect(Sphere, Rect))
+			{
+				if (0 >= Sphere->GetStat().Hp)
+					continue;
+				else
+				{
+					Sphere->HpDown();
+					Rect->HpDown();
+				}
+			}
+		}
+	}
 }

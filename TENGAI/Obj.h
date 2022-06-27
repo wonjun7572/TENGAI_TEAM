@@ -24,6 +24,7 @@ public:
 	const RECT		GetRect() const  { return m_tRect; }
 	const INFO		GetInfo() const { return m_tInfo; }
 	const OBJID		GetOBJID() const { return m_eObjID;}
+	const STAT&		GetStat() const { return m_tStat; }
 	void Set_Pos(float _fX, float _fY, DIR _dir = DIR_END, float _fCos = 0, float _fSin = 0)
 	{
 		m_tInfo.fX = _fX;

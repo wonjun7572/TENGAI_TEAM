@@ -20,9 +20,15 @@ public:
 	void getMonsterList(list<CObj*>* _pMonster) {
 		m_pMonster = _pMonster;
 	}
+	void SetEffect()
+	{
+		m_bEffect = true;
+		m_fSpeed = 0.f;
+	}
 
 private:
 	list<CObj*>*	m_pMonster;
-
+	bool			m_bEffect = false;
+	float			m_fExplosion = 0.f;
 };
 

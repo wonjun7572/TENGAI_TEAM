@@ -56,7 +56,11 @@ void CMonster_Level_02::LateUpdate(void)
 
 void CMonster_Level_02::Render(HDC hDC)
 {
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	SelectObject(hDC, m_tStat.hOldBrush);
+	DeleteObject(m_tStat.hNewBrush);
 }
 
 void CMonster_Level_02::Release(void)
@@ -69,7 +73,7 @@ void CMonster_Level_02::Attack()
 {
 	if (m_dwTimer2 < GetTickCount())
 	{
-		m_pBullet_Monster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
+		m_pBullet_Monster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_MONSTER));
 		m_dwTimer2 = (GetTickCount() + 1000);
 	}
 }

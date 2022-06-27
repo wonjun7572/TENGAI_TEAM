@@ -24,7 +24,9 @@ int CBullet::Update(void)
 {
 	if (m_tStat.Hp <= 0)
 	{
-		m_dead = OBJ_DEAD;
+		SetEffect();
+		if (10.f <= m_fExplosion)
+			m_dead = OBJ_DEAD;
 	}
 
 	if (m_dead)
@@ -75,12 +77,42 @@ int CBullet::Update(void)
 
 void CBullet::LateUpdate(void)
 {
-
+	if (m_eObjID == OBJ_BULLET_PLAYER)
+	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0x00, 0xff));
+	}
+	else if (m_eObjID == OBJ_BULLET_PET)
+	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0x00));
+	}
+	else if (m_eObjID == OBJ_BULLET_MONSTER)
+	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0xff, 0x00));
+	}
+	else if (m_eObjID == OBJ_BULLET_BOSSMONSTER)
+	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
+	}
 }
 
 void CBullet::Render(HDC hDC)
 {
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	if (m_bEffect)
+	{
+		m_fExplosion += 0.5;
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x77, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left - m_fExplosion, m_tRect.top - m_fExplosion, m_tRect.right + m_fExplosion, m_tRect.bottom + m_fExplosion);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
+	else
+	{
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
 }
 
 void CBullet::Release(void)

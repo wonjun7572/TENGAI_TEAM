@@ -88,10 +88,12 @@ void CBossMonster::LateUpdate(void)
 
 void CBossMonster::Render(HDC hDC)
 {
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-
-
+	SelectObject(hDC, m_tStat.hOldBrush);
+	DeleteObject(m_tStat.hNewBrush);
 }
 
 void CBossMonster::Release(void)
@@ -107,9 +109,9 @@ void CBossMonster::Attack()
 	// 몬스터 기준으로 3방향 총알 쏘는 패턴
 	if (m_dwTimer < GetTickCount() && (0 == (iRandomPattern % 3)) && (bPattern_A == false))
 	{
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BOSSMONSTER));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP, OBJ_BOSSMONSTER));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN, OBJ_BOSSMONSTER));
 		m_dwTimer = (GetTickCount() + 1000);
 
 		// 해당 bool변수가 true이면 다음 회전시 해당 패턴이 발생하지 않음

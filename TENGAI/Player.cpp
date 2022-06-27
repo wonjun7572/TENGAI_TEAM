@@ -69,7 +69,11 @@ void CPlayer::Render(HDC hDC)
 
 	if (bShooting == false)
 	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom - 60.f);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
 
 		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 15.f, nullptr);
 		LineTo(hDC, m_tInfo.fX, m_tInfo.fY + 15.f);
@@ -89,7 +93,11 @@ void CPlayer::Render(HDC hDC)
 	}
 	else if (bShooting == true)
 	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom - 60.f);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
 
 		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 15.f, nullptr);
 		LineTo(hDC, m_tInfo.fX, m_tInfo.fY + 15.f);
@@ -112,14 +120,24 @@ void CPlayer::Render(HDC hDC)
 
 	for (int i = 0; i < m_tStat.Hp; i++)
 	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Rectangle(hDC, (10 + (i * 50)), 10, (50 + (i * 50)), 50);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+
 		WCHAR szBuff[32] = L"HP";
 		TextOut(hDC, (10 + (i * 50)), 10, szBuff, lstrlen(szBuff));
 	}
 
 	for (int i = 0; i < m_tStat.UltimateCount; i++)
 	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Rectangle(hDC, (10 + (i * 50)), 60, (50 + (i * 50)), 100);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+
 		WCHAR szBuff[32] = L"Ultimate";
 		TextOut(hDC, (10 + (i * 50)), 60, szBuff, lstrlen(szBuff));
 	}
@@ -201,7 +219,7 @@ void CPlayer::Key_Input(void)
 		{
 			for (int i = 1; i < m_tStat.BulletCount + 1; i++)
 			{
-				m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_RIGHT));
+				m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_RIGHT, OBJ_BULLET_PLAYER));
 			}
 			m_dwTimer = GetTickCount() + 200;
 		}
@@ -215,14 +233,14 @@ void CPlayer::Key_Input(void)
 			{
 				for (int i = 0; i < 10; ++i)
 				{
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP));
-					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP, OBJ_BULLET_PLAYER));
+					m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN, OBJ_BULLET_PLAYER));
 					m_dwTimer = GetTickCount() + (50 * i);
 				}
 				m_tStat.UltimateCount--;
