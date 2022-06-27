@@ -8,6 +8,8 @@
 #include "FirstScene.h"
 #include "SecondScene.h"
 
+#include "Mouse.h"
+
 CMainGame::CMainGame()
 	: m_SceneList(nullptr)
 {
@@ -29,7 +31,10 @@ CMainGame::~CMainGame()
 void CMainGame::Initialize(void)
 {
 	m_hDC = GetDC(g_hWnd);
+	m_hMemDC = GetDC(g_hWnd);
 
+	m_mouse = new CMouse;
+	m_mouse->Initialize();
 	// 비어있을때만 생성하고 아니면 생성안하게 하고
 
 	//m_ObjList = m_SceneList->Get_ObjList();
@@ -124,25 +129,55 @@ void CMainGame::LateUpdate(void)
 
 void CMainGame::Render(void)
 {
-	Rectangle(m_hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
 
+	// 지금 이 부분 Ending Scene 만들어서 넣어줘야함.
 	if (m_IEXIT == EXIT)
 	{
+		m_hDC = CreateCompatibleDC(m_hMemDC);
+		m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
+		m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
+		PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
+		Ellipse(m_hDC, 200, 100, g_WindowRect.right, g_WindowRect.bottom);
+
+
+		m_mouse->Update();
+		m_mouse->Render(m_hDC);
+
+		if (m_mouse->GetRect().left >= 200 &&
+			m_mouse->GetRect().right <= g_WindowRect.right &&
+			m_mouse->GetRect().top >= 100 &&
+			m_mouse->GetRect().bottom <= g_WindowRect.bottom)
+		{
+			//마우스 충돌 되고있으면 render 바꿔주게 set함수 하나 만들어주기.
+			if (GetAsyncKeyState(VK_LBUTTON))
+			{
+				int a = 0;
+				// 종료 버튼 여기다 만들면 됨.
+			}
+		}
+
 		TCHAR		szBuff[32] = L"끝났습니다.";
 		RECT	rc{ 400, 300, 800, 200 };
 		RECT	rc2{ 600, 100, 800, 200 };
-		
+
 		TextOut(m_hDC, 50, 50, szBuff, lstrlen(szBuff));
-		
 
 		TCHAR		szBuff2[32] = L"";
 
 		swprintf_s(szBuff2, L"SCORE :  %d", iScore);
 		DrawText(m_hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
 
+		BitBlt(m_hMemDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, m_hDC, 0, 0, SRCCOPY);
+		SelectObject(m_hDC, m_bitOldBack);
+		DeleteObject(m_bitBack);
 		return;
-
 	}
+
+	m_hDC = CreateCompatibleDC(m_hMemDC);
+	m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
+	m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
+	PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
+	Rectangle(m_hDC, g_WindowRect.left, g_WindowRect.top, g_WindowRect.right, g_WindowRect.bottom);
 
 	m_iPrevFlow = m_iFlow;
 	m_iFlow = m_SceneList->Render(m_hDC);
@@ -170,7 +205,9 @@ void CMainGame::Render(void)
 		}
 	}
 	
-	
+	BitBlt(m_hMemDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, m_hDC, 0, 0, SRCCOPY);
+	SelectObject(m_hDC, m_bitOldBack);
+	DeleteObject(m_bitBack);
 	
 }
 	

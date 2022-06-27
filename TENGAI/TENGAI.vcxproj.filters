@@ -68,6 +68,9 @@
     <Filter Include="01. Object\04. Pet">
       <UniqueIdentifier>{0d870010-e116-4180-851a-05b833d0189c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\05. Mouse">
+      <UniqueIdentifier>{03e1558e-241a-4436-98ef-79bf4424476b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -160,6 +163,9 @@
     <ClInclude Include="Pet.h">
       <Filter>01. Object\04. Pet</Filter>
     </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>01. Object\05. Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -230,6 +236,9 @@
     </ClCompile>
     <ClCompile Include="Pet.cpp">
       <Filter>01. Object\04. Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>01. Object\05. Mouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,8 +23,13 @@ public:
 
 private:
 	HDC				m_hDC;
+	HDC				m_hMemDC;
+
+	HBITMAP			m_bitBack;
+	HBITMAP			m_bitOldBack;
 	list<CObj*>		m_ObjList[OBJ_END];
 	
+	CObj*			m_mouse;
 
 	CScene*  m_SceneList;
 	
