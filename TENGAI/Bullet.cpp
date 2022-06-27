@@ -17,6 +17,7 @@ void CBullet::Initialize(void)
 	m_tInfo.fCY = 10.f;
 	m_fSpeed = 5.f;
 	m_tStat = { 1 };
+	m_dwTimer = GetTickCount();
 }
 
 int CBullet::Update(void)

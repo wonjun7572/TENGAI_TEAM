@@ -6,9 +6,14 @@ class CPet :
 public:
 	CPet();
 	virtual ~CPet();
-
+	void Set_Bullet_Pet(list<CObj*>* pBullet) { m_pBullet_Pet = pBullet; }
 	void Set_Player(list<CObj*>* pPlayer) { m_pPlayer = pPlayer; }
-	void Set_Bullet_Player(list<CObj*>* pBullet) { m_pBullet_Player = pBullet; }
+	//void Set_Bullet_Player(list<CObj*>* pBullet) { m_pBullet_Player = pBullet; }
+	void set_bulletCOunt(int i) { 
+				
+		test = i;
+			}
+
 
 public:
 	virtual void Initialize(void) override;
@@ -20,7 +25,10 @@ public:
 	void	BulletCountUp() { m_tStat.BulletCount++; }
 
 	list<CObj*>*    m_pPlayer;
-	list<CObj*>*	m_pBullet_Player;
+	list<CObj*>*	m_pBullet_Pet;
+
+
+
 
 private:
 	int num = 0;
@@ -35,5 +43,9 @@ private:
 	float fAtan;
 	float fACos;
 	float fASin;
+
+	float m_int = 0;
+
+	float test = 0;
 };
 

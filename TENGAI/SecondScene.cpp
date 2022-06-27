@@ -7,12 +7,12 @@
 #include "Bullet.h"
 #include "Item.h"
 #include "CollisionMgr.h"
+#include "Monster.h"
 #include "Monster_Level_01.h"
 #include "Monster_Level_02.h"
 #include "Monster_Level_03.h"
 #include "Monster_Level_04.h"
 #include "Monster_Level_05.h"
-#include "BossMonster2.h"
 #include "Pet.h"
 #include "BossMonster.h"
 
@@ -22,6 +22,17 @@ CSecondScene::CSecondScene()
 
 }
 
+CSecondScene::CSecondScene(list<CObj*>* temp)
+	:CScene(temp)
+{
+	m_bStageClear =false;
+}
+
+//CSecondScene::CSecondScene(list<CObj*> temp)
+//	: CScene(temp)
+//{
+//}
+//
 
 CSecondScene::~CSecondScene()
 {
@@ -31,15 +42,10 @@ CSecondScene::~CSecondScene()
 
 void CSecondScene::Initialize(void)
 {
-	
-	m_ObjList[OBJ_PLAYER].front()->SetObjID(OBJ_PLAYER);
 
-	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
-	dynamic_cast<CPlayer*>(m_ObjList[OBJ_PLAYER].front())->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
-	m_ObjList[OBJ_PET].push_back(CAbstractFactory<CPet>::Create());
 
-	dynamic_cast<CPet*>(m_ObjList[OBJ_PET].front())->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
-	dynamic_cast<CPet*>(m_ObjList[OBJ_PET].front())->Set_Player(&m_ObjList[OBJ_PLAYER]);
+
+//	m_ObjList[OBJ_PET].push_back(CAbstractFactory<CPet>::Create());
 
 	// 초기 몬스터 숫자 나중에 업데이트 문에서 추가해야될듯? 시간초마다
 	for (int i = 0; i < 5; ++i)
@@ -54,8 +60,9 @@ void CSecondScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
+		
 	}
-	m_iStage = LEVEL_02;
+	m_iStage = LEVEL_END;
 	
 
 	m_dwTimer = GetTickCount();
@@ -71,15 +78,8 @@ int CSecondScene::Update(void)
 
 			int iEvent = (*iter)->Update();
 
-			if (iEvent == OBJ_DEAD && i == OBJ_PLAYER)
-			{
-				Safe_Delete<CObj*>(*iter);
-				iter = m_ObjList[i].erase(iter);
-				return EXIT;
-			
-			}
 
-			else if (iEvent == OBJ_DEAD)
+			if (iEvent == OBJ_DEAD && i != OBJ_PLAYER)
 			{
 				Safe_Delete<CObj*>(*iter);
 				iter = m_ObjList[i].erase(iter);
@@ -87,6 +87,14 @@ int CSecondScene::Update(void)
 				{
 					m_IScore += 1;
 				}
+
+			}
+			// 플레이어가 죽었을떄
+			else if (i == OBJ_PLAYER && iEvent == OBJ_DEAD)
+			{
+				Safe_Delete<CObj*>(*iter);
+				iter = m_ObjList[i].erase(iter);
+				return EXIT;
 			}
 
 			else
@@ -106,7 +114,9 @@ void CSecondScene::LateUpdate(void)
 		for (auto& obj : m_ObjList[i])
 		{
 
-			obj->LateUpdate();
+			
+				obj->LateUpdate();
+			
 		}
 	}
 
@@ -131,7 +141,7 @@ void CSecondScene::LateUpdate(void)
 		switch (m_iStage)
 		{
 		case LEVEL_02:
-			m_iStage = LEVEL_BOSS;
+			m_iStage = LEVEL_03;
 			for (int i = 0; i < 5; ++i)
 			{
 				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
@@ -192,39 +202,22 @@ void CSecondScene::LateUpdate(void)
 			m_dwTimer = GetTickCount();
 			break;
 
-		case LEVEL_BOSS:
-			m_iStage = LEVEL_END;
-
-			m_ObjList[OBJ_BOSSMONSTER2].push_back(CAbstractFactory<CBossMonster>::Create(750, 300));
-
-			for (auto& iter = m_ObjList[OBJ_BOSSMONSTER2].begin(); iter != m_ObjList[OBJ_BOSSMONSTER2].end(); ++iter)
-			{
-				dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER2]);
-				dynamic_cast<CBossMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
-
-			}
-
-			m_dwTimer = GetTickCount();
-			break;
-
 		case LEVEL_END:
-			if (m_dwTimer + 15000 < GetTickCount())
+			/*if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size())
 			{
-				m_bStageClear = false;
-			}
+				if (m_dwTimer + 15000 < GetTickCount())
+				{*/
+					m_bStageClear = true;
+				//}
+		//	}
+	
 			break;
 		}
 	}
 
 	// 보스 잡을떄 다시 겟틱함수 수정해야된다.
 
-	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size())
-	{
-		if (m_dwTimer + 15000 < GetTickCount())
-		{
-			m_bStageClear = true;
-		}
-	}
+
 
 }
 
@@ -252,6 +245,19 @@ int CSecondScene::Render(HDC hDC)
 
 	if (m_bStageClear)
 	{
+		
+		//총알 들과 몬스터 싹다 정리
+			for (int i = OBJ_MONSTER; i <= OBJ_BULLET_BOSSMONSTER2; ++i)
+			{
+				for (list<CObj*>::iterator iter = m_ObjList[i].begin();
+					iter != m_ObjList[i].end();)
+				{
+					Safe_Delete<CObj*>(*iter);
+					iter = m_ObjList[i].erase(iter);
+
+				}
+			}
+		
 		return SCENE_NAME_FIRST;
 	}
 

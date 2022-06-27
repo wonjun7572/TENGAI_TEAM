@@ -19,15 +19,14 @@ public:
 	void		Render(void);
 	void		Release(void);
 
+
+
 private:
 	HDC				m_hDC;
-	HDC				m_hMemDC;
+	list<CObj*>		m_ObjList[OBJ_END];
+	
 
-	HBITMAP			m_bitBack;
-	HBITMAP			m_bitOldBack;
-
-	list<CObj*>*	m_ObjList;
-	list<CScene*>   m_SceneList[SCENE_NAME_END];
+	CScene*  m_SceneList;
 	
 	SCENE_NAME    m_eScene;
 	int			 m_iPrevFlow;

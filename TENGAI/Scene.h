@@ -16,10 +16,9 @@ public:
 	virtual void	Release(void)		PURE;
 
 public:
-	list<CObj*>*	Get_ObjList() { return m_ObjList; }
-	void			Set_ObjList(list<CObj*>& temp) {
-		*m_ObjList = temp;
-	}	
+	list<CObj*>*			Get_ObjList() { return m_ObjList; }
+
+
 	const bool			GetStageClear() const { return m_bStageClear; }
 	void				SetStageClear(bool _bStageClear) { m_bStageClear = _bStageClear; }
 
@@ -28,41 +27,8 @@ public:
 	void			Set_Score(int _iScore) { m_IScore = _iScore; }
 public:
 	CScene();
-	CScene(list<CObj*>* temp)
-	{
-		list<CObj*>*  new_ObjList = new list<CObj*>;
+	CScene(list<CObj*>* temp);
 
-		memcpy(new_ObjList, &temp, sizeof(temp));
-
-		*m_ObjList = *new_ObjList;
-	}
-
-	CScene(int i)
-	{
-
-		i = 0;
-		/*list<CObj*>*  new_ObjList = new list<CObj*>;
-
-		memcpy(new_ObjList, &temp, sizeof(temp));
-
-		*m_ObjList = *new_ObjList;*/
-	}
-
-	/*CScene(list<CObj*> temp)
-	{
-		list<CObj*>*  new_ObjList = new list<CObj*>;
-
-		memcpy(new_ObjList, &temp, sizeof(temp));
-		
-		*m_ObjList = *new_ObjList;
-
-	}*/
-	//CScene(CScene & rhs)
-	//{
-	//	
-
-
-	//}
 	virtual ~CScene();
 
 protected:
@@ -74,6 +40,7 @@ protected:
 	DWORD			m_dwTimer;
 	bool			m_bStageClear;
 	int				m_iStage;
+	bool			m_bStageEmptyCheck;
 
 };
 

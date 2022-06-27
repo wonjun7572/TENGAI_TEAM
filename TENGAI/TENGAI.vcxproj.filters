@@ -68,9 +68,6 @@
     <Filter Include="01. Object\04. Pet">
       <UniqueIdentifier>{0d870010-e116-4180-851a-05b833d0189c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\01. Monster\07. BossMonster2">
-      <UniqueIdentifier>{d72467ce-96b8-4a1c-bf26-adb04556e751}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -163,9 +160,6 @@
     <ClInclude Include="Pet.h">
       <Filter>01. Object\04. Pet</Filter>
     </ClInclude>
-    <ClInclude Include="BossMonster2.h">
-      <Filter>01. Object\01. Monster\07. BossMonster2</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -236,9 +230,6 @@
     </ClCompile>
     <ClCompile Include="Pet.cpp">
       <Filter>01. Object\04. Pet</Filter>
-    </ClCompile>
-    <ClCompile Include="BossMonster2.cpp">
-      <Filter>01. Object\01. Monster\07. BossMonster2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

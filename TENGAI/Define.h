@@ -9,10 +9,13 @@
 #define			OBJ_NOEVENT 0
 #define			OBJ_DEAD	1
 
-#define			DGREE_TO_RADIAN PI/180
+#define			DEGREE_TO_RADIAN PI/180
 #define			EXIT		99
 extern			HWND		g_hWnd;
 
 extern			RECT		g_WindowRect;
 
 extern			RECT		g_WindowRect_MonsterHouse;
+
+
+static int EEWEW = 0;

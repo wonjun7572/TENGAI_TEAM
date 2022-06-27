@@ -43,25 +43,24 @@ public:
 
 	}
 
-	static CScene* Create_Scene(list<CObj*> temp )
+	static CScene* Create_Scene(list<CObj*>* temp )
 	{
-		CScene* pScene = new T;
-		pScene->Set_ObjList(temp);
+		CScene* pScene = new T(temp);
+		//pScene->Set_ObjList(temp);
 		pScene->Initialize();
 
 		return pScene;
 	}
 
+	//static CScene* Create_Scene(list<CObj*> temp)
+	//{
+	//	CScene* pScene = new T(temp);
+	//	//pScene->Set_ObjList(temp);
+	//	pScene->Initialize();
 
+	//	return pScene;
+	//}
 
-	static CScene* Create_Scene_test(T cs)
-	{
-		CScene* pScene = new T(cs);
-		pScene->Set_ObjList(temp);
-		pScene->Initialize();
-
-		return pScene;
-	}
 
 
 	CAbstractFactory() {}

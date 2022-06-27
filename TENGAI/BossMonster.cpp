@@ -4,7 +4,8 @@
 
 
 CBossMonster::CBossMonster()
-	:iReverse(1), iReverse2(1), m_pBullet_Player(nullptr), m_pBullet_BossMonster(nullptr)
+	:iReverse(1), iReverse2(1), m_pBullet_Player(nullptr), m_pBullet_BossMonster(nullptr),
+	bPattern_A(false), bPattern_B(false), bPattern_C(false), iBoss_Hp(0)
 {
 }
 
@@ -25,8 +26,8 @@ void CBossMonster::Initialize(void)
 
 int CBossMonster::Update(void)
 {
-	fCos = (fAngle * DGREE_TO_RADIAN);
-	fSin = (fAngle * DGREE_TO_RADIAN);
+	fCos = (fAngle * DEGREE_TO_RADIAN);
+	fSin = (fAngle * DEGREE_TO_RADIAN);
 
 	if (m_dead)
 	{
@@ -56,6 +57,8 @@ int CBossMonster::Update(void)
 
 void CBossMonster::LateUpdate(void)
 {
+	if (30 <= iBoss_Hp)
+	{
 		if (m_tInfo.fY < 0)
 		{
 			iReverse2 *= -1;
@@ -79,13 +82,14 @@ void CBossMonster::LateUpdate(void)
 		{
 			iReverse2 *= -1;
 		}
+	}
 
 }
 
 void CBossMonster::Render(HDC hDC)
 {
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	Ellipse(hDC, m_tRect.left - 20, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
 
 
 }
@@ -96,90 +100,114 @@ void CBossMonster::Release(void)
 
 void CBossMonster::Attack()
 {
-	if (m_dwTimer < GetTickCount())
+	// 랜덤으로 패턴 출력을 위해 0~99까지 값이 매번 랜덤하게 나오도록 함
+	srand((unsigned int)time(nullptr) + GetTickCount());
+	int iRandomPattern = rand() % 99;
+
+	// 몬스터 기준으로 3방향 총알 쏘는 패턴
+	if (m_dwTimer < GetTickCount() && (0 == (iRandomPattern % 3)) && (bPattern_A == false))
 	{
-		// 앞으로 나가는 총알
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN));
+		m_dwTimer = (GetTickCount() + 1000);
 
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_BOSSMONSTER));
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP, OBJ_BULLET_BOSSMONSTER));
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN, OBJ_BULLET_BOSSMONSTER));
-
-		// 
-
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT, OBJ_BULLET_BOSSMONSTER));
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER));
-		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN, OBJ_BULLET_BOSSMONSTER));
-
-		m_dwTimer = (GetTickCount() + 700);
+		// 해당 bool변수가 true이면 다음 회전시 해당 패턴이 발생하지 않음
+		bPattern_A = true;
+		bPattern_B = false;
+		bPattern_C = false;
 	}
 
-
-
-	//if (m_dwTimer < GetTickCount())
-	//{
-	//	// 밑으로 쏘는거
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFT, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_RIGHT, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX *20.f, m_tInfo.fY - 5.f, DIR_DOWN, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFTDOWN, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_RIGHTDOWN, OBJ_BULLET_BOSSMONSTER));
-
-
-	//	// 앞으로 쏘는거
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFT, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_UP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX *20.f, m_tInfo.fY - 5.f, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFTUP, OBJ_BULLET_BOSSMONSTER));
-	//	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER));
-
-	//	m_dwTimer = (GetTickCount() + 5000);
-	//}
-
-	if (m_dwTimer < GetTickCount())
+	//	보스 기준, 맵 좌표 기준으로 나감
+	// 패턴 A
+	// m_dwTimer < GetTickCount() && (0 == (iRandomPattern % 3)) && (bPattern_A == false)
+	// m_dwTimer = (GetTickCount() + 1000);
+	bPattern_A = true;
+	if (GetAsyncKeyState('w'))
 	{
-		// 왼쪽으로 나가는 총알
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN, OBJ_BULLET_BOSSMONSTER2));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(600, 100, DIR_LEFT));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(620, 200, DIR_LEFT));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(640, 300, DIR_LEFT));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(660, 400, DIR_LEFT));
+		m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(680, 500, DIR_LEFT));
 
-		//// 오른쪽으로 나가는 총알
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN, OBJ_BULLET_BOSSMONSTER2));
-
-		//// 위 쪽으로 나가는 총알
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP, OBJ_BULLET_BOSSMONSTER2));
-
-		//// 밑 쪽으로 나가는 총알
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN, OBJ_BULLET_BOSSMONSTER2));
-		//m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN, OBJ_BULLET_BOSSMONSTER2));
-
-		//m_dwTimer = (GetTickCount() + 500);
+		bPattern_A = true;
+		bPattern_B = false;
+		bPattern_C = false;
 	}
 
-	//if (m_dwTimer < GetTickCount())
-	//{
-	//	if (m_dwTimer < GetTickCount())
-	//	{
-	//		m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX += fCos * m_fSpeed, m_tInfo.fY -= fSin * m_fSpeed, DIR_UP, OBJ_BULLET_BOSSMONSTER2));
-	//		m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_BOSSMONSTER2));
-	//		m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT, OBJ_BULLET_BOSSMONSTER2));
-	//		m_pBullet_BossMonster2->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX += fCos * m_fSpeed, m_tInfo.fY += fSin * m_fSpeed, DIR_DOWN, OBJ_BULLET_BOSSMONSTER2));
+	// 패턴 B
+	/*if (m_dwTimer < GetTickCount() && (1 == (iRandomPattern % 3)) && (bPattern_B == false))
+	{
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(680, 100, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(660, 200, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(640, 300, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(620, 400, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(600, 500, DIR_LEFT));
+	m_dwTimer = (GetTickCount() + 1000);
 
-	//		/*m_dwTimer = (GetTickCount() + 750);*/
-	//		fCos = -cos(fAngle * DGREE_TO_RADIAN);
-	//}
+	bPattern_A = false;
+	bPattern_B = true;
+	bPattern_C = false;
+	}*/
+
+	// 패턴 C
+	/*if (m_dwTimer < GetTickCount() && (2 == (iRandomPattern % 3)) && (bPattern_C == false))
+	{
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(600, 100, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(570, 150, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(550, 200, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(540, 250, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(530, 300, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(540, 350, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(550, 400, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(570, 450, DIR_LEFT));
+	m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(600, 500, DIR_LEFT));
+	m_dwTimer = (GetTickCount() + 1000);
+
+	bPattern_A = false;
+	bPattern_B = false;
+	bPattern_C = true;
+	}*/
+	/*m_dwTimer < GetTickCount()
+	m_dwTimer = GetTickCount() + 1000;*/
+	// 평타
+	if (10 >= iBoss_Hp)
+	{
+		if (m_dwTimer < GetTickCount())
+		{
+			// 밑으로 쏘는거
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHT));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFT));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_RIGHT));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_DOWN));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX *20.f, m_tInfo.fY - 5.f, DIR_DOWN));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTDOWN));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTDOWN));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFTDOWN));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_RIGHTDOWN));
+
+
+			// 앞으로 쏘는거
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_UP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFT));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_UP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX *20.f, m_tInfo.fY - 5.f, DIR_RIGHTUP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFTUP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_RIGHTUP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX - 20.f, m_tInfo.fY - 5.f, DIR_LEFTUP));
+			m_pBullet_BossMonster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX + 20.f, m_tInfo.fY - 5.f, DIR_RIGHTUP));
+
+			m_dwTimer = GetTickCount() + 1000;
+		}
+
+
+
+		bPattern_A = false;
+		bPattern_B = false;
+		bPattern_C = false;
+	}
 }
