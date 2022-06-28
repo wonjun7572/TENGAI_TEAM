@@ -105,24 +105,6 @@ int CFirstScene::Update(void)
 
 void CFirstScene::LateUpdate(void)
 {
-	/*
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-
-	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PLAYER]);
-	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PET]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-	*/
-
 	if (SCORE_PLUS == CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]))
 	{
 		m_IScore += 1;
@@ -152,8 +134,6 @@ void CFirstScene::LateUpdate(void)
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
-	//CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-
 	
 	for (int i = 0; i < OBJ_END; i++)
 	{
@@ -247,7 +227,6 @@ void CFirstScene::LateUpdate(void)
 			}
 			break;
 		case LEVEL_END:
-				//m_bStageClear = true;
 			if (true == m_bFinish)
 			{
 				m_dwTimer = GetTickCount();
@@ -286,7 +265,14 @@ int CFirstScene::Render(HDC hDC)
 	Ellipse(hDC, 450, 50, 600, 200);
 	SelectObject(hDC, hOldBrush3);
 	DeleteObject(hNewBrush3);
-
+		
+	for (int i = 0; i < OBJ_END; i++)
+	{
+		for (auto& obj : m_ObjList[i])
+		{
+			obj->Render(hDC);
+		}
+	}
 
 	TCHAR		szBuff1[32] = L"";
 	RECT	rc1{ 300, 50, 500, 150 };
@@ -297,14 +283,6 @@ int CFirstScene::Render(HDC hDC)
 	RECT	rc2{ 600, 100, 800, 200 };
 	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
 	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
-		
-	for (int i = 0; i < OBJ_END; i++)
-	{
-		for (auto& obj : m_ObjList[i])
-		{
-			obj->Render(hDC);
-		}
-	}
 
 	if (m_bStageClear)
 	{

@@ -19,9 +19,9 @@ void CPlayer::Initialize(void)
 	m_tInfo = { 400.f, 400.f, 30.f, 90.f };
 	m_fSpeed = 10.f;
 	m_dwTimer = GetTickCount();
-	m_tStat.Hp = 10;
+	m_tStat.Hp = 50;
 	m_tStat.UltimateCount = 1;
-	m_tStat.BulletCount = 10;
+	m_tStat.BulletCount = 1;
 }
 
 int CPlayer::Update(void)
