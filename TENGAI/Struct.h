@@ -13,6 +13,7 @@ typedef struct tagStat
 	int Hp;
 	int BulletCount;
 	int UltimateCount;
+	int ShieldCount;
 	HBRUSH hOldBrush;
 	HBRUSH hNewBrush;
 }STAT;

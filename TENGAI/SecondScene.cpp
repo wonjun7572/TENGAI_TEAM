@@ -33,7 +33,6 @@ CSecondScene::~CSecondScene()
 
 void CSecondScene::Initialize(void)
 {
-
 	for (int i = 0; i < 5; ++i)
 	{
 		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_01>::Create(850, 100 + (i * 100), DIR_END, OBJ_MONSTER));
@@ -44,6 +43,7 @@ void CSecondScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_SHIELD]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PET]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
@@ -100,6 +100,14 @@ void CSecondScene::LateUpdate(void)
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
+	//CCollisionMgr::CollisionSphere(m_ObjList[OBJ_SHIELD], m_ObjList[OBJ_BULLET_MONSTER]);
+	//CCollisionMgr::CollisionSphere(m_ObjList[OBJ_SHIELD], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_SHIELD], m_ObjList[OBJ_BULLET_MONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_SHIELD], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_SHIELD], m_ObjList[OBJ_MONSTER]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_SHIELD], m_ObjList[OBJ_BOSSMONSTER]);
+
 	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PET]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
@@ -132,6 +140,7 @@ void CSecondScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_SHIELD]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
@@ -147,6 +156,7 @@ void CSecondScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_SHIELD]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
@@ -162,6 +172,7 @@ void CSecondScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_SHIELD]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
@@ -177,6 +188,7 @@ void CSecondScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_SHIELD]);
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
@@ -189,6 +201,7 @@ void CSecondScene::LateUpdate(void)
 			{
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+				dynamic_cast<CBossMonster2*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_SHIELD]);
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}

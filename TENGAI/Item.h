@@ -8,6 +8,7 @@ class CItem :
 public:
 	virtual void SetPlayer(CObj* pPlayer) { m_pPlayer = pPlayer; }
 	virtual void SetPet(CObj* pPet) { m_pPet = pPet; }
+	virtual void SetShiled(CObj *pShield) { m_pShield = pShield; }
 
 	virtual void Initialize(void)	 PURE;
 	virtual int  Update(void)	     PURE;
@@ -17,6 +18,7 @@ public:
 
 	CObj* GetPet() { return m_pPet; }
 	CObj* GetPlayer() { return m_pPlayer; }
+	CObj* GetShiled() { return m_pShield; }
 
 	virtual bool CollisionCheck(RECT r1, RECT r2) PURE;
 
@@ -27,5 +29,6 @@ public:
 private:
 	CObj*	m_pPet;
 	CObj*	m_pPlayer;
+	CObj*	m_pShield;
 };
 

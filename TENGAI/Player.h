@@ -7,6 +7,8 @@ public:
 	CPlayer();
 	virtual ~CPlayer();
 
+	void Set_Bullet_Shield(list<CObj*>* pBullet) { m_pBullet_Shield = pBullet; }
+
 	void Set_Bullet_Player(list<CObj*>* pBullet) { m_pBullet_Player = pBullet; }
 	void Set_Bullet_Monster(list<CObj*>* pBullet) { m_pBullet_Monster = pBullet; }
 
@@ -21,11 +23,20 @@ public:
 	void	BulletCountUp() { m_tStat.BulletCount++; }
 	void	UltimateCountUp() { m_tStat.UltimateCount++; }
 
+	void	Set_ShieldCheck(bool _bShieldCheck) { m_bShieldCheck = _bShieldCheck; }
+	void Set_Shield(list<CObj*>* _pBullet_Shield) { m_pBullet_Shield = _pBullet_Shield; }
+
 private:
-	bool	bShooting = false;
+	float			m_ShieldAngle = 0.f;
+	bool			m_bShooting = false;
+	bool			m_bShieldCheck = false;
+	bool			m_bShiledArrive = false;
 
 	void			Key_Input(void);
+
 	list<CObj*>*	m_pBullet_Player;
+	list<CObj*>*	m_pBullet_Shield;
 	list<CObj*>*	m_pBullet_Monster;
+	list<CObj*>*	m_pShield;
 };
 

@@ -25,6 +25,10 @@ public:
 		m_pBossMonster = _pBossMonster;
 	}
 
+	void Set_Player_Info (INFO _pInfo) {
+		m_pPlayerInfo = _pInfo;
+	}
+
 	void SetEffect()
 	{
 		m_bEffect = true;
@@ -43,9 +47,12 @@ private:
 private:
 	//POINT			m_tCenter;
 	//POINT			m_tPosin;
+	INFO			m_pPlayerInfo;
 	list<CObj*>*	m_pMonster;
 	list<CObj*>*	m_pBossMonster;
 	bool			m_bEffect = false;
 	float			m_fExplosion = 0.f;
+	float			m_fAngle = 0.f;
+	float			m_fDiagonal = 0.f;
 };
 

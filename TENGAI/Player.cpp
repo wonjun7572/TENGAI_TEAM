@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "AbstractFactory.h"
+#include "Shield.h"
 
 CPlayer::CPlayer()
 	:m_pBullet_Player(nullptr), m_pBullet_Monster(nullptr)
@@ -31,7 +32,28 @@ int CPlayer::Update(void)
 	if (m_dead)
 		return OBJ_DEAD;
 
-	bShooting = false;
+	if (m_bShieldCheck)
+	{
+		if (20 > m_tStat.ShieldCount)
+		{
+			m_pShield->push_back(CAbstractFactory<CShield>::Create(this->GetInfo().fX, this->GetInfo().fY));
+			++m_tStat.ShieldCount;
+		}
+		m_bShiledArrive = true;
+		m_bShieldCheck = false;
+	}
+
+
+	if (m_bShiledArrive)
+	{
+		for (auto &iter : *m_pShield)
+		{
+			static_cast<CShield*>(iter)->Set_Player(this);
+		}
+
+	}
+
+	m_bShooting = false;
 	Key_Input();
 
 	Update_Rect();
@@ -51,6 +73,11 @@ void CPlayer::LateUpdate(void)
 
 	if (m_tInfo.fY > WINCY - 50)
 		m_tInfo.fY -= m_fSpeed;
+
+	for (list<CObj*>::iterator iter = m_pBullet_Shield->begin(); iter != m_pBullet_Shield->end(); ++iter)
+	{
+		dynamic_cast<CBullet*>(*iter)->Set_Player_Info(GetInfo());
+	}
 }
 
 void CPlayer::Render(HDC hDC)
@@ -58,7 +85,7 @@ void CPlayer::Render(HDC hDC)
 	if (m_tStat.Hp <= 0)
 		m_dead = OBJ_DEAD;
 
-	if (bShooting == false)
+	if (m_bShooting == false)
 	{
 		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
 		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
@@ -82,7 +109,7 @@ void CPlayer::Render(HDC hDC)
 		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY - 5.f, nullptr);
 		LineTo(hDC, m_tInfo.fX + 17.f, m_tInfo.fY - 2.f);
 	}
-	else if (bShooting == true)
+	else if (m_bShooting == true)
 	{
 		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
 		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
@@ -191,12 +218,25 @@ void CPlayer::Key_Input(void)
 
 	if (GetAsyncKeyState(VK_SPACE))
 	{
-		bShooting = true;
+		m_bShooting = true;
 		if (m_dwTimer < GetTickCount())
 		{
 			for (int i = 1; i < m_tStat.BulletCount + 1; i++)
 			{
 				m_pBullet_Player->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_RIGHT, OBJ_BULLET_PLAYER));
+			}
+			m_dwTimer = GetTickCount() + 200;
+		}
+	}
+
+	if (GetAsyncKeyState('Q'))
+	{
+		if (m_dwTimer < GetTickCount())
+		{
+			m_pBullet_Shield->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_SHIELD, OBJ_BULLET_SHIELD));
+			for (list<CObj*>::iterator iter = m_pBullet_Shield->begin(); iter != m_pBullet_Shield->end(); ++iter)
+			{
+				dynamic_cast<CBullet*>(*iter)->Set_Player_Info(GetInfo());
 			}
 			m_dwTimer = GetTickCount() + 200;
 		}

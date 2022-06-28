@@ -112,6 +112,11 @@ int CBullet::Update(void)
 		m_tInfo.fX += (m_fSpeed * m_fCos) / sqrtf(2.f);
 		m_tInfo.fY += (m_fSpeed * m_fSin) / sqrtf(2.f);
 		break;
+
+	case DIR_SHIELD:
+		m_tInfo.fX = m_pPlayerInfo.fX + 100.f*cosf(m_fAngle *(PI / 180));
+		m_tInfo.fY = m_pPlayerInfo.fY - 100.f*sinf(m_fAngle *(PI / 180));
+		break;
 		/*
 	case DIR_SCREW:
 		if (m_bStart)
@@ -141,6 +146,7 @@ int CBullet::Update(void)
 
 void CBullet::LateUpdate(void)
 {
+	m_fAngle += 10.f;
 	//if (m_eObjID == OBJ_BOSSMONSTER)
 	//{
 	//	m_tPosin.x = LONG(m_tInfo.fX + cosf(m_fAngle * (PI / 180.f)) * m_fDiagonal);

@@ -103,6 +103,11 @@ bool CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 						else
 							Sour->KillObj();
 				}
+				else if (Dest->GetOBJID() == OBJ_BULLET_SHIELD || Sour->GetOBJID() == OBJ_BULLET_SHIELD)
+				{
+					Dest->KillObj();
+					Sour->KillObj();
+				}
 				else if (((Sour->GetOBJID() == OBJ_BULLET_PLAYER)) && ((Dest->GetOBJID() == OBJ_MONSTER) || (Dest->GetOBJID() == OBJ_BOSSMONSTER)))
 				{
 					Dest->HpDown();

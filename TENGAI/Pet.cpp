@@ -24,13 +24,7 @@ void CPet::Initialize(void)
 }
 
 int CPet::Update(void)
-{
-	X = (m_pPlayer->front()->GetInfo().fX - 15.f) - m_tInfo.fX;
-	Y = (m_pPlayer->front()->GetInfo().fY - 60.f) - m_tInfo.fY;
-	fAtan = atan2f(Y, X);
-	fCos = cos(fAtan);
-	fSin = sin(fAtan);
-	
+{	
 	Update_Rect();
 	return OBJ_NOEVENT;
 }
@@ -38,6 +32,12 @@ int CPet::Update(void)
 void CPet::LateUpdate(void)
 {
 	
+	X = (m_pPlayer->front()->GetInfo().fX - 15.f) - m_tInfo.fX;
+	Y = (m_pPlayer->front()->GetInfo().fY - 60.f) - m_tInfo.fY;
+	fAtan = atan2f(Y, X);
+	fCos = cos(fAtan);
+	fSin = sin(fAtan);
+
 	if (m_dwTimer < GetTickCount())
 	{
 		if (fabs(fOldTimeX - m_tInfo.fX) >= 5.f || fabs(fOldTimeY - m_tInfo.fY) >= 5.f)

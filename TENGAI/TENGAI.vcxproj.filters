@@ -71,6 +71,9 @@
     <Filter Include="01. Object\05. Mouse">
       <UniqueIdentifier>{03e1558e-241a-4436-98ef-79bf4424476b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\06. Shield">
+      <UniqueIdentifier>{5120b7aa-ab35-43a9-ab4a-44b470418845}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Obj.h">
@@ -169,6 +172,12 @@
     <ClInclude Include="Pet.h">
       <Filter>01. Object\04. Pet</Filter>
     </ClInclude>
+    <ClInclude Include="AddShieldItem.h">
+      <Filter>01. Object\03.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Shield.h">
+      <Filter>01. Object\06. Shield</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Obj.cpp">
@@ -245,6 +254,12 @@
     </ClCompile>
     <ClCompile Include="BossMonster2.cpp">
       <Filter>01. Object\01. Monster\06. BossMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="AddShieldItem.cpp">
+      <Filter>01. Object\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Shield.cpp">
+      <Filter>01. Object\06. Shield</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

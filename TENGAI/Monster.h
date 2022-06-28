@@ -14,6 +14,7 @@ public:
 	void Set_Bullet_Pet(list<CObj*>* pBullet) { m_pBullet_Pet = pBullet; }
 	void Set_Bullet_Monster(list<CObj*>* pBullet) { m_pBullet_Monster = pBullet; }
 	void Set_ObjList(list<CObj*>* _ObjIDList) { m_pItem = _ObjIDList; }
+	void Set_Shield(list<CObj*>* _pBullet_Shield) { m_pBullet_Shield = _pBullet_Shield; }
 
 public:
 	virtual void Initialize(void)PURE;
@@ -27,12 +28,13 @@ protected:
 	virtual void Attack()PURE;
 
 protected:
-	int iReverse;
+	int	iReverse;
 	list<CObj*>*    m_pPet;
 	list<CObj*>*    m_pPlayer;
 	list<CObj*>*	m_pBullet_Player;
 	list<CObj*>*	m_pBullet_Pet;
 	list<CObj*>*	m_pBullet_Monster;
 	list<CObj*>*	m_pItem;
+	list<CObj*>*	m_pBullet_Shield;
 };
 

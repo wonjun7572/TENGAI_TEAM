@@ -150,6 +150,10 @@
     <ClInclude Include="AddHpItem.h" />
     <ClInclude Include="AddPetPowerUp.h" />
     <ClInclude Include="AddPowerUpItem.h" />
+    <ClInclude Include="AddShieldItem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="AddUltimateItem.h" />
     <ClInclude Include="BossMonster.h" />
     <ClInclude Include="BossMonster2.h" />
@@ -176,6 +180,10 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SecondScene.h" />
+    <ClInclude Include="Shield.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -183,6 +191,10 @@
     <ClCompile Include="AddHpItem.cpp" />
     <ClCompile Include="AddPetPowerUp.cpp" />
     <ClCompile Include="AddPowerUpItem.cpp" />
+    <ClCompile Include="AddShieldItem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="AddUltimateItem.cpp" />
     <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="BossMonster2.cpp" />
@@ -210,6 +222,10 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SecondScene.cpp" />
+    <ClCompile Include="Shield.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="WindowMain.cpp" />
   </ItemGroup>
   <ItemGroup>
