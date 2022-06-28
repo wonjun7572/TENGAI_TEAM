@@ -31,7 +31,11 @@ int CBossMonster2::Update(void)
 		return OBJ_DEAD;
 
 	if (m_tStat.Hp <= 0)
-		m_dead = OBJ_DEAD;
+	{
+		SetEffect();
+		if (200.f <= m_fExplosion)
+			m_dead = OBJ_DEAD;
+	}
 
 	if (m_dwTimer + 5000 >= GetTickCount())
 		m_tInfo.fX -= 0.5f;
@@ -50,34 +54,47 @@ void CBossMonster2::LateUpdate(void)
 
 void CBossMonster2::Render(HDC hDC)
 {
-	MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
-	LineTo(hDC, m_tInfo.fX - 20, m_tInfo.fY + 80);
-	LineTo(hDC, m_tInfo.fX - 20, m_tInfo.fY + 100);
-	LineTo(hDC, m_tInfo.fX - 20, m_tInfo.fY + 130);
-	LineTo(hDC, m_tInfo.fX - 25, m_tInfo.fY + 230);
-	LineTo(hDC, m_tInfo.fX + 30, m_tInfo.fY + 230);
-	LineTo(hDC, m_tInfo.fX + 30, m_tInfo.fY + 130);
-	MoveToEx(hDC, m_tInfo.fX + 30, m_tInfo.fY + 230, nullptr); //130
-	LineTo(hDC, m_tInfo.fX + 130, m_tInfo.fY + 230);
-	LineTo(hDC, m_tInfo.fX + 130, m_tInfo.fY + 130);
-	LineTo(hDC, m_tInfo.fX + 110, m_tInfo.fY - 20);
-	MoveToEx(hDC, m_tInfo.fX + 130, m_tInfo.fY + 130, nullptr);
-	LineTo(hDC, m_tInfo.fX + 230, m_tInfo.fY + 130);
-	LineTo(hDC, m_tInfo.fX + 230, m_tInfo.fY + 30);
-	LineTo(hDC, m_tInfo.fX + 210, m_tInfo.fY + 10);
-	LineTo(hDC, m_tInfo.fX + 115, m_tInfo.fY + 10);
-	
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
-	Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 120, m_tInfo.fX + 130, m_tInfo.fY + 30);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
-	
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
-	Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 110, m_tInfo.fX + 90, m_tInfo.fY - 20);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
+	if (m_bEffect)
+	{
+		DeleteObject(m_tStat.hNewBrush);
+		m_fExplosion += 10.f;
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0xcc, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left - m_fExplosion, m_tRect.top - m_fExplosion, m_tRect.right + m_fExplosion, m_tRect.bottom + m_fExplosion);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
+	else
+	{
+		MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
+		LineTo(hDC, m_tInfo.fX - 20, m_tInfo.fY + 80);
+		LineTo(hDC, m_tInfo.fX - 20, m_tInfo.fY + 100);
+		LineTo(hDC, m_tInfo.fX - 20, m_tInfo.fY + 130);
+		LineTo(hDC, m_tInfo.fX - 25, m_tInfo.fY + 230);
+		LineTo(hDC, m_tInfo.fX + 30, m_tInfo.fY + 230);
+		LineTo(hDC, m_tInfo.fX + 30, m_tInfo.fY + 130);
+		MoveToEx(hDC, m_tInfo.fX + 30, m_tInfo.fY + 230, nullptr); //130
+		LineTo(hDC, m_tInfo.fX + 130, m_tInfo.fY + 230);
+		LineTo(hDC, m_tInfo.fX + 130, m_tInfo.fY + 130);
+		LineTo(hDC, m_tInfo.fX + 110, m_tInfo.fY - 20);
+		MoveToEx(hDC, m_tInfo.fX + 130, m_tInfo.fY + 130, nullptr);
+		LineTo(hDC, m_tInfo.fX + 230, m_tInfo.fY + 130);
+		LineTo(hDC, m_tInfo.fX + 230, m_tInfo.fY + 30);
+		LineTo(hDC, m_tInfo.fX + 210, m_tInfo.fY + 10);
+		LineTo(hDC, m_tInfo.fX + 115, m_tInfo.fY + 10);
+
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 120, m_tInfo.fX + 130, m_tInfo.fY + 30);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 110, m_tInfo.fX + 90, m_tInfo.fY - 20);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
 
 	TCHAR		szBuff[32] = L"";
 	RECT	rc{ 300, 200, 500, 300 };

@@ -44,4 +44,15 @@ private:	// 앵글, cos, sin 필요한 변수. 보스몬스터 패턴 앵글값 정의.
 protected:
 	list<CObj*>*    m_pPet;
 	list<CObj*>*    m_pPlayer;
+
+private:
+	void SetEffect()
+	{
+		m_bEffect = true;
+		m_fSpeed = 0.f;
+	}
+
+private:
+	bool		m_bEffect = false;
+	float		m_fExplosion = 0.f;
 };

@@ -30,8 +30,19 @@ public:
 		m_bEffect = true;
 		m_fSpeed = 0.f;
 	}
+	/*
+private:
+	float	m_fRotAngle;
+	float	m_fRotSpeed;
+	float	m_fDiagonal;
+	float	m_fAngle;
+
+	bool	m_bStart;
+	*/
 
 private:
+	//POINT			m_tCenter;
+	//POINT			m_tPosin;
 	list<CObj*>*	m_pMonster;
 	list<CObj*>*	m_pBossMonster;
 	bool			m_bEffect = false;

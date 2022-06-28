@@ -31,7 +31,11 @@ int CBossMonster::Update(void)
 		return OBJ_DEAD;
 
 	if (m_tStat.Hp <= 0)
-		m_dead = OBJ_DEAD;
+	{
+		SetEffect();
+		if (50.f <= m_fExplosion)
+			m_dead = OBJ_DEAD;
+	}
 	
 	m_tInfo.fX += fCos * m_fSpeed * iReverse;
 	m_tInfo.fY += fSin * m_fSpeed * iReverse2;
@@ -77,17 +81,30 @@ void CBossMonster::LateUpdate(void)
 
 void CBossMonster::Render(HDC hDC)
 {
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
-	
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0x00));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
-	Ellipse(hDC, m_tRect.left - 20, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
+	if (m_bEffect)
+	{
+		DeleteObject(m_tStat.hNewBrush);
+		m_fExplosion += 5.f;
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0xff, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left - m_fExplosion, m_tRect.top - m_fExplosion, m_tRect.right + m_fExplosion, m_tRect.bottom + m_fExplosion);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
+	else
+	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left - 20, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
 
 	TCHAR		szBuff[32] = L"";
 	RECT	rc{ 300, 200, 500, 300 };

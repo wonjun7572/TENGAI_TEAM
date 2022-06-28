@@ -53,6 +53,8 @@ void CPet::LateUpdate(void)
 		{
 			for (int i = 1; i < m_tStat.BulletCount + 1; i++)
 			{
+				if (m_pMonster->empty() && m_pBossMonster->empty())
+					continue;
 				m_pBullet_Pet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_CHASE, OBJ_BULLET_PET));
 				for (list<CObj*>::iterator iter = m_pBullet_Pet->begin(); iter != m_pBullet_Pet->end(); ++iter)
 				{

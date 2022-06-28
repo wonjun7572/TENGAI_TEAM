@@ -63,7 +63,7 @@ void CFirstScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 	}
-	m_iStage = LEVEL_END;
+	m_iStage = LEVEL_02;
 	m_dwTimer = GetTickCount();
 }
 

@@ -15,7 +15,7 @@ public:
 	virtual void	Release(void)		PURE;
 
 	virtual void	HpDown() { m_tStat.Hp--; }
-	virtual void	KillObj() { m_dead = true; }
+	virtual void	KillObj() { m_tStat.Hp = 0; }
 
 public:
 	const RECT		GetRect() const  { return m_tRect; }

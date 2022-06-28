@@ -129,7 +129,7 @@ void CCollisionMgr::CollisionWall(list<CObj*> _Dest)
 	{
 		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect_MonsterHouse))
 		{
-			Dest->HpDown();
+			Dest->KillObj();
 		}
 	}
 }
@@ -140,7 +140,7 @@ void CCollisionMgr::CollisionWall2(list<CObj*> _Dest)
 	{
 		if (!IntersectRect(&RECT(), &Dest->GetRect(), &g_WindowRect))
 		{
-			Dest->HpDown();
+			Dest->KillObj();
 		}
 	}
 }

@@ -27,7 +27,11 @@ int CMonster_Level_05::Update(void)
 		return OBJ_DEAD;
 
 	if (m_tStat.Hp <= 0)
-		m_dead = OBJ_DEAD;
+	{
+		SetEffect();
+		if (20.f <= m_fExplosion)
+			m_dead = OBJ_DEAD;
+	}
 
 	if (m_dwTimer2 + 5000 >= GetTickCount())
 	{
@@ -54,11 +58,24 @@ void CMonster_Level_05::LateUpdate(void)
 
 void CMonster_Level_05::Render(HDC hDC)
 {
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xcd, 0x00, 0x00));
-	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	SelectObject(hDC, m_tStat.hOldBrush);
-	DeleteObject(m_tStat.hNewBrush);
+	if (m_bEffect)
+	{
+		DeleteObject(m_tStat.hNewBrush);
+		m_fExplosion += 2.f;
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0xff, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Ellipse(hDC, m_tRect.left - m_fExplosion, m_tRect.top - m_fExplosion, m_tRect.right + m_fExplosion, m_tRect.bottom + m_fExplosion);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
+	else
+	{
+		m_tStat.hNewBrush = CreateSolidBrush(RGB(0xcd, 0x00, 0x00));
+		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
+		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		SelectObject(hDC, m_tStat.hOldBrush);
+		DeleteObject(m_tStat.hNewBrush);
+	}
 
 	MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
 	LineTo(hDC, m_tInfo.fX + (100 * m_fCos), m_tInfo.fY + (100 * m_fSin));

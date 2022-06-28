@@ -19,6 +19,7 @@ enum DIR
 	DIR_RIGHTUP,
 	DIR_RIGHTDOWN,		// Ãß°¡
 	DIR_CHASE,
+	DIR_SCREW,
 
 	DIR_END,
 };

@@ -18,6 +18,12 @@ void CBullet::Initialize(void)
 	m_fSpeed = 5.f;
 	m_tStat = { 1 };
 	m_dwTimer = GetTickCount();
+	/*
+	m_fRotAngle = 0.f;
+	m_fRotSpeed = 30.f;
+	m_fDiagonal = 20.f;
+
+	m_bStart = true;*/
 
 	if (m_eObjID == OBJ_BULLET_PLAYER)
 	{
@@ -106,7 +112,27 @@ int CBullet::Update(void)
 		m_tInfo.fX += (m_fSpeed * m_fCos) / sqrtf(2.f);
 		m_tInfo.fY += (m_fSpeed * m_fSin) / sqrtf(2.f);
 		break;
-	}
+		/*
+	case DIR_SCREW:
+		if (m_bStart)
+		{
+			m_tCenter.x = long(m_tInfo.fX);
+			m_tCenter.y = long(m_tInfo.fY);
+
+			m_bStart = false;
+		}
+
+		m_tCenter.x -= long(m_fSpeed * cosf(m_fAngle * (PI / 180.f)));
+		m_tCenter.y -= long(m_fSpeed * sinf(m_fAngle * (PI / 180.f)));
+
+		m_fRotAngle += m_fRotSpeed;
+
+		m_tInfo.fX = m_tCenter.x + m_fDiagonal * cosf(m_fRotAngle * (PI / 180.f));
+		m_tInfo.fY = m_tCenter.y - m_fDiagonal * sinf(m_fRotAngle * (PI / 180.f));
+
+		break;*/
+
+		}
 
 	Update_Rect();
 
@@ -115,6 +141,11 @@ int CBullet::Update(void)
 
 void CBullet::LateUpdate(void)
 {
+	//if (m_eObjID == OBJ_BOSSMONSTER)
+	//{
+	//	m_tPosin.x = LONG(m_tInfo.fX + cosf(m_fAngle * (PI / 180.f)) * m_fDiagonal);
+	//	m_tPosin.y = LONG(m_tInfo.fY - sinf(m_fAngle * (PI / 180.f)) * m_fDiagonal);
+	//}
 }
 
 void CBullet::Render(HDC hDC)

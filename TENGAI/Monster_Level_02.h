@@ -15,5 +15,16 @@ public:
 	virtual void Release(void);
 
 private:
+	void SetEffect()
+	{
+		m_bEffect = true;
+		m_fSpeed = 0.f;
+	}
+
+private:
 	virtual void Attack();
+
+private:
+	bool		m_bEffect = false;
+	float		m_fExplosion = 0.f;
 };
