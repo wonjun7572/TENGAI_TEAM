@@ -18,13 +18,19 @@ void CPlayer::Initialize(void)
 	m_tInfo = { 400.f, 400.f, 30.f, 90.f };
 	m_fSpeed = 10.f;
 	m_dwTimer = GetTickCount();
-	m_tStat.Hp = 10;
-	m_tStat.UltimateCount = 1;
-	m_tStat.BulletCount = 10;
+	m_tStat.Hp = 3;
+	m_tStat.UltimateCount = 2;
+	m_tStat.BulletCount = 1;
 }
 
 int CPlayer::Update(void)
 {
+	if (m_tStat.BulletCount > 11)
+		m_tStat.BulletCount = 10;
+
+	if (m_tStat.Hp > 5)
+		m_tStat.Hp = 5;
+
 	if (m_tStat.Hp <= 0)
 		m_dead = OBJ_DEAD;
 

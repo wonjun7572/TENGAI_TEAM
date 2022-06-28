@@ -25,6 +25,9 @@ void CMainGame::Initialize(void)
 	m_hDC = GetDC(g_hWnd);
 	m_hMemDC = GetDC(g_hWnd);
 
+	m_hDC = CreateCompatibleDC(m_hMemDC);
+	m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
+
 	m_mouse = new CMouse;
 	m_mouse->Initialize();
 
@@ -73,8 +76,6 @@ void CMainGame::Render(void)
 	// 종료처리
 	if (m_iEXIT == EXIT)
 	{
-		m_hDC = CreateCompatibleDC(m_hMemDC);
-		m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
 		m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
 		PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
 
@@ -114,12 +115,9 @@ void CMainGame::Render(void)
 
 		BitBlt(m_hMemDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, m_hDC, 0, 0, SRCCOPY);
 		SelectObject(m_hDC, m_bitOldBack);
-		DeleteObject(m_bitBack);
 		return;
 	}
 
-	m_hDC = CreateCompatibleDC(m_hMemDC);
-	m_bitBack = CreateCompatibleBitmap(m_hMemDC, g_WindowRect.right, g_WindowRect.bottom);
 	m_bitOldBack = (HBITMAP)SelectObject(m_hDC, m_bitBack);
 	PatBlt(m_hDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, WHITENESS);
 
@@ -150,11 +148,12 @@ void CMainGame::Render(void)
 
 	BitBlt(m_hMemDC, 0, 0, g_WindowRect.right, g_WindowRect.bottom, m_hDC, 0, 0, SRCCOPY);
 	SelectObject(m_hDC, m_bitOldBack);
-	DeleteObject(m_bitBack);
 }
 
 void CMainGame::Release(void)
 {
+	DeleteObject(m_bitBack);
+
 	for (int i = 0; i < OBJ_END; ++i)
 	{
 		for (auto iter = m_ObjList[i].begin(); iter != m_ObjList[i].end(); )
@@ -168,6 +167,6 @@ void CMainGame::Release(void)
 
 	Safe_Delete<CScene*>(m_SceneList);
 
-	ReleaseDC(g_hWnd, m_hDC);
 	ReleaseDC(g_hWnd, m_hMemDC);
+	ReleaseDC(g_hWnd, m_hDC);
 }

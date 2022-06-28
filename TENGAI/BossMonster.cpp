@@ -88,6 +88,11 @@ void CBossMonster::Render(HDC hDC)
 	Ellipse(hDC, m_tRect.left - 20, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
 	SelectObject(hDC, m_tStat.hOldBrush);
 	DeleteObject(m_tStat.hNewBrush);
+
+	TCHAR		szBuff[32] = L"";
+	RECT	rc{ 300, 200, 500, 300 };
+	swprintf_s(szBuff, L"BOSS HP :  %d", m_tStat.Hp);
+	DrawText(hDC, szBuff, lstrlen(szBuff), &rc, DT_CENTER);
 }
 
 void CBossMonster::Release(void)

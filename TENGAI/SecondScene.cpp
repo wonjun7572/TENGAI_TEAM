@@ -200,10 +200,17 @@ void CSecondScene::LateUpdate(void)
 
 int CSecondScene::Render(HDC hDC)
 {
-	TCHAR		szBuff2[32] = L"";
-	RECT	rc2{ 600, 100, 800, 200 };
-	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
-	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
+	HBRUSH hNewBrush = CreateSolidBrush(RGB(0x99, 0x32, 0xcc));
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hNewBrush);
+	Rectangle(hDC, 0, 0, 800, 400);
+	SelectObject(hDC, hOldBrush);
+	DeleteObject(hNewBrush);
+
+	HBRUSH hNewBrush2 = CreateSolidBrush(RGB(0x8b, 0x4f, 0x1d));
+	HBRUSH hOldBrush2 = (HBRUSH)SelectObject(hDC, hNewBrush2);
+	Rectangle(hDC, 0, 400, 800, 600);
+	SelectObject(hDC, hOldBrush2);
+	DeleteObject(hNewBrush2);
 
 	for (int i = 0; i < OBJ_END; i++)
 	{
@@ -212,6 +219,24 @@ int CSecondScene::Render(HDC hDC)
 			obj->Render(hDC);
 		}
 	}
+
+	for (int i = 0; i < OBJ_END; i++)
+	{
+		for (auto& obj : m_ObjList[i])
+		{
+			obj->Render(hDC);
+		}
+	}
+
+	TCHAR		szBuff1[32] = L"";
+	RECT	rc1{ 300, 50, 500, 150 };
+	swprintf_s(szBuff1, L"STAGE 2");
+	DrawText(hDC, szBuff1, lstrlen(szBuff1), &rc1, DT_CENTER);
+
+	TCHAR		szBuff2[32] = L"";
+	RECT	rc2{ 600, 100, 800, 200 };
+	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
+	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
 
 	if (m_bStageClear)
 	{
