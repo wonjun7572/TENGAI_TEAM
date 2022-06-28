@@ -44,14 +44,8 @@ int CMonster_Level_02::Update(void)
 
 void CMonster_Level_02::LateUpdate(void)
 {
-	//if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
-	//{
-	//	iReverse *= -1;
-	//}
 	if (m_dead)
-	{
 		CreateItem();
-	}
 }
 
 void CMonster_Level_02::Render(HDC hDC)
@@ -66,8 +60,6 @@ void CMonster_Level_02::Render(HDC hDC)
 void CMonster_Level_02::Release(void)
 {
 }
-
-
 
 void CMonster_Level_02::Attack()
 {

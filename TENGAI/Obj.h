@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Include.h"
 
 class CObj
@@ -7,8 +6,6 @@ class CObj
 public:
 	CObj();
 	virtual ~CObj();
-
-	
 
 public:
 	virtual void	Initialize(void)	PURE;
@@ -51,11 +48,9 @@ protected:
 	float		m_fSpeed = 0.f;
 	bool		m_dead;
 
-protected:	// 삼각함수값
+protected:	
 	float	m_fCos;
 	float	m_fSin;
 	float	m_fAtan;
-	// 메인게임의 오브제인덱스중 하나를 가지기 위한 list의 포인터를 가져옴
-	
 };
 

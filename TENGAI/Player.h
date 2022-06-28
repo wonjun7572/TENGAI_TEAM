@@ -17,7 +17,6 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
-	// æ∆¿Ã≈€.
 	void	HpUP() { m_tStat.Hp++; }
 	void	BulletCountUp() { m_tStat.BulletCount++; }
 	void	UltimateCountUp() { m_tStat.UltimateCount++; }

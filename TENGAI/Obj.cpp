@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Obj.h"
 
-
 CObj::CObj() : m_eDir(DIR_END), m_dead(false), m_eObjID(OBJ_END)
 {
 	m_dwTimer = 0;

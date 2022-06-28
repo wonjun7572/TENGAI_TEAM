@@ -14,6 +14,7 @@ public:
 	void Set_Bullet_Pet(list<CObj*>* pBullet) { m_pBullet_Pet = pBullet; }
 	void Set_Bullet_Monster(list<CObj*>* pBullet) { m_pBullet_Monster = pBullet; }
 	void Set_ObjList(list<CObj*>* _ObjIDList) { m_pItem = _ObjIDList; }
+
 public:
 	virtual void Initialize(void)PURE;
 	virtual int  Update(void)PURE;

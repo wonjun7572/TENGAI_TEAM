@@ -20,11 +20,7 @@ void CMouse::Initialize(void)
 int CMouse::Update(void)
 {
 	POINT	pt{};
-
-	// 스크린 좌표 기준의 마우스 값을 얻어옴
 	GetCursorPos(&pt);
-
-	// 우리가 생성한 윈도우 창 기준으로 마우스 좌표를 보정
 	ScreenToClient(g_hWnd, &pt);
 
 	m_tInfo.fX = (float)pt.x;
@@ -44,7 +40,14 @@ void CMouse::LateUpdate(void)
 
 void CMouse::Render(HDC hDC)
 {
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	if (m_bType == true)
+	{
+		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	}
+	else
+	{
+		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	}
 }
 
 void CMouse::Release(void)

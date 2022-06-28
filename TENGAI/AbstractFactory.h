@@ -8,7 +8,6 @@ template<typename T>
 class CAbstractFactory
 {
 public:
-
 	static CObj* Create()
 	{
 		CObj* pObj = new T;
@@ -46,22 +45,10 @@ public:
 	static CScene* Create_Scene(list<CObj*>* temp )
 	{
 		CScene* pScene = new T(temp);
-		//pScene->Set_ObjList(temp);
 		pScene->Initialize();
 
 		return pScene;
 	}
-
-	//static CScene* Create_Scene(list<CObj*> temp)
-	//{
-	//	CScene* pScene = new T(temp);
-	//	//pScene->Set_ObjList(temp);
-	//	pScene->Initialize();
-
-	//	return pScene;
-	//}
-
-
 
 	CAbstractFactory() {}
 

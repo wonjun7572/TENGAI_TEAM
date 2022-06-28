@@ -89,10 +89,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,			// 메모리에 할당되는 실체. 즉 
 				MainGame.Update();
 				MainGame.LateUpdate();
 				MainGame.Render();
-
 				// 1020
 				dwOldTime = GetTickCount();
 			}
+
+			if (MainGame.GetQuit() == true)
+				break;
 		}
 	}
 

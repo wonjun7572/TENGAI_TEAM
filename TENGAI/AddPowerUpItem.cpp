@@ -35,9 +35,7 @@ int CAddPowerUpItem::Update(void)
 void CAddPowerUpItem::LateUpdate(void)
 {
 	if (CollisionCheck(GetPlayer()->GetRect(), m_tRect))
-	{
 		m_dead = OBJ_DEAD;
-	}
 }
 
 void CAddPowerUpItem::Render(HDC hDC)
@@ -47,7 +45,6 @@ void CAddPowerUpItem::Render(HDC hDC)
 	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	SelectObject(hDC, m_tStat.hOldBrush);
 	DeleteObject(m_tStat.hNewBrush);
-
 
 	WCHAR szBuff[32] = L"POWER";
 	TextOut(hDC, m_tRect.left + 6.f, m_tRect.top + 10.f, szBuff, lstrlen(szBuff));
@@ -62,9 +59,7 @@ bool CAddPowerUpItem::CollisionCheck(RECT r1, RECT r2)
 	RECT rc = {};
 
 	if (IntersectRect(&rc, &r1, &r2))
-	{
 		return true;
-	}
 
 	return false;
 }

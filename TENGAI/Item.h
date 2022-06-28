@@ -25,7 +25,6 @@ public:
 	virtual ~CItem();
 
 private:
-	bool	m_bCheck;
 	CObj*	m_pPet;
 	CObj*	m_pPlayer;
 };

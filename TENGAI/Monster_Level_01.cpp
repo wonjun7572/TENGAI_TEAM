@@ -4,11 +4,9 @@
 #include "AddHpItem.h"
 #include "Bullet.h"
 
-
 CMonster_Level_01::CMonster_Level_01()
 {
 }
-
 
 CMonster_Level_01::~CMonster_Level_01()
 {
@@ -25,14 +23,10 @@ void CMonster_Level_01::Initialize(void)
 int CMonster_Level_01::Update(void)
 {
 	if (m_dead)
-	{
 		return OBJ_DEAD;
-	}
 
 	if (m_tStat.Hp <= 0)
-	{
 		m_dead = OBJ_DEAD;
-	}
 
 	m_tInfo.fX -= m_fSpeed;
 
@@ -45,14 +39,8 @@ int CMonster_Level_01::Update(void)
 
 void CMonster_Level_01::LateUpdate(void)
 {
-	//if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
-	//{
-	//	iReverse *= -1;
-	//}
 	if (m_dead)
-	{
 		CreateItem();
-	}
 }
 
 void CMonster_Level_01::Render(HDC hDC)
@@ -70,10 +58,4 @@ void CMonster_Level_01::Release(void)
 
 void CMonster_Level_01::Attack()
 {
-	/*
-	if (m_dwTimer2 < GetTickCount())
-	{
-	m_pBullet_Monster->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, DIR_LEFT, OBJ_BULLET_MONSTER));
-	m_dwTimer2 = GetTickCount() + 500;
-	}*/
 }

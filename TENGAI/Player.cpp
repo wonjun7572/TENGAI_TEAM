@@ -13,7 +13,6 @@ CPlayer::~CPlayer()
 	Release();
 }
 
-
 void CPlayer::Initialize(void)
 {
 	m_tInfo = { 400.f, 400.f, 30.f, 90.f };
@@ -27,14 +26,10 @@ void CPlayer::Initialize(void)
 int CPlayer::Update(void)
 {
 	if (m_tStat.Hp <= 0)
-	{
 		m_dead = OBJ_DEAD;
-	}
 
 	if (m_dead)
-	{
 		return OBJ_DEAD;
-	}
 
 	bShooting = false;
 	Key_Input();
@@ -45,7 +40,6 @@ int CPlayer::Update(void)
 
 void CPlayer::LateUpdate(void)
 {
-	// 범위 밖으로 못벗아나게 해주는 함수
 	if (m_tInfo.fX < 50)
 		m_tInfo.fX += m_fSpeed;
 
@@ -61,11 +55,8 @@ void CPlayer::LateUpdate(void)
 
 void CPlayer::Render(HDC hDC)
 {
-
 	if (m_tStat.Hp <= 0)
-	{
 		m_dead = OBJ_DEAD;
-	}
 
 	if (bShooting == false)
 	{
@@ -152,7 +143,6 @@ void CPlayer::Release(void)
 
 void CPlayer::Key_Input(void)
 {
-	// 대각선 구하는 공식 1:루트2 : 10: x => 10*루트 2 = x 그래서 스피드는 스피드/루트 2
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
 		if (GetAsyncKeyState(VK_UP)) // 오른쪽 윗대각선 
@@ -199,21 +189,6 @@ void CPlayer::Key_Input(void)
 		m_tInfo.fY += m_fSpeed;
 	}
 
-	/*if (GetAsyncKeyState(VK_RIGHT))
-	m_tInfo.fX += m_fSpeed;
-
-	if (GetAsyncKeyState(VK_LEFT))
-	m_tInfo.fX -= m_fSpeed;
-
-	if (GetAsyncKeyState(VK_UP))
-	m_tInfo.fY -= m_fSpeed;
-
-	if (GetAsyncKeyState(VK_DOWN))
-	m_tInfo.fY += m_fSpeed;*/
-
-	// GetKeyState로 활성화 할수 있고 비활성화 할 수 있는 것도 아이디어 추가하면 좋을듯.
-
-	// 총알 딜레이시간 GetTickCount 조금 이상해서 딜레이 주는 방식 살짝 변경함
 	if (GetAsyncKeyState(VK_SPACE))
 	{
 		bShooting = true;

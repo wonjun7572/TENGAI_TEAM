@@ -13,5 +13,12 @@ public:
 	virtual void LateUpdate(void) override;
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
+
+	bool	GetType() { return m_bType; }
+	void	SetTrue() { m_bType = true; }
+	void	SetFalse() { m_bType = false; }
+
+private:
+	bool	m_bType;
 };
 

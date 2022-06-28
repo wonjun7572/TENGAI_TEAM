@@ -56,14 +56,10 @@ void CPet::LateUpdate(void)
 				m_pBullet_Pet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_RIGHT, OBJ_BULLET_PET));
 			}
 		}
-
 		m_dwTimer = GetTickCount() + 30;
 	}
 	fOldTimeX = m_pPlayer->front()->GetInfo().fX - 15.f;
 	fOldTimeY = m_pPlayer->front()->GetInfo().fY - 60.f;
-
-
-	
 }
 
 void CPet::Render(HDC hDC)

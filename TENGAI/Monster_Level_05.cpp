@@ -8,7 +8,6 @@ CMonster_Level_05::CMonster_Level_05()
 {
 }
 
-
 CMonster_Level_05::~CMonster_Level_05()
 {
 }
@@ -25,14 +24,10 @@ void CMonster_Level_05::Initialize(void)
 int CMonster_Level_05::Update(void)
 {
 	if (m_dead)
-	{
 		return OBJ_DEAD;
-	}
 
 	if (m_tStat.Hp <= 0)
-	{
 		m_dead = OBJ_DEAD;
-	}
 
 	if (m_dwTimer2 + 5000 >= GetTickCount())
 	{
@@ -58,14 +53,8 @@ int CMonster_Level_05::Update(void)
 
 void CMonster_Level_05::LateUpdate(void)
 {
-	//if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
-	//{
-	//	iReverse *= -1;
-	//}
 	if (m_dead)
-	{
 		CreateItem();
-	}
 }
 
 void CMonster_Level_05::Render(HDC hDC)
@@ -76,7 +65,6 @@ void CMonster_Level_05::Render(HDC hDC)
 	SelectObject(hDC, m_tStat.hOldBrush);
 	DeleteObject(m_tStat.hNewBrush);
 
-	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	MoveToEx(hDC, m_tInfo.fX, m_tInfo.fY, nullptr);
 	LineTo(hDC, m_tInfo.fX + (100 * m_fCos), m_tInfo.fY + (100 * m_fSin));
 }
@@ -84,8 +72,6 @@ void CMonster_Level_05::Render(HDC hDC)
 void CMonster_Level_05::Release(void)
 {
 }
-
-
 
 void CMonster_Level_05::Attack()
 {

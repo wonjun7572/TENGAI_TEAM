@@ -1,7 +1,5 @@
 #pragma once
-
 #include "Include.h"
-//#include "../Header/Include.h"
 
 class CObj;
 class CScene;
@@ -19,7 +17,7 @@ public:
 	void		Render(void);
 	void		Release(void);
 
-
+	bool		GetQuit() { return m_bQuit; }
 
 private:
 	HDC				m_hDC;
@@ -27,16 +25,16 @@ private:
 
 	HBITMAP			m_bitBack;
 	HBITMAP			m_bitOldBack;
+	
 	list<CObj*>		m_ObjList[OBJ_END];
-	
 	CObj*			m_mouse;
+	CScene*			m_SceneList;
+	
+	SCENE_NAME		m_eScene;
 
-	CScene*  m_SceneList;
-	
-	SCENE_NAME    m_eScene;
-	int			 m_iPrevFlow;
-	int			 m_iFlow;
-	
-	int			m_IEXIT;
-	int			iScore ;
+	int				m_iPrevFlow;
+	int				m_iFlow;
+	int				m_iEXIT;
+	int				m_iScore;
+	bool			m_bQuit;
 };

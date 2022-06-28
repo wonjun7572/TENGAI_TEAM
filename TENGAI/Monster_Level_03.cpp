@@ -24,14 +24,10 @@ void CMonster_Level_03::Initialize(void)
 int CMonster_Level_03::Update(void)
 {
 	if (m_dead)
-	{
 		return OBJ_DEAD;
-	}
 
 	if (m_tStat.Hp <= 0)
-	{
 		m_dead = OBJ_DEAD;
-	}
 
 	m_tInfo.fX -= m_fSpeed;
 
@@ -44,14 +40,8 @@ int CMonster_Level_03::Update(void)
 
 void CMonster_Level_03::LateUpdate(void)
 {
-	//if (m_tInfo.fX < 0 || m_tInfo.fX > WINCY)
-	//{
-	//	iReverse *= -1;
-	//}
 	if (m_dead)
-	{
 		CreateItem();
-	}
 }
 
 void CMonster_Level_03::Render(HDC hDC)

@@ -34,9 +34,7 @@ int CAddHpItem::Update(void)
 void CAddHpItem::LateUpdate(void)
 {
 	if (CollisionCheck(GetPlayer()->GetRect(), m_tRect))
-	{
 		m_dead = OBJ_DEAD;
-	}
 }
 
 void CAddHpItem::Render(HDC hDC)
@@ -61,9 +59,7 @@ bool CAddHpItem::CollisionCheck(RECT r1, RECT r2)
 	RECT rc = {};
 
 	if (IntersectRect(&rc, &r1, &r2))
-	{
 		return true;
-	}
 
 	return false;
 }
