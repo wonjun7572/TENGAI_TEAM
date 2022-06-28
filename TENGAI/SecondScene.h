@@ -13,6 +13,7 @@ public:
 public:
 	CSecondScene();
 	CSecondScene(list<CObj*>* temp);
+
 	virtual ~CSecondScene();
 };
 

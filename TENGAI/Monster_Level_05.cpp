@@ -31,11 +31,6 @@ int CMonster_Level_05::Update(void)
 
 	if (m_dwTimer2 + 5000 >= GetTickCount())
 	{
-		float X = (m_pPlayer->front()->GetInfo().fX) - m_tInfo.fX;
-		float Y = (m_pPlayer->front()->GetInfo().fY) - m_tInfo.fY;
-		m_fAtan = atan2f(Y, X);
-		m_fCos = cos(m_fAtan);
-		m_fSin = sin(m_fAtan);
 		m_tInfo.fX -= m_fSpeed;
 	}
 

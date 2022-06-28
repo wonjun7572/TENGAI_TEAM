@@ -160,14 +160,14 @@
     <ClInclude Include="AddUltimateItem.h">
       <Filter>01. Object\03.Item</Filter>
     </ClInclude>
-    <ClInclude Include="Pet.h">
-      <Filter>01. Object\04. Pet</Filter>
-    </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>01. Object\05. Mouse</Filter>
     </ClInclude>
     <ClInclude Include="BossMonster2.h">
       <Filter>01. Object\01. Monster\06. BossMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="Pet.h">
+      <Filter>01. Object\04. Pet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

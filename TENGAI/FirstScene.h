@@ -15,8 +15,5 @@ public:
 	CFirstScene(list<CObj*>* temp);
 
 	virtual ~CFirstScene();
-
-	HBRUSH m_hNewBrush;
-	HBRUSH m_hOldBrush;
 };
 

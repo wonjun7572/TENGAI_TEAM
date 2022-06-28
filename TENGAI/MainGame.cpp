@@ -60,7 +60,6 @@ void CMainGame::Update(void)
 	}
 	m_SceneList->Set_Score(m_iScore);
 	m_iEXIT = m_SceneList->Update();
-	m_iScore = m_SceneList->Get_Score();
 }
 
 void CMainGame::LateUpdate(void)
@@ -124,6 +123,8 @@ void CMainGame::Render(void)
 	m_iPrevFlow = m_iFlow;
 	m_iFlow = m_SceneList->Render(m_hDC);
 
+	m_iScore = m_SceneList->Get_Score();
+
 	if (m_iFlow != m_iPrevFlow)
 	{
 		for (int i = 0; i < OBJ_END; ++i)
@@ -167,6 +168,6 @@ void CMainGame::Release(void)
 
 	Safe_Delete<CScene*>(m_SceneList);
 
-	ReleaseDC(g_hWnd, m_hMemDC);
 	ReleaseDC(g_hWnd, m_hDC);
+	ReleaseDC(g_hWnd, m_hMemDC);
 }

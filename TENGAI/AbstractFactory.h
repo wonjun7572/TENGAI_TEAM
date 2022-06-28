@@ -8,9 +8,10 @@ template<typename T>
 class CAbstractFactory
 {
 public:
-	static CObj* Create()
+	static CObj* Create(OBJID _ID = OBJ_END)
 	{
 		CObj* pObj = new T;
+		pObj->SetObjID(_ID);
 		pObj->Initialize();
 
 		return pObj;

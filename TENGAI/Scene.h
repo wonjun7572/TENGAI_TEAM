@@ -29,6 +29,7 @@ public:
 
 protected:
 	int				m_IScore;
+	bool			m_bFinish = true;
 
 protected:
 	list<CObj*>		m_ObjList[OBJ_END];

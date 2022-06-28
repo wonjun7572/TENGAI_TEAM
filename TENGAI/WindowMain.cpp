@@ -80,7 +80,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,			// 메모리에 할당되는 실체. 즉 
 				DispatchMessage(&msg);
 			}
 		}
-
 		else
 		{
 			// 1020 + 10     1011

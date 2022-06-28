@@ -51,6 +51,26 @@ int CBullet::Update(void)
 		return OBJ_DEAD;
 	}
 
+	if (m_eObjID == OBJ_BULLET_PET)
+	{
+		if (m_pMonster->empty() &&  m_pBossMonster->empty())
+		{
+			
+		}
+		else if (m_pMonster->empty())
+		{
+			m_fAtan = atan2f(m_pBossMonster->front()->GetInfo().fY - m_tInfo.fY, m_pBossMonster->front()->GetInfo().fX - m_tInfo.fX);
+			m_fCos = cos(m_fAtan);
+			m_fSin = sin(m_fAtan);
+		}
+		else
+		{
+			m_fAtan = atan2f(m_pMonster->front()->GetInfo().fY - m_tInfo.fY, m_pMonster->front()->GetInfo().fX - m_tInfo.fX);
+			m_fCos = cos(m_fAtan);
+			m_fSin = sin(m_fAtan);
+		}
+	}
+
 	switch (m_eDir)
 	{
 	case DIR_UP:
@@ -111,6 +131,7 @@ void CBullet::Render(HDC hDC)
 	}
 	else
 	{
+		
  		m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 		SelectObject(hDC, m_tStat.hOldBrush);
@@ -119,5 +140,5 @@ void CBullet::Render(HDC hDC)
 
 void CBullet::Release(void)
 {
-		DeleteObject(m_tStat.hNewBrush);
+	DeleteObject(m_tStat.hNewBrush);
 }

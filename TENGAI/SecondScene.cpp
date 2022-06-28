@@ -33,9 +33,10 @@ CSecondScene::~CSecondScene()
 
 void CSecondScene::Initialize(void)
 {
+
 	for (int i = 0; i < 5; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_01>::Create(850, 100 + (i * 100)));
+		m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_01>::Create(850, 100 + (i * 100), DIR_END, OBJ_MONSTER));
 	}
 
 	for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
@@ -43,9 +44,9 @@ void CSecondScene::Initialize(void)
 		dynamic_cast<CMonster*>(*iter)->Set_ObjList(&m_ObjList[OBJ_ITEM]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_MONSTER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PLAYER]);
+		dynamic_cast<CMonster*>(*iter)->Set_Bullet_Player(&m_ObjList[OBJ_BULLET_PET]);
 		dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 		dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
-
 	}
 	m_iStage = LEVEL_02;
 	m_dwTimer = GetTickCount();
@@ -64,11 +65,6 @@ int CSecondScene::Update(void)
 			{
 				Safe_Delete<CObj*>(*iter);
 				iter = m_ObjList[i].erase(iter);
-				if (i != OBJ_BULLET_PLAYER && i != OBJ_BULLET_MONSTER && i != OBJ_BULLET_BOSSMONSTER)
-				{
-					m_IScore += 1;
-				}
-
 			}
 			else if (i == OBJ_PLAYER && iEvent == OBJ_DEAD)
 			{
@@ -87,22 +83,31 @@ int CSecondScene::Update(void)
 
 void CSecondScene::LateUpdate(void)
 {
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
+	if (SCORE_PLUS == CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]))
+	{
+		m_IScore += 1;
+	}
+	if (SCORE_PLUS == CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BOSSMONSTER], m_ObjList[OBJ_BULLET_PLAYER]))
+	{
+		m_IScore += 1;
+	}
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PET]);
+	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BOSSMONSTER], m_ObjList[OBJ_BULLET_PET]);
+
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
-	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_BULLET_PET], m_ObjList[OBJ_MONSTER]);
 
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PLAYER]);
+	CCollisionMgr::CollisionWall2(m_ObjList[OBJ_BULLET_PET]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
-	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PET]);
+
 
 	for (int i = 0; i < OBJ_END; i++)
 	{
@@ -120,7 +125,7 @@ void CSecondScene::LateUpdate(void)
 			m_iStage = LEVEL_03;
 			for (int i = 0; i < 5; ++i)
 			{
-				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100)));
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_02>::Create(850, 100 + (i * 100), DIR_END, OBJ_MONSTER));
 			}
 			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
 			{
@@ -135,7 +140,7 @@ void CSecondScene::LateUpdate(void)
 			m_iStage = LEVEL_04;
 			for (int i = 0; i < 5; ++i)
 			{
-				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(850, 100 + (i * 100)));
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_03>::Create(850, 100 + (i * 100), DIR_END, OBJ_MONSTER));
 			}
 			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
 			{
@@ -150,7 +155,7 @@ void CSecondScene::LateUpdate(void)
 			m_iStage = LEVEL_05;
 			for (int i = 0; i < 5; ++i)
 			{
-				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_04>::Create(850, 100 + (i * 100)));
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_04>::Create(850, 100 + (i * 100), DIR_END, OBJ_MONSTER));
 			}
 			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
 			{
@@ -165,7 +170,7 @@ void CSecondScene::LateUpdate(void)
 			m_iStage = LEVEL_BOSS;
 			for (int i = 0; i < 5; ++i)
 			{
-				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_05>::Create(850, 100 + (i * 100)));
+				m_ObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMonster_Level_05>::Create(850, 100 + (i * 100), DIR_END, OBJ_MONSTER));
 			}
 			for (auto& iter = m_ObjList[OBJ_MONSTER].begin(); iter != m_ObjList[OBJ_MONSTER].end(); ++iter)
 			{
@@ -175,12 +180,11 @@ void CSecondScene::LateUpdate(void)
 				dynamic_cast<CMonster*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CMonster*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
-			m_dwTimer = GetTickCount();
 			break;
 		case LEVEL_BOSS:
 			m_iStage = LEVEL_END;
 
-			m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster2>::Create(850, 300));
+			m_ObjList[OBJ_BOSSMONSTER].push_back(CAbstractFactory<CBossMonster2>::Create(850, 300, DIR_END, OBJ_BOSSMONSTER));
 			for (auto& iter = m_ObjList[OBJ_BOSSMONSTER].begin(); iter != m_ObjList[OBJ_BOSSMONSTER].end(); ++iter)
 			{
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Bullet_Monster(&m_ObjList[OBJ_BULLET_BOSSMONSTER]);
@@ -188,11 +192,21 @@ void CSecondScene::LateUpdate(void)
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Player(&m_ObjList[OBJ_PLAYER]);
 				dynamic_cast<CBossMonster2*>(*iter)->Set_Pet(&m_ObjList[OBJ_PET]);
 			}
-			m_dwTimer = GetTickCount();
 			break;
 
 		case LEVEL_END:
-			m_bStageClear = true;
+			if (true == m_bFinish)
+			{
+				m_dwTimer = GetTickCount();
+				m_bFinish = false;
+			}
+
+			if (false == m_bFinish)
+			{
+				if (m_dwTimer + 3000 < GetTickCount())
+					m_bStageClear = true;
+			}
+
 			break;
 		}
 	}
@@ -201,7 +215,7 @@ void CSecondScene::LateUpdate(void)
 int CSecondScene::Render(HDC hDC)
 {
 	HBRUSH hNewBrush = CreateSolidBrush(RGB(0x99, 0x32, 0xcc));
-	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hNewBrush);
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC,hNewBrush);
 	Rectangle(hDC, 0, 0, 800, 400);
 	SelectObject(hDC, hOldBrush);
 	DeleteObject(hNewBrush);
@@ -211,22 +225,6 @@ int CSecondScene::Render(HDC hDC)
 	Rectangle(hDC, 0, 400, 800, 600);
 	SelectObject(hDC, hOldBrush2);
 	DeleteObject(hNewBrush2);
-
-	for (int i = 0; i < OBJ_END; i++)
-	{
-		for (auto& obj : m_ObjList[i])
-		{
-			obj->Render(hDC);
-		}
-	}
-
-	for (int i = 0; i < OBJ_END; i++)
-	{
-		for (auto& obj : m_ObjList[i])
-		{
-			obj->Render(hDC);
-		}
-	}
 
 	TCHAR		szBuff1[32] = L"";
 	RECT	rc1{ 300, 50, 500, 150 };
@@ -238,9 +236,17 @@ int CSecondScene::Render(HDC hDC)
 	swprintf_s(szBuff2, L"SCORE :  %d", m_IScore);
 	DrawText(hDC, szBuff2, lstrlen(szBuff2), &rc2, DT_CENTER);
 
+	for (int i = 0; i < OBJ_END; i++)
+	{
+		for (auto& obj : m_ObjList[i])
+		{
+			obj->Render(hDC);
+		}
+	}
+
 	if (m_bStageClear)
 	{
-		for (int i = OBJ_MONSTER; i <= OBJ_BULLET_BOSSMONSTER2; ++i)
+		for (int i = OBJ_MONSTER; i <= OBJ_BULLET_BOSSMONSTER; ++i)
 		{
 			for (list<CObj*>::iterator iter = m_ObjList[i].begin();
 				iter != m_ObjList[i].end();)

@@ -44,7 +44,7 @@ void CCollisionMgr::CollisionRect(list<CObj*> _Dest, list<CObj*> _Sour)
 		}
 	}
 }
-
+/*
 void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 {
 
@@ -76,6 +76,51 @@ void CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
 			}
 		}
 	}
+}
+*/
+bool CCollisionMgr::CollisionSphere(list<CObj*> _Dest, list<CObj*> _Sour)
+{
+
+	for (auto &Dest : _Dest)
+	{
+		for (auto &Sour : _Sour)
+		{
+			if (0 == Dest->GetStat().Hp)
+				continue;
+			if (0 == Sour->GetStat().Hp)
+				continue;
+
+			if (CheckSphere(Dest, Sour))
+			{
+				if ((Dest->GetOBJID() == OBJ_PLAYER))
+				{
+					Dest->HpDown();
+					if ((Sour->GetOBJID() == OBJ_BULLET_MONSTER))
+						Sour->HpDown();
+					else
+						if(Sour->GetOBJID() == OBJ_BOSSMONSTER)
+							Sour->HpDown();
+						else
+							Sour->KillObj();
+				}
+				else if (((Sour->GetOBJID() == OBJ_BULLET_PLAYER)) && ((Dest->GetOBJID() == OBJ_MONSTER) || (Dest->GetOBJID() == OBJ_BOSSMONSTER)))
+				{
+					Dest->HpDown();
+					Sour->HpDown();
+					return SCORE_PLUS;
+				}
+				else
+				{
+					Dest->HpDown();
+					Sour->HpDown();
+				}
+			}
+		}
+
+	}
+
+	return SCORE_MINUS;
+
 }
 
 void CCollisionMgr::CollisionWall(list<CObj*> _Dest)

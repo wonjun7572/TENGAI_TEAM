@@ -17,9 +17,14 @@ public:
 	virtual void SetDead() { m_dead = true; }
 
 public:
-	void getMonsterList(list<CObj*>* _pMonster) {
+	void Set_Monster(list<CObj*>* _pMonster) {
 		m_pMonster = _pMonster;
 	}
+
+	void Set_BossMonster(list<CObj*>* _pBossMonster) {
+		m_pBossMonster = _pBossMonster;
+	}
+
 	void SetEffect()
 	{
 		m_bEffect = true;
@@ -28,6 +33,7 @@ public:
 
 private:
 	list<CObj*>*	m_pMonster;
+	list<CObj*>*	m_pBossMonster;
 	bool			m_bEffect = false;
 	float			m_fExplosion = 0.f;
 };

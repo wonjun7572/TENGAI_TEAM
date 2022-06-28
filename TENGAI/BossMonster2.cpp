@@ -17,7 +17,7 @@ void CBossMonster2::Initialize(void)
 {
 	m_tInfo = { 150.f,150.f,200.f,200.f };	
 	m_fSpeed = 3.f;
-	m_tStat = { 50 };
+	m_tStat = { 100 };
 
 	m_dwTimer = GetTickCount();
 	m_dwTimer2 = GetTickCount();
@@ -78,6 +78,11 @@ void CBossMonster2::Render(HDC hDC)
 	Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 110, m_tInfo.fX + 90, m_tInfo.fY - 20);
 	SelectObject(hDC, m_tStat.hOldBrush);
 	DeleteObject(m_tStat.hNewBrush);
+
+	TCHAR		szBuff[32] = L"";
+	RECT	rc{ 300, 200, 500, 300 };
+	swprintf_s(szBuff, L"BOSS HP :  %d", m_tStat.Hp);
+	DrawText(hDC, szBuff, lstrlen(szBuff), &rc, DT_CENTER);
 }
 
 void CBossMonster2::Release(void)

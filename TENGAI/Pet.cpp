@@ -30,7 +30,7 @@ int CPet::Update(void)
 	fAtan = atan2f(Y, X);
 	fCos = cos(fAtan);
 	fSin = sin(fAtan);
-
+	
 	Update_Rect();
 	return OBJ_NOEVENT;
 }
@@ -53,7 +53,12 @@ void CPet::LateUpdate(void)
 		{
 			for (int i = 1; i < m_tStat.BulletCount + 1; i++)
 			{
-				m_pBullet_Pet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_RIGHT, OBJ_BULLET_PET));
+				m_pBullet_Pet->push_back(CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY - (10.f *i), DIR_CHASE, OBJ_BULLET_PET));
+				for (list<CObj*>::iterator iter = m_pBullet_Pet->begin(); iter != m_pBullet_Pet->end(); ++iter)
+				{
+						dynamic_cast<CBullet*>(*iter)->Set_Monster(m_pMonster);
+						dynamic_cast<CBullet*>(*iter)->Set_BossMonster(m_pBossMonster);
+				}
 			}
 		}
 		m_dwTimer = GetTickCount() + 30;

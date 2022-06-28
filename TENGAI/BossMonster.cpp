@@ -147,6 +147,4 @@ void CBossMonster::Attack()
 			m_dwTimer = (GetTickCount() + 700);
 		}
 	}
-	// 보스몬스터가 10~ 15 정도 깍이고 나면 나오는 공격 패턴
-
 }
