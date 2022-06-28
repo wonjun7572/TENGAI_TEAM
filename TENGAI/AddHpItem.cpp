@@ -39,7 +39,7 @@ void CAddHpItem::LateUpdate(void)
 
 void CAddHpItem::Render(HDC hDC)
 {
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0xff));
 	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	SelectObject(hDC, m_tStat.hOldBrush);

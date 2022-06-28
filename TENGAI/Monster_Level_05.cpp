@@ -59,7 +59,7 @@ void CMonster_Level_05::LateUpdate(void)
 
 void CMonster_Level_05::Render(HDC hDC)
 {
-	m_tStat.hNewBrush = CreateSolidBrush(RGB(0x00, 0xff, 0xff));
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xcd, 0x00, 0x00));
 	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	SelectObject(hDC, m_tStat.hOldBrush);

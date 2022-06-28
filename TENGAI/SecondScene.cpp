@@ -87,14 +87,6 @@ int CSecondScene::Update(void)
 
 void CSecondScene::LateUpdate(void)
 {
-	for (int i = 0; i < OBJ_END; i++)
-	{
-		for (auto& obj : m_ObjList[i])
-		{
-			obj->LateUpdate();
-		}
-	}
-
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_BULLET_PLAYER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]);
 	CCollisionMgr::CollisionSphere(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BOSSMONSTER]);
@@ -111,6 +103,14 @@ void CSecondScene::LateUpdate(void)
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_BOSSMONSTER]);
 	CCollisionMgr::CollisionWall(m_ObjList[OBJ_BULLET_PET]);
+
+	for (int i = 0; i < OBJ_END; i++)
+	{
+		for (auto& obj : m_ObjList[i])
+		{
+			obj->LateUpdate();
+		}
+	}
 
 	if (0 == m_ObjList[OBJ_MONSTER].size() && 0 == m_ObjList[OBJ_BOSSMONSTER].size())
 	{
@@ -225,7 +225,7 @@ int CSecondScene::Render(HDC hDC)
 
 			}
 		}
-		return SCENE_NAME_FIRST;
+		return SCENE_NAME_ENDDING;
 	}
 	else
 	{

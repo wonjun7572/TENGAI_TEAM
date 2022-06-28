@@ -66,8 +66,18 @@ void CBossMonster2::Render(HDC hDC)
 	LineTo(hDC, m_tInfo.fX + 230, m_tInfo.fY + 30);
 	LineTo(hDC, m_tInfo.fX + 210, m_tInfo.fY + 10);
 	LineTo(hDC, m_tInfo.fX + 115, m_tInfo.fY + 10);
+	
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
+	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 120, m_tInfo.fX + 130, m_tInfo.fY + 30);
+	SelectObject(hDC, m_tStat.hOldBrush);
+	DeleteObject(m_tStat.hNewBrush);
+	
+	m_tStat.hNewBrush = CreateSolidBrush(RGB(0xff, 0x00, 0x00));
+	m_tStat.hOldBrush = (HBRUSH)SelectObject(hDC, m_tStat.hNewBrush);
 	Ellipse(hDC, m_tInfo.fX - 20, m_tInfo.fY - 110, m_tInfo.fX + 90, m_tInfo.fY - 20);
+	SelectObject(hDC, m_tStat.hOldBrush);
+	DeleteObject(m_tStat.hNewBrush);
 }
 
 void CBossMonster2::Release(void)

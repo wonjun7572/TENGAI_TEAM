@@ -48,6 +48,10 @@ void CMainGame::Update(void)
 			m_SceneList = CAbstractFactory<CSecondScene>::Create_Scene(m_ObjList);
 		break;
 
+	case SCENE_NAME_ENDDING:
+		m_iEXIT = EXIT;
+		return;
+
 	default:
 		break;
 	}
